@@ -9,15 +9,15 @@
 &lt;li>
 &lt;p>Uncheck the box &amp;ldquo;Only fork the &lt;code>master&lt;/code> branch&amp;rdquo;, for development we will need
 more branches for development.&lt;/p>
-&lt;ul>
-&lt;li>If you only fork master, you won&amp;rsquo;t have the &lt;code>nixos-XX.YY&lt;/code> release branches
-available on your fork when you later try to create a PR against them, or
-when you want to create a feature branch from them on your fork.&lt;/li>
-&lt;/ul>
 &lt;/li>
-&lt;li>
-&lt;p>Click &lt;code>&amp;lt;&amp;gt; Code&lt;/code> and Clone the Repo. &lt;code>saylesss88&lt;/code> is the name of my GitHub,
-yours will obviously be different.&lt;/p></description></item><item><title>Nix_paths</title><link>https://TSawyer87.github.io/posts/nix_paths/</link><pubDate>Sun, 15 Jun 2025 18:21:05 -0400</pubDate><guid>https://TSawyer87.github.io/posts/nix_paths/</guid><description>&lt;h1 id="nix-paths">Nix Paths&lt;/h1>
+&lt;/ul>
+&lt;p>╭───┬────────────╮
+│ 0 │ x1b[?1049h │
+│ 1 │ &amp;gt; │
+│ 2 │ /dev/tty │
+╰───┴────────────╯ - If you only fork master, you won&amp;rsquo;t have the &lt;code>nixos-XX.YY&lt;/code> release branches
+available on your fork when you later try to create a PR against them, or
+when you want to create a feature branch from them on your fork.&lt;/p></description></item><item><title>Nix_paths</title><link>https://TSawyer87.github.io/posts/nix_paths/</link><pubDate>Sun, 15 Jun 2025 18:21:05 -0400</pubDate><guid>https://TSawyer87.github.io/posts/nix_paths/</guid><description>&lt;h1 id="nix-paths">Nix Paths&lt;/h1>
 &lt;p>The following examples are done with a local &lt;code>nixpkgs&lt;/code> clone located at
 &lt;code>~/src/nixpkgs&lt;/code>&lt;/p>
 &lt;p>Paths in Nix always need a &lt;code>/&lt;/code> in them and always expand to absolute paths
@@ -50,7 +50,7 @@ a slash &lt;code>/&lt;/code> its not actually there:&lt;/p>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ln -s pkgs/applications lib-symlink
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>realpath ./lib-symlink/..
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/home/jr/src/nixpkgs/pkgs
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nix repl
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>nix repl
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nix-repl&amp;gt; ./lib-symlink/.. &lt;span style="color:#75715e"># Nix doesn&amp;#39;t read this file at all like realpath did&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/home/jr/src/nixpkgs
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nix-repl&amp;gt; builtins.readDir ./. &lt;span style="color:#75715e"># listing of all entries in current dir and their types&lt;/span>
