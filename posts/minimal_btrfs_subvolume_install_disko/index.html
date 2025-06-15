@@ -126,7 +126,12 @@ I chose the btrfs-subvolumes layout so I ran the following:</li></ol><div class=
 </span></span><span style=display:flex><span>  fileSystems<span style=color:#f92672>.</span><span style=color:#e6db74>&#34;/var/log&#34;</span><span style=color:#f92672>.</span>neededForBoot <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>;
 </span></span><span style=display:flex><span>  fileSystems<span style=color:#f92672>.</span><span style=color:#e6db74>&#34;/var/lib&#34;</span><span style=color:#f92672>.</span>neededForBoot <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>;
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>You may choose to add a swapfile to the above <code>disk-config.nix</code>, I haven&rsquo;t
+</span></span></code></pre></div><blockquote><p>❗ NOTE: While <code>"/persist"</code> is perfectly functional and valid,
+<code>"/nix/persist"</code> (or often <code>/var/lib/impermanence</code> with tools like
+<code>impermanence</code>) has emerged as a very common and somewhat &ldquo;standard&rdquo; location
+in the NixOS community for the persistent data. If you choose to go for
+<code>"/nix/persist"</code> here, make sure to match
+<code>environment.persistence."/nix/persist" = {</code> in your <code>impermanence.nix</code></p></blockquote><ul><li>You may choose to add a swapfile to the above <code>disk-config.nix</code>, I haven&rsquo;t
 included it here because I manage it with the impermanence module. If you were
 to add it here you could just add under say the <code>"/lib"</code> section add:</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span><span style=color:#75715e># Persistent subvolume for swapfile</span>
 </span></span><span style=display:flex><span><span style=color:#e6db74>&#34;/persist/swap&#34;</span> <span style=color:#f92672>=</span> {
@@ -241,5 +246,5 @@ directory. Since the file was first in <code>/etc</code> you&rsquo;ll need to ad
 permissions with something like <code>sudo chown username:users ~/flake</code>(<code>username</code>
 will be your username) and then you can work on it without privilege
 escalation.</p></li><li><p>To continue following along and set up impermanence
-<a href=https://saylesss88.github.io/nix/impermanence.html>Click Here</a></p></li></ul></section></main><footer id=main-footer><div class=footer><a href=#>Scroll to Top</a><div class=footer-copyright><div class=dim>© 2025</div><div>Made with ❤️ and powered by <a href=https://github.com/math-queiroz/rusty-typewriter target=_blank>Rusty Typewriter</a> theme for <a href=https://gohugo.io/ target=_blank>Hugo</a></div></div></div></footer></div><aside id=side-pane class=side-sticky><div class=side-details><span>1354 words</span>
+<a href=https://saylesss88.github.io/nix/impermanence.html>Click Here</a></p></li></ul></section></main><footer id=main-footer><div class=footer><a href=#>Scroll to Top</a><div class=footer-copyright><div class=dim>© 2025</div><div>Made with ❤️ and powered by <a href=https://github.com/math-queiroz/rusty-typewriter target=_blank>Rusty Typewriter</a> theme for <a href=https://gohugo.io/ target=_blank>Hugo</a></div></div></div></footer></div><aside id=side-pane class=side-sticky><div class=side-details><span>1407 words</span>
 <span>11 - 14 minutes read</span></div><h3>Table Of Contents</h3><nav id=TableOfContents><ul><li><a href=#why-i-chose-btrfs>Why I Chose BTRFS</a></li><li><a href=#getting-started-with-disko>Getting Started with Disko</a><ul><li><a href=#setting-a-flake-for-your-minimal-install>Setting a Flake for your minimal Install</a></li></ul></li></ul></nav></aside></div></div></body></html>
