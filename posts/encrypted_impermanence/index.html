@@ -1,0 +1,149 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Encrypted_impermanence | NixOS Blog</title><link rel=icon href=favicon.svg sizes=any type=image/svg+xml><meta property="og:url" content="https://TSawyer87.github.io/posts/encrypted_impermanence/"><meta property="og:site_name" content="NixOS Blog"><meta property="og:title" content="Encrypted_impermanence"><meta property="og:description" content='Encrypted Impermanence ❗ Important Note: This guide details a setup involving encrypted partitions and impermanent NixOS. While powerful, such configurations require careful attention to detail. Incorrect steps, especially concerning encryption keys or persistent data paths, can lead to permanent data loss. Please read all instructions thoroughly before proceeding and consider backing up any critical data beforehand. This has only been tested with the disk layout described in Encrypted Setups
+Getting Started Add impermanence to your flake.nix. You will change the hostname in the flake to match your networking.hostName. # flake.nix { description = "NixOS configuration"; inputs = { nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; disko.url = "github:nix-community/disko/latest"; disko.inputs.nixpkgs.follows = "nixpkgs"; impermanence.url = "github:nix-community/impermanence"; }; outputs = inputs@{ nixpkgs, ... }: { nixosConfigurations = { hostname = nixpkgs.lib.nixosSystem { system = "x86_64-linux"; modules = [ ./configuration.nix inputs.disko.nixosModules.disko inputs.impermanence.nixosModules.impermanence ]; }; }; }; } Discover where your root subvolume is located with findmnt: If you followed the Encrypted Setups guide, your encrypted subvolume should be located at: /dev/mapper/cryptroot /mnt'><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2025-06-26T14:36:22-04:00"><meta property="article:modified_time" content="2025-06-26T14:36:22-04:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Encrypted_impermanence"><meta name=twitter:description content='Encrypted Impermanence ❗ Important Note: This guide details a setup involving encrypted partitions and impermanent NixOS. While powerful, such configurations require careful attention to detail. Incorrect steps, especially concerning encryption keys or persistent data paths, can lead to permanent data loss. Please read all instructions thoroughly before proceeding and consider backing up any critical data beforehand. This has only been tested with the disk layout described in Encrypted Setups
+Getting Started Add impermanence to your flake.nix. You will change the hostname in the flake to match your networking.hostName. # flake.nix { description = "NixOS configuration"; inputs = { nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; disko.url = "github:nix-community/disko/latest"; disko.inputs.nixpkgs.follows = "nixpkgs"; impermanence.url = "github:nix-community/impermanence"; }; outputs = inputs@{ nixpkgs, ... }: { nixosConfigurations = { hostname = nixpkgs.lib.nixosSystem { system = "x86_64-linux"; modules = [ ./configuration.nix inputs.disko.nixosModules.disko inputs.impermanence.nixosModules.impermanence ]; }; }; }; } Discover where your root subvolume is located with findmnt: If you followed the Encrypted Setups guide, your encrypted subvolume should be located at: /dev/mapper/cryptroot /mnt'><link rel=stylesheet href=/css/root.min.0e732b812b9751962e01a7c4798a1211cd5f8ac8abec7f99793fe306989e459f.css integrity="sha256-DnMrgSuXUZYuAafEeYoSEc1fisir7H+ZeT/jBpieRZ8=" crossorigin=anonymous><link rel=stylesheet href=/css/bundle.min.ffb26980ae2df7bdfe47815d8a3f0130f36070ee4a3320a5f22d16842be2537f.css integrity="sha256-/7JpgK4t973+R4Fdij8BMPNgcO5KMyCl8i0WhCviU38=" crossorigin=anonymous><script src=/js/bundle.995e4ec99401021e081ec256bee66154ef7f4e5136809432513b2e6d014b4b1d.js integrity="sha256-mV5OyZQBAh4IHsJWvuZhVO9/TlE2gJQyUTsubQFLSx0=" crossorigin=anonymous></script><script defer src=/js/search/flexsearch.compact.64594b125f7b78bdf4fa8316955922bbebb1cd6baef3f16654bfca20309f18f8.js integrity="sha256-ZFlLEl97eL30+oMWlVkiu+uxzWuu8/FmVL/KIDCfGPg="></script><script defer src=/js/search/search.1d980f84df11f3eb7c8c5f17f541d49a0611608df179dd74fa7f06225eb56ace.js integrity="sha256-HZgPhN8R8+t8jF8X9UHUmgYRYI3xed10+n8GIl61as4="></script><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel=stylesheet><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel=stylesheet></head><body class=notransition><div id=container><header id=main-header><div role=navigation aria-label=Main><div class=nav-left><a href=https://TSawyer87.github.io/ style=color:inherit>NixOS Blog</a></div><div class=nav-right><div style=position:absolute;width:0;height:0><div id=nav-dropdown-menu class=hidden href=#><div class=nav-item><a aria-current=true class=ancestor href=/posts/>Posts</a></div></div></div><a id=nav-dropdown-button href=#><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a><div id=nav-menu><div class=nav-item><a aria-current=true class=ancestor href=/posts/>Posts</a></div></div><a id=theme-switcher href=#><svg class="light-icon" viewBox="0 0 24 24" fill="none"><path d="M12 3V4m0 16v1M4 12H3M6.31412 6.31412 5.5 5.5m12.1859.81412L18.5 5.5M6.31412 17.69 5.5 18.5001M17.6859 17.69 18.5 18.5001M21 12H20m-4 0c0 2.2091-1.7909 4-4 4-2.20914.0-4-1.7909-4-4 0-2.20914 1.79086-4 4-4 2.2091.0 4 1.79086 4 4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<svg class="dark-icon" viewBox="0 0 24 24" fill="none"><path d="M3.32031 11.6835c0 4.9706 4.02944 9 8.99999 9 3.7872.0 7.028-2.3392 8.3565-5.6515C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834c-4.9706.0-8.99999-4.0294-8.99999-8.99998C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996 5.65605 4.66028 3.32031 7.89912 3.32031 11.6835z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div></div></header><div class="flex grow"><div id=main-pane><main id=main-content><div class=single-header><ol class=breadcrumbs itemscope itemtype=https://schema.org/BreadcrumbList><li itemprop=itemListElement itemscope itemtype=https://schema.org/ListItem><a itemprop=item href=https://TSawyer87.github.io/><span itemprop=name>Home</span>
+</a><meta itemprop=position content='1'></li><span>&nbsp»&nbsp</span><li itemprop=itemListElement itemscope itemtype=https://schema.org/ListItem><a itemprop=item href=https://TSawyer87.github.io/posts/><span itemprop=name>Posts</span>
+</a><meta itemprop=position content='2'></li><span>&nbsp»&nbsp</span></ol><h1>Encrypted_impermanence</h1><time class=dim datetime=2025-06-26T14:36:22-04:00>June 26, 2025</time></div><section class=page-section><h1 id=encrypted-impermanence>Encrypted Impermanence</h1><blockquote><p>❗ Important Note: This guide details a setup involving encrypted partitions
+and impermanent NixOS. While powerful, such configurations require careful
+attention to detail. Incorrect steps, especially concerning encryption keys or
+persistent data paths, can lead to <strong>permanent data loss</strong>. Please read all
+instructions thoroughly before proceeding and consider backing up any critical
+data beforehand. This has only been tested with the disk layout described in
+<a href=https://saylesss88.github.io/installation/encrypted_manual.html>Encrypted Setups</a></p></blockquote><h3 id=getting-started>Getting Started</h3><ol><li>Add impermanence to your <code>flake.nix</code>. You will change the <code>hostname</code> in the
+flake to match your <code>networking.hostName</code>.</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span><span style=color:#75715e># flake.nix</span>
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  description <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;NixOS configuration&#34;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  inputs <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>    nixpkgs<span style=color:#f92672>.</span>url <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;github:nixos/nixpkgs/nixos-unstable&#34;</span>;
+</span></span><span style=display:flex><span>    disko<span style=color:#f92672>.</span>url <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;github:nix-community/disko/latest&#34;</span>;
+</span></span><span style=display:flex><span>    disko<span style=color:#f92672>.</span>inputs<span style=color:#f92672>.</span>nixpkgs<span style=color:#f92672>.</span>follows <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;nixpkgs&#34;</span>;
+</span></span><span style=display:flex><span>    impermanence<span style=color:#f92672>.</span>url <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;github:nix-community/impermanence&#34;</span>;
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  outputs <span style=color:#f92672>=</span> inputs<span style=color:#f92672>@</span>{ nixpkgs<span style=color:#f92672>,</span> <span style=color:#f92672>...</span> }: {
+</span></span><span style=display:flex><span>    nixosConfigurations <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>      hostname <span style=color:#f92672>=</span> nixpkgs<span style=color:#f92672>.</span>lib<span style=color:#f92672>.</span>nixosSystem {
+</span></span><span style=display:flex><span>        system <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;x86_64-linux&#34;</span>;
+</span></span><span style=display:flex><span>        modules <span style=color:#f92672>=</span> [
+</span></span><span style=display:flex><span>          <span style=color:#e6db74>./configuration.nix</span>
+</span></span><span style=display:flex><span>          inputs<span style=color:#f92672>.</span>disko<span style=color:#f92672>.</span>nixosModules<span style=color:#f92672>.</span>disko
+</span></span><span style=display:flex><span>          inputs<span style=color:#f92672>.</span>impermanence<span style=color:#f92672>.</span>nixosModules<span style=color:#f92672>.</span>impermanence
+</span></span><span style=display:flex><span>        ];
+</span></span><span style=display:flex><span>      };
+</span></span><span style=display:flex><span>    };
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><ol start=2><li>Discover where your root subvolume is located with <code>findmnt</code>:</li></ol><p>If you followed the
+<a href=https://saylesss88.github.io/installation/encrypted_manual.html>Encrypted Setups</a>
+guide, your encrypted subvolume should be located at:
+<code>/dev/mapper/cryptroot /mnt</code></p><ul><li>Your encrypted Btrfs partition, once unlocked by LUKS, will be available at
+<code>/dev/mapper/cryptroot</code> as configured here in the <code>disk-config.nix</code>:</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span><span style=color:#75715e># disk-config2.nix</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># ... snip ...</span>
+</span></span><span style=display:flex><span>            luks <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>              size <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;100%&#34;</span>;
+</span></span><span style=display:flex><span>              label <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;luks&#34;</span>;
+</span></span><span style=display:flex><span>              content <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>                type <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;luks&#34;</span>;
+</span></span><span style=display:flex><span>                name <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;cryptroot&#34;</span>;
+</span></span><span style=display:flex><span>                content <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span><span style=color:#75715e># ... snip ...</span>
+</span></span></code></pre></div><p>Double check that the paths exist:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>cd /dev/mapper/crypt&lt;TAB&gt;  <span style=color:#75715e># autocomplete should fill out /dev/mapper/cryptroot</span>
+</span></span></code></pre></div><ol start=3><li>Create an <code>impermanence.nix</code>:</li></ol><p>Now, create a new file named <code>impermanence.nix</code> in your configuration directory
+(i.e. your flake directory). This file will contain all the specific settings
+for your impermanent setup, including BTRFS subvolume management and persistent
+data locations. Since this file is right next to your <code>configuration.nix</code>,
+you&rsquo;ll just add an <code>imports = [ ./impermanence.nix ]</code> to your
+<code>configuration.nix</code> apply it to your configuration.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  config<span style=color:#f92672>,</span>
+</span></span><span style=display:flex><span>  lib<span style=color:#f92672>,</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>...</span>
+</span></span><span style=display:flex><span>}: {
+</span></span><span style=display:flex><span>  boot<span style=color:#f92672>.</span>initrd<span style=color:#f92672>.</span>postDeviceCommands <span style=color:#f92672>=</span> lib<span style=color:#f92672>.</span>mkAfter <span style=color:#e6db74>&#39;&#39;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    echo &#34;Rollback running&#34; &gt; /mnt/rollback.log
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>     mkdir -p /mnt
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>     mount -t btrfs /dev/mapper/cryptroot /mnt
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>     # Recursively delete all nested subvolumes inside /mnt/root
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>     btrfs subvolume list -o /mnt/root | cut -f9 -d&#39; &#39; | while read subvolume; do
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>       echo &#34;Deleting /$subvolume subvolume...&#34; &gt;&gt; /mnt/rollback.log
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>       btrfs subvolume delete &#34;/mnt/$subvolume&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>     done
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>     echo &#34;Deleting /root subvolume...&#34; &gt;&gt; /mnt/rollback.log
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>     btrfs subvolume delete /mnt/root
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>     echo &#34;Restoring blank /root subvolume...&#34; &gt;&gt; /mnt/rollback.log
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>     btrfs subvolume snapshot /mnt/root-blank /mnt/root
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>     umount /mnt
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  &#39;&#39;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  environment<span style=color:#f92672>.</span>persistence<span style=color:#f92672>.</span><span style=color:#e6db74>&#34;/persist&#34;</span> <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>    directories <span style=color:#f92672>=</span> [
+</span></span><span style=display:flex><span>      <span style=color:#e6db74>&#34;/etc&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e6db74>&#34;/var/spool&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e6db74>&#34;/root&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e6db74>&#34;/srv&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e6db74>&#34;/etc/NetworkManager/system-connections&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e6db74>&#34;/var/lib/bluetooth&#34;</span>
+</span></span><span style=display:flex><span>    ];
+</span></span><span style=display:flex><span>    files <span style=color:#f92672>=</span> [
+</span></span><span style=display:flex><span>      <span style=color:#75715e># &#34;/etc/machine-id&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#75715e># Add more files you want to persist</span>
+</span></span><span style=display:flex><span>    ];
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># optional quality of life setting</span>
+</span></span><span style=display:flex><span>  security<span style=color:#f92672>.</span>sudo<span style=color:#f92672>.</span>extraConfig <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;&#39;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    Defaults lecture = never
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  &#39;&#39;</span>;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><ul><li><code>/mnt/rollback.log</code>: this log will be available during the boot process for
+debugging if the rollback fails, but won&rsquo;t persist.</li></ul><p>With the above impermanence script, the btrfs subvolumes are deleted recursively
+and replaced with the <code>root-blank</code> snapshot we took during the install.</p><p>I have commented out <code>"/etc/machine-id"</code> because we already copied over all of
+the files to their persistent location and the above setting would work once and
+then cause a conflict.</p><h2 id=configurationnix-changes>configuration.nix changes</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span><span style=color:#75715e># configuration.nix</span>
+</span></span><span style=display:flex><span>  boot<span style=color:#f92672>.</span>initrd<span style=color:#f92672>.</span>luks<span style=color:#f92672>.</span>devices <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>    cryptroot <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>      device <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;/dev/disk/by-partlabel/luks&#34;</span>;
+</span></span><span style=display:flex><span>      allowDiscards <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>;
+</span></span><span style=display:flex><span>      preLVM <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>;
+</span></span><span style=display:flex><span>    };
+</span></span><span style=display:flex><span>  };
+</span></span></code></pre></div><ul><li>This defines how your system&rsquo;s initial ramdisk (<code>initrd</code>) should handle a
+specific encrypted disk during the boot process. It helps with timing and is a
+more robust way of telling Nix that we are using an encrypted disk.</li></ul><p>The following is optional to enable <code>autoScrub</code> for btrfs, the wiki shows
+<code>interval = "monthly";</code> FYI.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span><span style=color:#75715e># configuration.nix</span>
+</span></span><span style=display:flex><span>  services<span style=color:#f92672>.</span>btrfs<span style=color:#f92672>.</span>autoScrub <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>    enable <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>;
+</span></span><span style=display:flex><span>    interval <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;weekly&#34;</span>;
+</span></span><span style=display:flex><span>    fileSystems <span style=color:#f92672>=</span> [<span style=color:#e6db74>&#34;/&#34;</span>];
+</span></span><span style=display:flex><span>  };
+</span></span></code></pre></div><ul><li>Remember to ensure that your <code>hostname</code> in your <code>configuration.nix</code> matches
+the <code>hostname</code> in your <code>flake.nix</code>.</li></ul><h3 id=applying-your-impermanence-configuration>Applying Your Impermanence Configuration</h3><p>Once you have completed all the steps and created or modified the necessary
+files (<code>flake.nix</code>, <code>impermanence.nix</code>), you need to apply these changes to your
+NixOS system.</p><ol><li>Navigate to your NixOS configuration directory (where your <code>flake.nix</code> is
+located).</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>cd /path/to/your/flake
+</span></span></code></pre></div><ol start=2><li>Rebuild and Switch: Execute the <code>nixos-rebuild switch</code> command. This command
+will:</li></ol><ul><li><p>Evaluate your <code>flake.nix</code> and the modules it imports (including your new
+<code>impermanence.nix</code>).</p></li><li><p>Build a new NixOS system closure based on your updated configuration.</p></li><li><p>Activate the new system configuration, making it the current running system.</p></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo nixos-rebuild switch --flake .#hostname <span style=color:#75715e># Replace &#39;hostname&#39; with your actual system hostname</span>
+</span></span></code></pre></div><ol start=3><li>Perform an Impermanence Test (Before Reboot):</li></ol><ul><li>Before you reboot, create a temporary directory and file in a non-persistent
+location. Since you haven&rsquo;t explicitly added <code>/imperm_test</code> to your
+<code>environment.persistence."/persist"</code> directories, this file should not survive
+a reboot.</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>mkdir /imperm_test
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;This should be Gone after Reboot&#34;</span> | sudo tee /imperm_test/testfile
+</span></span><span style=display:flex><span>ls -l /imperm_test/testfile <span style=color:#75715e># Verify the file exists</span>
+</span></span><span style=display:flex><span>cat /imperm_test/testfile <span style=color:#75715e># Verify content</span>
+</span></span></code></pre></div><ol start=4><li>Reboot Your System: For the impermanence setup to take full effect and for
+your root filesystem to be reset for the first time, you must reboot your
+machine.</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo reboot
+</span></span></code></pre></div><ol start=5><li>Verify Impermanence (After Reboot):</li></ol><ul><li>After the system has rebooted, check if the test directory and file still
+exist:</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>ls -l /imperm_test/testfile
+</span></span></code></pre></div><p>You should see an output like <code>ls: cannot access '/imperm_test/testfile'</code>: No
+such file or directory. This confirms that the <code>/imperm_test</code> directory and its
+contents were indeed ephemeral and were removed during the reboot process,
+indicating your impermanence setup is working correctly!</p><p>Your system should now come up with a fresh root filesystem, and only the data
+specified in your <code>environment.persistence."/persist"</code> configuration will be
+persistent.</p></section></main><footer id=main-footer><div class=footer><a href=#>Scroll to Top</a><div class=footer-copyright><div class=dim>© 2025</div><div>Made with ❤️ and powered by <a href=https://github.com/math-queiroz/rusty-typewriter target=_blank>Rusty Typewriter</a> theme for <a href=https://gohugo.io/ target=_blank>Hugo</a></div></div></div></footer></div><aside id=side-pane class=side-sticky><div class=side-details><span>871 words</span>
+<span>6 - 8 minutes read</span></div><h3>Table Of Contents</h3><nav id=TableOfContents><ul><li><ul><li><a href=#getting-started>Getting Started</a></li></ul></li><li><a href=#configurationnix-changes>configuration.nix changes</a><ul><li><a href=#applying-your-impermanence-configuration>Applying Your Impermanence Configuration</a></li></ul></li></ul></nav></aside></div></div></body></html>

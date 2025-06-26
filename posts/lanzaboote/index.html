@@ -1,0 +1,174 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Lanzaboote | NixOS Blog</title><link rel=icon href=favicon.svg sizes=any type=image/svg+xml><meta property="og:url" content="https://TSawyer87.github.io/posts/lanzaboote/"><meta property="og:site_name" content="NixOS Blog"><meta property="og:title" content="Lanzaboote"><meta property="og:description" content="Secure Boot with Lanzaboote ⚠️ Warning: This can easily brick your system ⚠️
+We will mainly follow the lanzaboote Quick Start Guide
+For Windows dual-booters and BitLocker users, you should export your BitLocker recovery keys and confirm that they are correct. Refer to this Microsoft support article
+❗ NOTE: There are some serious limitations to this setup, I’d say it could stop the average person. But an experienced hacker could easily bypass this without encryption if they had access to your computer. For more protection look into TPM2 Hardware Requirements and full disk encryption."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2025-06-26T14:43:57-04:00"><meta property="article:modified_time" content="2025-06-26T14:43:57-04:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Lanzaboote"><meta name=twitter:description content="Secure Boot with Lanzaboote ⚠️ Warning: This can easily brick your system ⚠️
+We will mainly follow the lanzaboote Quick Start Guide
+For Windows dual-booters and BitLocker users, you should export your BitLocker recovery keys and confirm that they are correct. Refer to this Microsoft support article
+❗ NOTE: There are some serious limitations to this setup, I’d say it could stop the average person. But an experienced hacker could easily bypass this without encryption if they had access to your computer. For more protection look into TPM2 Hardware Requirements and full disk encryption."><link rel=stylesheet href=/css/root.min.0e732b812b9751962e01a7c4798a1211cd5f8ac8abec7f99793fe306989e459f.css integrity="sha256-DnMrgSuXUZYuAafEeYoSEc1fisir7H+ZeT/jBpieRZ8=" crossorigin=anonymous><link rel=stylesheet href=/css/bundle.min.ffb26980ae2df7bdfe47815d8a3f0130f36070ee4a3320a5f22d16842be2537f.css integrity="sha256-/7JpgK4t973+R4Fdij8BMPNgcO5KMyCl8i0WhCviU38=" crossorigin=anonymous><script src=/js/bundle.995e4ec99401021e081ec256bee66154ef7f4e5136809432513b2e6d014b4b1d.js integrity="sha256-mV5OyZQBAh4IHsJWvuZhVO9/TlE2gJQyUTsubQFLSx0=" crossorigin=anonymous></script><script defer src=/js/search/flexsearch.compact.64594b125f7b78bdf4fa8316955922bbebb1cd6baef3f16654bfca20309f18f8.js integrity="sha256-ZFlLEl97eL30+oMWlVkiu+uxzWuu8/FmVL/KIDCfGPg="></script><script defer src=/js/search/search.1d980f84df11f3eb7c8c5f17f541d49a0611608df179dd74fa7f06225eb56ace.js integrity="sha256-HZgPhN8R8+t8jF8X9UHUmgYRYI3xed10+n8GIl61as4="></script><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel=stylesheet><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel=stylesheet></head><body class=notransition><div id=container><header id=main-header><div role=navigation aria-label=Main><div class=nav-left><a href=https://TSawyer87.github.io/ style=color:inherit>NixOS Blog</a></div><div class=nav-right><div style=position:absolute;width:0;height:0><div id=nav-dropdown-menu class=hidden href=#><div class=nav-item><a aria-current=true class=ancestor href=/posts/>Posts</a></div></div></div><a id=nav-dropdown-button href=#><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a><div id=nav-menu><div class=nav-item><a aria-current=true class=ancestor href=/posts/>Posts</a></div></div><a id=theme-switcher href=#><svg class="light-icon" viewBox="0 0 24 24" fill="none"><path d="M12 3V4m0 16v1M4 12H3M6.31412 6.31412 5.5 5.5m12.1859.81412L18.5 5.5M6.31412 17.69 5.5 18.5001M17.6859 17.69 18.5 18.5001M21 12H20m-4 0c0 2.2091-1.7909 4-4 4-2.20914.0-4-1.7909-4-4 0-2.20914 1.79086-4 4-4 2.2091.0 4 1.79086 4 4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<svg class="dark-icon" viewBox="0 0 24 24" fill="none"><path d="M3.32031 11.6835c0 4.9706 4.02944 9 8.99999 9 3.7872.0 7.028-2.3392 8.3565-5.6515C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834c-4.9706.0-8.99999-4.0294-8.99999-8.99998C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996 5.65605 4.66028 3.32031 7.89912 3.32031 11.6835z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div></div></header><div class="flex grow"><div id=main-pane><main id=main-content><div class=single-header><ol class=breadcrumbs itemscope itemtype=https://schema.org/BreadcrumbList><li itemprop=itemListElement itemscope itemtype=https://schema.org/ListItem><a itemprop=item href=https://TSawyer87.github.io/><span itemprop=name>Home</span>
+</a><meta itemprop=position content='1'></li><span>&nbsp»&nbsp</span><li itemprop=itemListElement itemscope itemtype=https://schema.org/ListItem><a itemprop=item href=https://TSawyer87.github.io/posts/><span itemprop=name>Posts</span>
+</a><meta itemprop=position content='2'></li><span>&nbsp»&nbsp</span></ol><h1>Lanzaboote</h1><time class=dim datetime=2025-06-26T14:43:57-04:00>June 26, 2025</time></div><section class=page-section><h1 id=secure-boot-with-lanzaboote>Secure Boot with Lanzaboote</h1><p>⚠️ <strong>Warning: This can easily brick your system</strong> ⚠️</p><p>We will mainly follow the lanzaboote
+<a href=https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md>Quick Start Guide</a></p><p>For Windows dual-booters and BitLocker users, you should export your BitLocker
+recovery keys and confirm that they are correct. Refer to this
+<a href=https://support.microsoft.com/en-us/windows/find-your-bitlocker-recovery-key-6b71ad27-0b89-ea08-f143-056f5ab347d6>Microsoft support article</a></p><blockquote><p>❗ NOTE: There are some serious limitations to this setup, I&rsquo;d say it could
+stop the average person. But an experienced hacker could easily bypass this
+without encryption if they had access to your computer. For more protection
+look into TPM2 Hardware Requirements and full disk encryption.</p></blockquote><h2 id=requirements>Requirements</h2><p>To be able to setup Secure Boot on your device, NixOS needs to be installed in
+UEFI mode and systemd-boot must be used as a boot loader. This means if you wish
+to install lanzaboote on a new machine, you need to follow the install
+instruction for systemd-boot and then switch to lanzaboote after the first boot.</p><p>Check these prerequisits with <code>bootctl status</code>, this is an example output:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo bootctl status
+</span></span><span style=display:flex><span>System:
+</span></span><span style=display:flex><span>     Firmware: UEFI 2.70 <span style=color:#f92672>(</span>Lenovo 0.4720<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>  Secure Boot: disabled <span style=color:#f92672>(</span>disabled<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span> TPM2 Support: yes
+</span></span><span style=display:flex><span> Boot into FW: supported
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Current Boot Loader:
+</span></span><span style=display:flex><span>      Product: systemd-boot 251.7
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div><p>The firmware <strong>must</strong> be <code>UEFI</code> and the current bootloader needs to be
+<code>systemd-boot</code>. If you check these boxes, you&rsquo;re good to go.</p><h2 id=why-use-lanzaboote-secure-boot-on-a-non-encrypted-system>Why Use Lanzaboote (Secure Boot) on a Non-Encrypted System?</h2><p>Although full disk encryption would provide the best protection it may be
+unnecessary for your home desktop in your bedroom. Full disk encryption is
+beyond the scope of this chapter.</p><p>Even if your disk is not encrypted, enabling Secure Boot with Lanzaboote brings
+real security improvements:</p><ol><li>Protects the Boot Process from Malware</li></ol><p>Secure Boot ensures that only bootloaders and kernels signed with your trusted
+keys can run at startup. This blocks bootkits and rootkits—dangerous types of
+malware that try to infect your system before the operating system even loads .
+Without Secure Boot, malicious software could silently replace your bootloader
+or kernel and gain control every time your computer starts.</p><ol start=2><li>Prevents Unauthorized Modifications</li></ol><p>If someone (or some software) tries to tamper with your boot files—like swapping
+out your kernel or bootloader with a malicious version—Secure Boot will detect
+this and refuse to start the system, alerting you that something is wrong</p><p>. This makes it much harder for attackers to hide or persist on your machine.</p><ol start=3><li>First Line of Defense</li></ol><p>Secure Boot acts as a “gatekeeper” for your computer’s startup process. Even if
+your files aren’t encrypted, it stops unauthorized code from running before
+Linux loads, making it harder for malware to take hold and harder for attackers
+to compromise your system at the lowest level.</p><ol start=4><li>Protects Recovery and Rescue Environments</li></ol><p>Secure Boot also covers recovery partitions and rescue tools. Only signed,
+trusted recovery environments can be loaded, preventing attackers from sneaking
+in malicious tools during system repair.</p><ol start=5><li>Peace of Mind for Updates and Multi-User Systems</li></ol><p>If you share your computer or use it in a public setting, Secure Boot ensures
+that only approved system updates and kernels can be booted, reducing the risk
+of accidental or intentional tampering.</p><h2 id=security-requirements>Security Requirements</h2><p>To provide any security your system needs to defend against an attacker turning
+UEFI Secure Boot off or being able to sign binaries with the keys we are going
+to generate.</p><p>The easiest way to achieve this is to:</p><ol><li><p>Enable a BIOS password for your system, this will prevent someone from just
+shutting off secure boot.</p></li><li><p>Use full disk encryption.</p></li></ol><h2 id=preparation>Preparation</h2><p><strong>Finding the UEFI System Partition (ESP)</strong></p><p>The UEFI boot process revolves around the ESP, the (U)EFI System Partition. This
+partition is conventionally mounted at <code>/boot</code> on NixOS.</p><p>Verify this with the command <code>sudo bootctl status</code>. Look for <code>ESP:</code></p><p><strong>Creating Your Keys</strong></p><p>First you&rsquo;ll need to install <code>sbctl</code> which is available in <code>Nixpkgs</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span><span style=color:#75715e># configuration.nix or equivalent</span>
+</span></span><span style=display:flex><span>environment<span style=color:#f92672>.</span>systemPackages <span style=color:#f92672>=</span> [ pkgs<span style=color:#f92672>.</span>sbctl ];
+</span></span></code></pre></div><p>Create the keys:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ sudo sbctl create-keys
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>sudo<span style=color:#f92672>]</span> password <span style=color:#66d9ef>for</span> julian:
+</span></span><span style=display:flex><span>Created Owner UUID 8ec4b2c3-dc7f-4362-b9a3-0cc17e5a34cd
+</span></span><span style=display:flex><span>Creating secure boot keys...✓
+</span></span><span style=display:flex><span>Secure boot keys created!
+</span></span></code></pre></div><p>If you already have keys in <code>/etc/secureboot</code> migrate these to <code>/var/lib/sbctl</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sbctl setup --migrate
+</span></span></code></pre></div><h2 id=configuring-lanzaboote-with-flakes>Configuring Lanzaboote With Flakes</h2><p>Shown all in <code>flake.nix</code> for brevity. Can easily be split up into a <code>boot.nix</code>,
+etc:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  description <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;A SecureBoot-enabled NixOS configurations&#34;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  inputs <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>    nixpkgs<span style=color:#f92672>.</span>url <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;github:NixOS/nixpkgs/nixos-unstable&#34;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    lanzaboote <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>      url <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;github:nix-community/lanzaboote/v0.4.2&#34;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      <span style=color:#75715e># Optional but recommended to limit the size of your system closure.</span>
+</span></span><span style=display:flex><span>      inputs<span style=color:#f92672>.</span>nixpkgs<span style=color:#f92672>.</span>follows <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;nixpkgs&#34;</span>;
+</span></span><span style=display:flex><span>    };
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  outputs <span style=color:#f92672>=</span> { self<span style=color:#f92672>,</span> nixpkgs<span style=color:#f92672>,</span> lanzaboote<span style=color:#f92672>,</span> <span style=color:#f92672>...</span>}: {
+</span></span><span style=display:flex><span>    nixosConfigurations <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>      yourHost <span style=color:#f92672>=</span> nixpkgs<span style=color:#f92672>.</span>lib<span style=color:#f92672>.</span>nixosSystem {
+</span></span><span style=display:flex><span>        system <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;x86_64-linux&#34;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        modules <span style=color:#f92672>=</span> [
+</span></span><span style=display:flex><span>          <span style=color:#75715e># This is not a complete NixOS configuration and you need to reference</span>
+</span></span><span style=display:flex><span>          <span style=color:#75715e># your normal configuration here.</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>          lanzaboote<span style=color:#f92672>.</span>nixosModules<span style=color:#f92672>.</span>lanzaboote
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>          ({ pkgs<span style=color:#f92672>,</span> lib<span style=color:#f92672>,</span> <span style=color:#f92672>...</span> }: {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            environment<span style=color:#f92672>.</span>systemPackages <span style=color:#f92672>=</span> [
+</span></span><span style=display:flex><span>              <span style=color:#75715e># For debugging and troubleshooting Secure Boot.</span>
+</span></span><span style=display:flex><span>              pkgs<span style=color:#f92672>.</span>sbctl
+</span></span><span style=display:flex><span>            ];
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#75715e># Lanzaboote currently replaces the systemd-boot module.</span>
+</span></span><span style=display:flex><span>            <span style=color:#75715e># This setting is usually set to true in configuration.nix</span>
+</span></span><span style=display:flex><span>            <span style=color:#75715e># generated at installation time. So we force it to false</span>
+</span></span><span style=display:flex><span>            <span style=color:#75715e># for now.</span>
+</span></span><span style=display:flex><span>            boot<span style=color:#f92672>.</span>loader<span style=color:#f92672>.</span>systemd-boot<span style=color:#f92672>.</span>enable <span style=color:#f92672>=</span> lib<span style=color:#f92672>.</span>mkForce <span style=color:#66d9ef>false</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            boot<span style=color:#f92672>.</span>lanzaboote <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>              enable <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>;
+</span></span><span style=display:flex><span>              pkiBundle <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;/var/lib/sbctl&#34;</span>;
+</span></span><span style=display:flex><span>            };
+</span></span><span style=display:flex><span>          })
+</span></span><span style=display:flex><span>        ];
+</span></span><span style=display:flex><span>      };
+</span></span><span style=display:flex><span>    };
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p><strong>Build it</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo nixos-rebuild switch --flake /path/to/flake
+</span></span></code></pre></div><h3 id=ensure-your-machine-is-ready-for-secure-boot-enforcement>Ensure Your Machine is Ready for Secure Boot enforcement</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ sudo sbctl verify
+</span></span><span style=display:flex><span>Verifying file database and EFI images in /boot...
+</span></span><span style=display:flex><span>✓ /boot/EFI/BOOT/BOOTX64.EFI is signed
+</span></span><span style=display:flex><span>✓ /boot/EFI/Linux/nixos-generation-355.efi is signed
+</span></span><span style=display:flex><span>✓ /boot/EFI/Linux/nixos-generation-356.efi is signed
+</span></span><span style=display:flex><span>✗ /boot/EFI/nixos/0n01vj3mq06pc31i2yhxndvhv4kwl2vp-linux-6.1.3-bzImage.efi is not signed
+</span></span><span style=display:flex><span>✓ /boot/EFI/systemd/systemd-bootx64.efi is signed
+</span></span></code></pre></div><h3 id=enabling-secure-boot-and-entering-setup-mode>Enabling Secure Boot and Entering Setup Mode</h3><p>This is where things can get tricky because BIOS are widely different and use
+different conventions.</p><p>You can see your BIOS from the output of <code>bootctl status</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo bootctl status
+</span></span><span style=display:flex><span>doas <span style=color:#f92672>(</span>jr@magic<span style=color:#f92672>)</span> password:
+</span></span><span style=display:flex><span>System:
+</span></span><span style=display:flex><span>      Firmware: UEFI 2.70 <span style=color:#f92672>(</span>American Megatrends 5.19<span style=color:#f92672>)</span>
+</span></span></code></pre></div><p>My BIOS is an American Megatrends 5.19, find yours and look up which key you
+have to hit to enter the BIOS on reboot, mine is the delete key. So I reboot and
+repeatedly hit delete until it brings up the BIOS settings.</p><p>The lanzaboote guide shows a few systems and how to enter setup mode for them.</p><p>For a ThinkPad the steps are:</p><ol><li><p>Select the &ldquo;Security&rdquo; tab.</p></li><li><p>Select the &ldquo;Secure Boot&rdquo; entry.</p></li><li><p>Set &ldquo;Secure Boot&rdquo; to enabled.</p></li><li><p>Select &ldquo;Reset to Setup Mode&rdquo;.</p></li></ol><hr><p>For my system, it would allow me to do the above steps but when I saved and
+exited I got a red screen then blue screen and it said No Valid Keys or
+something like that and eventually brought me to the MOK Manager where you can
+manually register keys, this is NOT what you want to do.</p><p>Even after this mistake I was able to re-enable secure boot and get back into
+the system.</p><p>After some tinkering, I found that I was able to enter &ldquo;custom mode&rdquo; without
+enabling secure boot, which in turn allowed me to select the &ldquo;Reset to Setup
+Mode&rdquo;</p><p>It asks if you are sure you want to erase all of the variables to enter setup
+mode? Hit &ldquo;Yes&rdquo;. Then it asks if you want to exit without saving, we want to
+save our changes so hit &ldquo;No&rdquo; do not exit without saving.</p><p>After this you should see all No Keys entries.</p><p>Finally, Hit the setting to save and exit, some BIOS list an F4 or F9 keybind
+that saves and exits.</p><blockquote><p>❗: For my system, choosing &ldquo;save and reboot&rdquo; would not work for some reason,
+I had to choose &ldquo;save and exit&rdquo;.</p></blockquote><p>After hitting &ldquo;save and exit&rdquo;, the system boots into NixOS like normal but you
+are in setup mode if everything worked correctly.</p><p>Open a terminal and type:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo sbctl enroll-keys --microsoft
+</span></span><span style=display:flex><span>Enrolling keys to EFI variables...
+</span></span><span style=display:flex><span>With vendor keys from microsoft...✓
+</span></span><span style=display:flex><span>Enrolled keys to the EFI variables!
+</span></span></code></pre></div><blockquote><p>⚠️ If you used <code>--microsoft</code> while enrolling the keys, you might want to check
+that the Secure Boot Forbidden Signature Database (dbx) is not empty. A quick
+and dirty way is by checking the file size of
+<code>/sys/firmware/efi/efivars/dbx-\*</code>. Keeping an up to date dbx reduces Secure
+Boot bypasses, see for example:
+<a href=https://uefi.org/sites/default/files/resources/dbx_release_info.pdf>https://uefi.org/sites/default/files/resources/dbx_release_info.pdf</a></p></blockquote><p>I then Rebooted into BIOS and enabled secure boot, saved and exited. This loads
+NixOS as if you just rebooted.</p><p>And finally check the output of <code>sbctl status</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo sbctl status
+</span></span><span style=display:flex><span>System:
+</span></span><span style=display:flex><span>      Firmware: UEFI 2.70 <span style=color:#f92672>(</span>American Megatrends 5.19<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span> Firmware Arch: x64
+</span></span><span style=display:flex><span>   Secure Boot: enabled <span style=color:#f92672>(</span>user<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>  TPM2 Support: yes
+</span></span><span style=display:flex><span>  Measured UKI: yes
+</span></span><span style=display:flex><span>  Boot into FW: supported
+</span></span></code></pre></div><p>We can see the <code>Secure Boot: enabled (user)</code></p><h2 id=what-lanzaboote-secure-boot-actually-secures-on-nixos-and-limitations>What Lanzaboote (Secure Boot) Actually Secures on NixOS and Limitations</h2><p>As mentioned earlier, this provides some basic protection that may be good
+enough for your desktop in your bedroom but there are some serious limitations.
+I want to be clear that this may stop an average person but an advanced threat
+actor with resources could still fairly easily get in.</p><p>Secure Boot (with Lanzaboote or any other tool) on NixOS primarily protects the
+boot chain—the bootloader, kernel, and initrd—by ensuring only signed, trusted
+binaries are executed at boot. This is a real and valuable security improvement,
+especially for defending against “evil maid” attacks (where someone with
+physical access tampers with your bootloader or kernel) and for preventing many
+forms of persistent malware.</p><p>Here are some of the caveats:</p><ol><li><p>Userspace Remains Unverified</p><p>Once the kernel and initrd have booted, NixOS (by default) does not
+cryptographically verify the integrity of the rest of userspace (the programs
+and libraries in the Nix store, your configs, etc.).</p><p>This means an attacker who can modify userspace (e.g., by gaining root
+access) can potentially install persistent malware, even if your boot chain
+is protected</p><p>.</p></li><li><p>Kernel Lockdown Is Not Enabled</p><p>The Linux kernel’s [lockdown mode]</p><p>is designed to prevent even root from tampering with the kernel at runtime
+(e.g., by loading unsigned modules, using kexec, or accessing /dev/mem).</p><p>NixOS does not enable kernel lockdown by default, and enabling it is
+non-trivial, especially given how the Nix store works (modules and kernels
+are built dynamically and not always signed at install time).</p><p>Without lockdown, a root user (or malware with root) can still compromise the
+kernel after boot.</p></li><li><p>Stage 2 Verification Is Lacking</p><p>Some distributions (like Fedora Silverblue or systems using dm-verity)
+cryptographically verify the entire userspace at boot, making it immutable
+and much harder to tamper with. This is not the default on NixOS, though
+there are experimental or appliance-focused solutions</p><p>.</p></li><li><p>Disk Encryption Complements Secure Boot</p><p>Full disk encryption (e.g., LUKS) is strongly recommended alongside Secure
+Boot. Encryption protects your data at rest and ensures that even if someone
+bypasses Secure Boot, they cannot read or modify your files without your
+passphrase</p></li></ol></section></main><footer id=main-footer><div class=footer><a href=#>Scroll to Top</a><div class=footer-copyright><div class=dim>© 2025</div><div>Made with ❤️ and powered by <a href=https://github.com/math-queiroz/rusty-typewriter target=_blank>Rusty Typewriter</a> theme for <a href=https://gohugo.io/ target=_blank>Hugo</a></div></div></div></footer></div><aside id=side-pane class=side-sticky><div class=side-details><span>1731 words</span>
+<span>10 - 13 minutes read</span></div><h3>Table Of Contents</h3><nav id=TableOfContents><ul><li><a href=#requirements>Requirements</a></li><li><a href=#why-use-lanzaboote-secure-boot-on-a-non-encrypted-system>Why Use Lanzaboote (Secure Boot) on a Non-Encrypted System?</a></li><li><a href=#security-requirements>Security Requirements</a></li><li><a href=#preparation>Preparation</a></li><li><a href=#configuring-lanzaboote-with-flakes>Configuring Lanzaboote With Flakes</a><ul><li><a href=#ensure-your-machine-is-ready-for-secure-boot-enforcement>Ensure Your Machine is Ready for Secure Boot enforcement</a></li><li><a href=#enabling-secure-boot-and-entering-setup-mode>Enabling Secure Boot and Entering Setup Mode</a></li></ul></li><li><a href=#what-lanzaboote-secure-boot-actually-secures-on-nixos-and-limitations>What Lanzaboote (Secure Boot) Actually Secures on NixOS and Limitations</a></li></ul></nav></aside></div></div></body></html>
