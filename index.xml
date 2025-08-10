@@ -1,84 +1,133 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NixOS Blog</title><link>https://TSawyer87.github.io/</link><description>Recent content on NixOS Blog</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Thu, 26 Jun 2025 14:43:57 -0400</lastBuildDate><atom:link href="https://TSawyer87.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Lanzaboote</title><link>https://TSawyer87.github.io/posts/lanzaboote/</link><pubDate>Thu, 26 Jun 2025 14:43:57 -0400</pubDate><guid>https://TSawyer87.github.io/posts/lanzaboote/</guid><description>&lt;h1 id="secure-boot-with-lanzaboote">Secure Boot with Lanzaboote&lt;/h1>
-&lt;p>⚠️ &lt;strong>Warning: This can easily brick your system&lt;/strong> ⚠️&lt;/p>
-&lt;p>We will mainly follow the lanzaboote
-&lt;a href="https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md">Quick Start Guide&lt;/a>&lt;/p>
-&lt;p>For Windows dual-booters and BitLocker users, you should export your BitLocker
-recovery keys and confirm that they are correct. Refer to this
-&lt;a href="https://support.microsoft.com/en-us/windows/find-your-bitlocker-recovery-key-6b71ad27-0b89-ea08-f143-056f5ab347d6">Microsoft support article&lt;/a>&lt;/p>
-&lt;blockquote>
-&lt;p>❗ NOTE: There are some serious limitations to this setup, I&amp;rsquo;d say it could
-stop the average person. But an experienced hacker could easily bypass this
-without encryption if they had access to your computer. For more protection
-look into TPM2 Hardware Requirements and full disk encryption.&lt;/p></description></item><item><title>Sops Nix</title><link>https://TSawyer87.github.io/posts/sops-nix/</link><pubDate>Thu, 26 Jun 2025 14:43:14 -0400</pubDate><guid>https://TSawyer87.github.io/posts/sops-nix/</guid><description>&lt;h1 id="sops-nix-encrypted-secrets">Sops-Nix encrypted secrets&lt;/h1>
-&lt;p>&lt;a href="https://github.com/getsops/sops?ref=blog.gitguardian.com">SOPS&lt;/a>, short for
-&lt;strong>S&lt;/strong>ecrets&lt;strong>OP&lt;/strong>eration&lt;strong>S&lt;/strong>, is an editor of encrypted files that supports
-quite a few BINARY formats and encrypts with AWS KMS, GCP KMS, Azure Key Vault,
-age, and PGP.&lt;/p>
-&lt;p>Managing secrets—like API keys, SSH deploy keys, and password hashes is a
-critical part of system configuration, but it’s also one of the trickiest to do
-securely and reproducibly. Traditionally, secrets might be stored in ad hoc
-locations, referenced by absolute paths, or managed manually outside of version
-control. This approach makes it hard to share, rebuild, or audit your
-configuration, and increases the risk of accidental leaks or inconsistencies
-between systems.&lt;/p></description></item><item><title>USB_Keyfile</title><link>https://TSawyer87.github.io/posts/usb_keyfile/</link><pubDate>Thu, 26 Jun 2025 14:37:49 -0400</pubDate><guid>https://TSawyer87.github.io/posts/usb_keyfile/</guid><description>&lt;h1 id="usb-stick-keyfile">USB Stick Keyfile&lt;/h1>
-&lt;p>This allows you to use a USB stick for your keyfile, with a backup in case you
-want or need it. There is a setting &lt;code>fallbackToPassword&lt;/code> that protects you in
-case something fails with the USB key.&lt;/p>
-&lt;p>First, I&amp;rsquo;ll show how to set up a dedicated USB stick for a keyfile. (i.e., one
-that is only used for this). After that I will show the process of adding the
-keyfile to a USB stick with existing data on it that you don&amp;rsquo;t want to lose.&lt;/p></description></item><item><title>Encrypted_impermanence</title><link>https://TSawyer87.github.io/posts/encrypted_impermanence/</link><pubDate>Thu, 26 Jun 2025 14:36:22 -0400</pubDate><guid>https://TSawyer87.github.io/posts/encrypted_impermanence/</guid><description>&lt;h1 id="encrypted-impermanence">Encrypted Impermanence&lt;/h1>
-&lt;blockquote>
-&lt;p>❗ Important Note: This guide details a setup involving encrypted partitions
-and impermanent NixOS. While powerful, such configurations require careful
-attention to detail. Incorrect steps, especially concerning encryption keys or
-persistent data paths, can lead to &lt;strong>permanent data loss&lt;/strong>. Please read all
-instructions thoroughly before proceeding and consider backing up any critical
-data beforehand. This has only been tested with the disk layout described in
-&lt;a href="https://saylesss88.github.io/installation/encrypted_manual.html">Encrypted Setups&lt;/a>&lt;/p>&lt;/blockquote>
-&lt;h3 id="getting-started">Getting Started&lt;/h3>
-&lt;ol>
-&lt;li>Add impermanence to your &lt;code>flake.nix&lt;/code>. You will change the &lt;code>hostname&lt;/code> in the
-flake to match your &lt;code>networking.hostName&lt;/code>.&lt;/li>
-&lt;/ol>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-nix" data-lang="nix">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># flake.nix&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>{
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> description &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;NixOS configuration&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> inputs &lt;span style="color:#f92672">=&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> nixpkgs&lt;span style="color:#f92672">.&lt;/span>url &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;github:nixos/nixpkgs/nixos-unstable&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> disko&lt;span style="color:#f92672">.&lt;/span>url &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;github:nix-community/disko/latest&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> disko&lt;span style="color:#f92672">.&lt;/span>inputs&lt;span style="color:#f92672">.&lt;/span>nixpkgs&lt;span style="color:#f92672">.&lt;/span>follows &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;nixpkgs&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> impermanence&lt;span style="color:#f92672">.&lt;/span>url &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;github:nix-community/impermanence&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> };
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> outputs &lt;span style="color:#f92672">=&lt;/span> inputs&lt;span style="color:#f92672">@&lt;/span>{ nixpkgs&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#f92672">...&lt;/span> }: {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> nixosConfigurations &lt;span style="color:#f92672">=&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> hostname &lt;span style="color:#f92672">=&lt;/span> nixpkgs&lt;span style="color:#f92672">.&lt;/span>lib&lt;span style="color:#f92672">.&lt;/span>nixosSystem {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> system &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;x86_64-linux&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> modules &lt;span style="color:#f92672">=&lt;/span> [
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">./configuration.nix&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> inputs&lt;span style="color:#f92672">.&lt;/span>disko&lt;span style="color:#f92672">.&lt;/span>nixosModules&lt;span style="color:#f92672">.&lt;/span>disko
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> inputs&lt;span style="color:#f92672">.&lt;/span>impermanence&lt;span style="color:#f92672">.&lt;/span>nixosModules&lt;span style="color:#f92672">.&lt;/span>impermanence
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ];
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> };
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> };
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> };
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="2">
-&lt;li>Discover where your root subvolume is located with &lt;code>findmnt&lt;/code>:&lt;/li>
-&lt;/ol>
-&lt;p>If you followed the
-&lt;a href="https://saylesss88.github.io/installation/encrypted_manual.html">Encrypted Setups&lt;/a>
-guide, your encrypted subvolume should be located at:
-&lt;code>/dev/mapper/cryptroot /mnt&lt;/code>&lt;/p></description></item><item><title>Encrypted_disko_install</title><link>https://TSawyer87.github.io/posts/encrypted_disko_install/</link><pubDate>Thu, 26 Jun 2025 14:35:24 -0400</pubDate><guid>https://TSawyer87.github.io/posts/encrypted_disko_install/</guid><description>&lt;h1 id="encrypted-manual-setup">Encrypted Manual Setup&lt;/h1>
-&lt;p>This guide walks you through a manual, encrypted NixOS installation using Disko
-for disk management and Btrfs for subvolumes. It is designed for users who want
-full disk encryption and a modern filesystem layout. If you prefer an
-unencrypted setup, you can skip the LUKS and encryption steps, but this guide
-focuses on security and flexibility.&lt;/p>
-&lt;p>If you choose to set up impermanence, ensure it matches your install. Encrypted
-Setup with Encrypted Impermanence and Unencrypted Setup with Unencrypted
-Impermanence.&lt;/p></description></item><item><title>hacking_the_helix_flake</title><link>https://TSawyer87.github.io/posts/hacking_the_helix_flake/</link><pubDate>Fri, 30 May 2025 19:23:32 -0400</pubDate><guid>https://TSawyer87.github.io/posts/hacking_the_helix_flake/</guid><description>&lt;ul>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NixOS Blog</title><link>https://TSawyer87.github.io/</link><description>Recent content on NixOS Blog</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Sun, 15 Jun 2025 18:24:27 -0400</lastBuildDate><atom:link href="https://TSawyer87.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Fork_clone_contribute</title><link>https://TSawyer87.github.io/posts/fork_clone_contribute/</link><pubDate>Sun, 15 Jun 2025 18:24:27 -0400</pubDate><guid>https://TSawyer87.github.io/posts/fork_clone_contribute/</guid><description>&lt;h1 id="fork-clone-contribute">Fork, Clone, Contribute&lt;/h1>
+&lt;ul>
+&lt;li>
+&lt;p>In the &lt;a href="https://github.com/NixOS/nixpkgs">Nixpkgs&lt;/a> Repository.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Click Fork, then Create a new Fork.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Uncheck the box &amp;ldquo;Only fork the &lt;code>master&lt;/code> branch&amp;rdquo;, for development we will need
+more branches for development.&lt;/p>
+&lt;ul>
+&lt;li>If you only fork master, you won&amp;rsquo;t have the &lt;code>nixos-XX.YY&lt;/code> release branches
+available on your fork when you later try to create a PR against them, or
+when you want to create a feature branch from them on your fork.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Click &lt;code>&amp;lt;&amp;gt; Code&lt;/code> and Clone the Repo. &lt;code>saylesss88&lt;/code> is the name of my GitHub,
+yours will obviously be different.&lt;/p></description></item><item><title>Nix_paths</title><link>https://TSawyer87.github.io/posts/nix_paths/</link><pubDate>Sun, 15 Jun 2025 18:21:05 -0400</pubDate><guid>https://TSawyer87.github.io/posts/nix_paths/</guid><description>&lt;h1 id="nix-paths">Nix Paths&lt;/h1>
+&lt;p>The following examples are done with a local &lt;code>nixpkgs&lt;/code> clone located at
+&lt;code>~/src/nixpkgs&lt;/code>&lt;/p>
+&lt;p>Paths in Nix always need a &lt;code>/&lt;/code> in them and always expand to absolute paths
+relative to your current directory.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>nix repl
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nix-repl&amp;gt; ./.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/home/jr/src/nixpkgs
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nix-repl&amp;gt; ./. + &lt;span style="color:#e6db74">&amp;#34;/lib&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/home/jr/src/nixpkgs/lib
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Nix does &lt;em>path normalization&lt;/em> every time you append strings, so if you just add
+a slash &lt;code>/&lt;/code> its not actually there:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>nix-repl&amp;gt; ./.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/home/jr/src/nixpkgs
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nix-repl&amp;gt; ./. + &lt;span style="color:#e6db74">&amp;#34;/&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/home/jr/src/nixpkgs
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nix-repl&amp;gt; ./. + &lt;span style="color:#e6db74">&amp;#34;/&amp;#34;&lt;/span> + &lt;span style="color:#e6db74">&amp;#34;lib&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/home/jr/src/nixpkgslib
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nix-repl&amp;gt; &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>./.&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">/lib&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># using ${./.} causes a store copy&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>copying &lt;span style="color:#e6db74">&amp;#39;/homr/jr/src/nixpkgs&amp;#39;&lt;/span> to the store
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">&amp;#34;/nix/store/3z9fzx8z03wslxvri5syv3jnnhn5fkbd-nixpkgs/lib&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nix-repl&amp;gt; &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>toString ./.&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">/lib&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># using toString avoids making a store copy&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">&amp;#34;/home/jr/src/nixpkgs/lib&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nix-repl&amp;gt; ./lib/.. &lt;span style="color:#75715e"># nix removes all `..` to avoid redundant path resolutions&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/home/jr/src/nixpkgs
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nix-repl&amp;gt; :q
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>realpath ./lib/..
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/home/jr/src/nixpkgs
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ln -s pkgs/applications lib-symlink
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>realpath ./lib-symlink/..
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/home/jr/src/nixpkgs/pkgs
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nix repl
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nix-repl&amp;gt; ./lib-symlink/.. &lt;span style="color:#75715e"># Nix doesn&amp;#39;t read this file at all like realpath did&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/home/jr/src/nixpkgs
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nix-repl&amp;gt; builtins.readDir ./. &lt;span style="color:#75715e"># listing of all entries in current dir and their types&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;.devcontainer&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;directory&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;.editorconfig&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;regular&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;.git&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;directory&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;.git-blame-ignore-revs&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;regular&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;.gitattributes&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;regular&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;.github&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;directory&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;.gitignore&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;regular&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;.mailmap&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;regular&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;.mergify.yml&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;regular&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;.version&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;symlink&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;CONTRIBUTING.md&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;regular&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> COPYING &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;regular&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;README.md&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;regular&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ci &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;directory&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;default.nix&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;regular&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> doc &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;directory&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;flake.nix&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;regular&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> lib &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;directory&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> maintainers &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;directory&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> nixos &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;directory&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pkgs &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;directory&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;shell.nix&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;regular&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nix-repl&amp;gt; builtins.readFile ./default.nix
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">&amp;#34;let\n requiredVersion = import ./lib/minver.nix;\nin\n\nif !builtins ? nixVersion
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> || builtins.compareVersions requiredVersion builtins.nixVersion == 1 then\n\n abort
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> &amp;#39;&amp;#39;\n\n This version of Nixpkgs requires Nix &amp;gt;= \${requiredVersion}, please
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> upgrade:\n\n - If you are running NixOS, `nixos-rebuild&amp;#39; can be used to upgrade
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> your system.\n\n - Alternatively, with Nix &amp;gt; 2.0 `nix upgrade-nix&amp;#39; can be used
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> to imperatively\n upgrade Nix. You may use `nix-env --version&amp;#39; to check which
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> version you have.\n\n - If you installed Nix using the install script (https://nixos.org/nix/install),\n
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> it is safe to upgrade by running it again:\n\n curl -L https://nixos.org/nix/install | sh\n\n
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">For more information, please see the NixOS release notes at\n https://nixos.org/nixos/manual
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> or locally at\n \${toString ./nixos/doc/manual/release-notes}.\n\n If you need further help,
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> see https://nixos.org/nixos/support.html\n &amp;#39;&amp;#39;\n\nelse\n\n import ./pkgs/top-level/impure.nix\n&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nix-repl&amp;gt; :l &amp;lt;nixpkgs/lib&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nix-repl&amp;gt; importJSON ./pkgs/development/python-modules/notebook/missing-hashes.json &lt;span style="color:#75715e"># Return the nix value for JSON&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;@nx/nx-darwin-arm64@npm:16.10.0&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;aabcc8499602b98c9fc3b768fe46dfd4e1b818caa84b740bd4f73a2e4528c719b979ecb1c10a0d793a1fead83073a08bc86417588046aa3e587e80af880bffd3&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;@nx/nx-darwin-x64@npm:16.10.0&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;9dd20f45f646d05306f23f5abb7ade69dcb962e23a013101e93365847722079656d30a19c735fdcfa5c4e0fdf08691f9d621073c58aef2861c26741ff4638375&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;@nx/nx-freebsd-x64@npm:16.10.0&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;35b93aabe3b3274d53157a6fc10fec7e341e75e6818e96cfbc89c3d5b955d225ca80a173630b6aa43c448c6b53b23f06a2699a25c0c8bc71396ee20a023d035f&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;@nx/nx-linux-arm-gnueabihf@npm:16.10.0&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;697b9fa4c70f84d3ea8fe32d47635864f2e40b0ceeb1484126598c61851a2ec34b56bb3eeb9654c37d9b14e81ce85a36ac38946b4b90ca403c57fe448be51ccb&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;@nx/nx-linux-arm64-gnu@npm:16.10.0&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;001e71fedfc763a4dedd6c5901b66a4a790d388673fb74675235e19bb8fe031ff3755568ed867513dd003f873901fabda31a7d5628b39095535cb9f6d1dc7191&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;@nx/nx-linux-arm64-musl@npm:16.10.0&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;58e3b71571bdadd2b0ddd24ea6e30cd795e706ada69f685403412c518fba1a2011ac8c2ac46145eab14649aa5a78e0cedcdb4d327ccb3b6ec12e055171f3840b&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;@nx/nx-linux-x64-gnu@npm:16.10.0&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;97729a7efb27301a67ebf34739784114528ddb54047e63ca110a985eaa0763c5b1ea7c623ead1a2266d07107951be81e82ffa0a30e6e4d97506659303f2c8c78&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;@nx/nx-linux-x64-musl@npm:16.10.0&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;442bdbd5e61324a850e4e7bd6f54204108580299d3c7c4ebcec324da9a63e23f48d797a87593400fc32af78a3a03a3c104bfb360f107fe732e6a6c289863853a&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;@nx/nx-win32-arm64-msvc@npm:16.10.0&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;b5c74184ebfc70294e85f8e309f81c3d40b5cf99068891e613f3bef5ddb946bef7c9942d9e6c7688e22006d45d786342359af3b4fc87aadf369afcda55c73187&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;@nx/nx-win32-x64-msvc@npm:16.10.0&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;c5b174ebd7a5916246088e17d3761804b88f010b6b3f930034fa49af00da33b6d1352728c733024f736e4c2287def75bafdc3d60d8738bd24b67e9a4f11763f8&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nix-repl&amp;gt; builtins.toJSON &lt;span style="color:#75715e"># serialize&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>«primop toJSON»
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nix-repl&amp;gt; builtins.fromTOML
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>«primop fromTOML»
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nix-repl&amp;gt; builtins.toXML
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>For more serialization formats see &lt;code>nixpkgs/lib/generators.nix&lt;/code> as well as in
+&lt;code>nixpkgs/pkgs/pkgs-lib/formats/&lt;/code> we can see them with the &lt;code>nix repl&lt;/code> as follows:&lt;/p></description></item><item><title>Btrfs_impermanence</title><link>https://TSawyer87.github.io/posts/btrfs_impermanence/</link><pubDate>Sun, 15 Jun 2025 18:15:13 -0400</pubDate><guid>https://TSawyer87.github.io/posts/btrfs_impermanence/</guid><description>&lt;h1 id="unencrypted-btrfs-impermanence-with-flakes">Unencrypted BTRFS Impermanence with Flakes&lt;/h1>
+&lt;p>Figure 1: &lt;strong>Impermanence Logo&lt;/strong>: Image of the Impermanence logo. Sourced from
+the&lt;/p>
+&lt;p>This guide is for an unencrypted setup, there are a few links at the end for
+encrypted setups. This guide follows the previous
+&lt;a href="https://saylesss88.github.io/nix/impermanence.html">minimal install guide&lt;/a> but
+you should be able to adjust it carefully to meet your needs.&lt;/p>
+&lt;p>This section details how to set up impermanence on your NixOS system using BTRFS
+subvolumes. With impermanence, your operating system&amp;rsquo;s root filesystem will
+reset to a pristine state on each reboot, while designated directories and files
+remain persistent. This provides a highly reliable and rollback-friendly system.&lt;/p></description></item><item><title>Minimal_btrfs_subvolume_install_disko</title><link>https://TSawyer87.github.io/posts/minimal_btrfs_subvolume_install_disko/</link><pubDate>Sun, 15 Jun 2025 18:14:54 -0400</pubDate><guid>https://TSawyer87.github.io/posts/minimal_btrfs_subvolume_install_disko/</guid><description>&lt;h1 id="minimal-btrfs-subvol-install-with-disko-and-flakes">Minimal BTRFS-Subvol Install with Disko and Flakes&lt;/h1>
+&lt;h2 id="why-i-chose-btrfs">Why I Chose BTRFS&lt;/h2>
+&lt;p>I chose BTRFS because I was already familiar with it from using it with Arch
+Linux and I found it to be very easy to use. From what I&amp;rsquo;ve read, there are
+licensing issues between the Linux Kernel and ZFS which means that ZFS is not
+part of the Linux Kernel; it&amp;rsquo;s maintained by the OpenZFS project and available
+as a separate kernel module. This can cause issues and make you think more about
+your filesystem than I personally want to at this point.&lt;/p></description></item><item><title>hacking_the_helix_flake</title><link>https://TSawyer87.github.io/posts/hacking_the_helix_flake/</link><pubDate>Fri, 30 May 2025 19:23:32 -0400</pubDate><guid>https://TSawyer87.github.io/posts/hacking_the_helix_flake/</guid><description>&lt;ul>
 &lt;li>&lt;a href="#chapter-44">Chapter 4.4&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#understanding-the-helix-flake-and-modifying-its-behavior">Understanding the Helix Flake and Modifying its Behavior&lt;/a>
 &lt;ul>
