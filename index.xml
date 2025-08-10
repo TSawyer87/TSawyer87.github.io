@@ -1,4 +1,18 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NixOS Blog</title><link>https://TSawyer87.github.io/</link><description>Recent content on NixOS Blog</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Sun, 15 Jun 2025 18:24:27 -0400</lastBuildDate><atom:link href="https://TSawyer87.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Fork_clone_contribute</title><link>https://TSawyer87.github.io/posts/fork_clone_contribute/</link><pubDate>Sun, 15 Jun 2025 18:24:27 -0400</pubDate><guid>https://TSawyer87.github.io/posts/fork_clone_contribute/</guid><description>&lt;h1 id="fork-clone-contribute">Fork, Clone, Contribute&lt;/h1>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NixOS Blog</title><link>https://TSawyer87.github.io/</link><description>Recent content on NixOS Blog</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Sun, 10 Aug 2025 08:37:54 -0400</lastBuildDate><atom:link href="https://TSawyer87.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Hardening_NixOS</title><link>https://TSawyer87.github.io/posts/hardening_nixos/</link><pubDate>Sun, 10 Aug 2025 08:37:54 -0400</pubDate><guid>https://TSawyer87.github.io/posts/hardening_nixos/</guid><description>&lt;h1 id="hardening-nixos">Hardening NixOS&lt;/h1>
+&lt;figure>&lt;img src="https://TSawyer87.github.io/images/guy_fawks.png"
+ alt="guy fawks" width="1000">
+&lt;/figure>
+
+&lt;p>Securing your NixOS system begins with a philosophy of minimalism, explicit
+configuration, and proactive control.&lt;/p>
+&lt;blockquote>
+&lt;p>⚠️ Warning: I am not a security expert. This guide presents various options
+for hardening NixOS, but it is your responsibility to evaluate whether each
+adjustment suits your specific needs and environment. Security hardening and
+process isolation can introduce stability challenges, compatibility issues, or
+unexpected behavior. Additionally, these protections often come with
+performance tradeoffs. Always conduct thorough research, there are no plug and
+play one size fits all security solutions.&lt;/p></description></item><item><title>Fork_clone_contribute</title><link>https://TSawyer87.github.io/posts/fork_clone_contribute/</link><pubDate>Sun, 15 Jun 2025 18:24:27 -0400</pubDate><guid>https://TSawyer87.github.io/posts/fork_clone_contribute/</guid><description>&lt;h1 id="fork-clone-contribute">Fork, Clone, Contribute&lt;/h1>
 &lt;ul>
 &lt;li>
 &lt;p>In the &lt;a href="https://github.com/NixOS/nixpkgs">Nixpkgs&lt;/a> Repository.&lt;/p>
