@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" dir="auto">
-
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
-<title>Working_with_nixpkgs_locally | NixOS Blog</title>
-<meta name="keywords" content="">
-<meta name="description" content="/home/jr/blog/content/posts/working_with_nixpkgs_locally.md: line 1: q: command not found
+<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Working_with_nixpkgs_locally | NixOS Blog</title><meta name=keywords content><meta name=description content="/home/jr/blog/content/posts/working_with_nixpkgs_locally.md: line 1: q: command not found
 Working with Nixpkgs Locally: Benefits and Best Practices
 
      
@@ -21,377 +12,56 @@ This post covers setting up a local Nixpkgs repository, searching for dependenci
 I. Why Work with Nixpkgs Locally?
 
 
-A local Nixpkgs repository offers significant advantages for Nix developers:">
-<meta name="author" content="T Sawyer">
-<link rel="canonical" href="http://localhost:1313/posts/working_with_nixpkgs_locally/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.8fe10233a706bc87f2e08b3cf97b8bd4c0a80f10675a143675d59212121037c0.css" integrity="sha256-j&#43;ECM6cGvIfy4Is8&#43;XuL1MCoDxBnWhQ2ddWSEhIQN8A=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/working_with_nixpkgs_locally/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
+A local Nixpkgs repository offers significant advantages for Nix developers:"><meta name=author content="T Sawyer"><link rel=canonical href=https://tsawyer87.github.io/posts/working_with_nixpkgs_locally/><link crossorigin=anonymous href=/assets/css/stylesheet.8fe10233a706bc87f2e08b3cf97b8bd4c0a80f10675a143675d59212121037c0.css integrity="sha256-j+ECM6cGvIfy4Is8+XuL1MCoDxBnWhQ2ddWSEhIQN8A=" rel="preload stylesheet" as=style><link rel=icon href=https://tsawyer87.github.io/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://tsawyer87.github.io/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://tsawyer87.github.io/favicon-32x32.png><link rel=apple-touch-icon href=https://tsawyer87.github.io/apple-touch-icon.png><link rel=mask-icon href=https://tsawyer87.github.io/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://tsawyer87.github.io/posts/working_with_nixpkgs_locally/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta property="og:url" content="https://tsawyer87.github.io/posts/working_with_nixpkgs_locally/"><meta property="og:site_name" content="NixOS Blog"><meta property="og:title" content="Working_with_nixpkgs_locally"><meta property="og:description" content="/home/jr/blog/content/posts/working_with_nixpkgs_locally.md: line 1: q: command not found
+Working with Nixpkgs Locally: Benefits and Best Practices Nixpkgs, the package repository for NixOS, is a powerful resource for building and customizing software. Working with a local copy enhances development, debugging, and contribution workflows. This post covers setting up a local Nixpkgs repository, searching for dependencies, and leveraging its advantages, incorporating tips from the Nix community. I. Why Work with Nixpkgs Locally? A local Nixpkgs repository offers significant advantages for Nix developers:"><meta property="og:locale" content="en-us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2025-05-14T19:23:32-04:00"><meta property="article:modified_time" content="2025-05-14T19:23:32-04:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Working_with_nixpkgs_locally"><meta name=twitter:description content="/home/jr/blog/content/posts/working_with_nixpkgs_locally.md: line 1: q: command not found
+Working with Nixpkgs Locally: Benefits and Best Practices
 
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-            }
+     
 
-            .list {
-                background: var(--theme);
-            }
 
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
 
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
-        }
+Nixpkgs, the package repository for NixOS, is a powerful resource for building and customizing software.
+Working with a local copy enhances development, debugging, and contribution workflows.
+This post covers setting up a local Nixpkgs repository, searching for dependencies, and leveraging its advantages, incorporating tips from the Nix community.
 
-    </style>
-</noscript>
-</head>
+I. Why Work with Nixpkgs Locally?
 
-<body class="" id="top">
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    } else if (localStorage.getItem("pref-theme") === "light") {
-        document.body.classList.remove('dark')
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark');
-    }
 
-</script>
-
-<header class="header">
-    <nav class="nav">
-        <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="NixOS Blog (Alt + H)">NixOS Blog</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <ul id="menu">
-        </ul>
-    </nav>
-</header>
-<main class="main">
-
-<article class="post-single">
-  <header class="post-header">
-    
-    <h1 class="post-title entry-hint-parent">
-      Working_with_nixpkgs_locally
-    </h1>
-    <div class="post-meta"><span title='2025-05-14 19:23:32 -0400 EDT'>May 14, 2025</span>&nbsp;·&nbsp;T Sawyer
-
-</div>
-  </header> 
-  <div class="post-content"><p>/home/jr/blog/content/posts/working_with_nixpkgs_locally.md: line 1: q: command not found</p>
-<h1 id="working-with-nixpkgs-locally-benefits-and-best-practices">Working with Nixpkgs Locally: Benefits and Best Practices<a hidden class="anchor" aria-hidden="true" href="#working-with-nixpkgs-locally-benefits-and-best-practices">#</a></h1>
-<figure>
-    <img loading="lazy" src="/images/gruv18.png"
-         alt="gruv18" width="1000"/> 
-</figure>
-
-<ul>
-<li>Nixpkgs, the package repository for NixOS, is a powerful resource for building and customizing software.</li>
-<li>Working with a local copy enhances development, debugging, and contribution workflows.</li>
-<li>This post covers setting up a local Nixpkgs repository, searching for dependencies, and leveraging its advantages, incorporating tips from the Nix community.</li>
-</ul>
-<h1 id="i-why-work-with-nixpkgs-locally">I. Why Work with Nixpkgs Locally?<a hidden class="anchor" aria-hidden="true" href="#i-why-work-with-nixpkgs-locally">#</a></h1>
-<ul>
-<li>
-<p>A local Nixpkgs repository offers significant advantages for Nix developers:</p>
-<h2 id="a-faster-development-cycle">A. Faster Development Cycle<a hidden class="anchor" aria-hidden="true" href="#a-faster-development-cycle">#</a></h2>
-<ul>
-<li>Local searches for packages and dependencies are significantly quicker than querying remote repositories or channels.</li>
-<li>This speedup is crucial for efficient debugging and rapid prototyping of Nix expressions.</li>
-</ul>
-<h2 id="b-enhanced-version-control">B. Enhanced Version Control<a hidden class="anchor" aria-hidden="true" href="#b-enhanced-version-control">#</a></h2>
-<ul>
-<li>By pinning your local repository to specific commits or branches (e.g., <code>nixos-unstable</code>), you ensure build reproducibility.</li>
-<li>This prevents unexpected issues arising from upstream changes in Nixpkgs.</li>
-</ul>
-<h2 id="c-flexible-debugging-capabilities">C. Flexible Debugging Capabilities<a hidden class="anchor" aria-hidden="true" href="#c-flexible-debugging-capabilities">#</a></h2>
-<ul>
-<li>You can directly test and modify package derivations within your local copy.</li>
-<li>This allows for quick fixes to issues like missing dependencies without waiting for upstream updates or releases.</li>
-</ul>
-<h2 id="d-streamlined-contribution-workflow">D. Streamlined Contribution Workflow<a hidden class="anchor" aria-hidden="true" href="#d-streamlined-contribution-workflow">#</a></h2>
-<ul>
-<li>Developing and testing new packages or patches locally is essential before submitting them as pull requests to Nixpkgs.</li>
-<li>A local setup provides an isolated environment for experimentation.</li>
-</ul>
-<h2 id="e-up-to-date-documentation-source">E. Up-to-Date Documentation Source<a hidden class="anchor" aria-hidden="true" href="#e-up-to-date-documentation-source">#</a></h2>
-<ul>
-<li>The source code and comments within the Nixpkgs repository often contain the most current information about packages.</li>
-<li>This can sometimes be more up-to-date than official, external documentation.</li>
-</ul>
-<h2 id="f-optimized-storage-and-performance">F. Optimized Storage and Performance<a hidden class="anchor" aria-hidden="true" href="#f-optimized-storage-and-performance">#</a></h2>
-<ul>
-<li>Employing efficient cloning strategies (e.g., shallow clones) and avoiding unnecessary practices (like directly using Nixpkgs as a flake for local development) minimizes disk usage and build times.</li>
-</ul>
-</li>
-</ul>
-<h1 id="ii-flake-vs-non-flake-syntax-for-local-nixpkgs">II. Flake vs. Non-Flake Syntax for Local Nixpkgs<a hidden class="anchor" aria-hidden="true" href="#ii-flake-vs-non-flake-syntax-for-local-nixpkgs">#</a></h1>
-<ul>
-<li>
-<p>When working with Nixpkgs locally, the choice between Flake and non-Flake syntax has implications for performance and storage:</p>
-<h2 id="a-flake-syntax-nix-build-package">A. Flake Syntax (<code>nix build .#&lt;package&gt;</code>)<a hidden class="anchor" aria-hidden="true" href="#a-flake-syntax-nix-build-package">#</a></h2>
-<ul>
-<li>Treats the current directory as a flake, requiring evaluation of <code>flake.nix</code>.</li>
-<li>For local Nixpkgs, this evaluates the flake definition in the repository root.</li>
-<li><strong>Performance and Storage Overhead:</strong> Flakes copy the entire working directory (including Git history if present) to <code>/nix/store</code> for evaluation. This can be slow and storage-intensive for large repositories like Nixpkgs.</li>
-</ul>
-<h2 id="b-non-flake-syntax-nix-build--f--package-or-nix-build--f--package">B. Non-Flake Syntax (<code>nix-build -f . &lt;package&gt;</code> or <code>nix build -f . &lt;package&gt;</code>)<a hidden class="anchor" aria-hidden="true" href="#b-non-flake-syntax-nix-build--f--package-or-nix-build--f--package">#</a></h2>
-<ul>
-<li><code>-f .</code> specifies the Nix expression (e.g., <code>default.nix</code> or a specific file) in the current directory.</li>
-<li><strong>Efficiency:</strong> Evaluates the Nix expression directly <em>without</em> copying the entire worktree to <code>/nix/store</code>. This is significantly faster and more storage-efficient for local development on large repositories.</li>
-</ul>
-</li>
-</ul>
-<h2 id="iii-setting-up-a-local-nixpkgs-repository-efficiently">III. Setting Up a Local Nixpkgs Repository Efficiently<a hidden class="anchor" aria-hidden="true" href="#iii-setting-up-a-local-nixpkgs-repository-efficiently">#</a></h2>
-<ul>
-<li>
-<p>Cloning Nixpkgs requires careful consideration due to its size.</p>
-<h2 id="a-initial-clone-shallow-cloning">A. Initial Clone: Shallow Cloning<a hidden class="anchor" aria-hidden="true" href="#a-initial-clone-shallow-cloning">#</a></h2>
-<ul>
-<li>To avoid downloading the entire history, perform a shallow clone:
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone <span style="color:#f92672">[</span>https://github.com/NixOS/nixpkgs<span style="color:#f92672">](</span>https://github.com/NixOS/nixpkgs<span style="color:#f92672">)</span> --depth <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>cd nixpkgs
-</span></span></code></pre></div></li>
-</ul>
-<h2 id="b-managing-branches-with-worktrees">B. Managing Branches with Worktrees<a hidden class="anchor" aria-hidden="true" href="#b-managing-branches-with-worktrees">#</a></h2>
-<ul>
-<li>
-<p>Use Git worktrees to manage different branches efficiently:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git fetch --all --prune --depth<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>git worktree add -b nixos-unstable nixos-unstable <span style="color:#75715e"># For just unstable</span>
-</span></span></code></pre></div></li>
-<li>
-<p><strong>Explanation of <code>git worktree</code>:</strong> Allows multiple working directories attached to the same <code>.git</code> directory, sharing history and objects but with separate checked-out files.</p>
-</li>
-<li>
-<p><code>git worktree add</code>: Creates a new working directory for the specified branch (<code>nixos-unstable</code> in this case).</p>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="iv-debugging-missing-dependencies-a-practical-example">IV. Debugging Missing Dependencies: A Practical Example<a hidden class="anchor" aria-hidden="true" href="#iv-debugging-missing-dependencies-a-practical-example">#</a></h1>
-<ul>
-<li>
-<p>Let&rsquo;s say you&rsquo;re trying to build <code>icat</code> locally and encounter a missing dependency error:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nix" data-lang="nix"><span style="display:flex;"><span>nix-build <span style="color:#960050;background-color:#1e0010">-</span>A icat
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># ... (Error log showing &#34;fatal error: X11/Xlib.h: No such file or directory&#34;)</span>
-</span></span></code></pre></div><ul>
-<li>The error <code>fatal error: X11/Xlib.h: No such file or directory</code> indicates a missing X11 dependency.</li>
-</ul>
-<h2 id="a-online-search-with-searchnixosorg">A. Online Search with <code>search.nixos.org</code><a hidden class="anchor" aria-hidden="true" href="#a-online-search-with-searchnixosorg">#</a></h2>
-<ul>
-<li>The Nixpkgs package search website (<a href="https://search.nixos.org/packages">https://search.nixos.org/packages</a>) is a valuable first step.</li>
-<li>However, broad terms like &ldquo;x11&rdquo; can yield many irrelevant results.</li>
-<li><strong>Tip:</strong> Utilize the left sidebar to filter by package sets (e.g., &ldquo;xorg&rdquo;).</li>
-</ul>
-<h2 id="b-local-source-code-search-with-rg-ripgrep">B. Local Source Code Search with <code>rg</code> (ripgrep)<a hidden class="anchor" aria-hidden="true" href="#b-local-source-code-search-with-rg-ripgrep">#</a></h2>
-<ul>
-<li>
-<p>Familiarity with searching the Nixpkgs source code is crucial for finding dependencies.</p>
-</li>
-<li>
-<p>Navigate to your local <code>nixpkgs/</code> directory and use <code>rg</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>rg <span style="color:#e6db74">&#34;x11 =&#34;</span> pkgs <span style="color:#75715e"># Case-sensitive search</span>
-</span></span></code></pre></div><p><strong>Output:</strong></p>
-<pre tabindex="0"><code>pkgs/tools/X11/primus/default.nix
+A local Nixpkgs repository offers significant advantages for Nix developers:"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://tsawyer87.github.io/posts/"},{"@type":"ListItem","position":2,"name":"Working_with_nixpkgs_locally","item":"https://tsawyer87.github.io/posts/working_with_nixpkgs_locally/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Working_with_nixpkgs_locally","name":"Working_with_nixpkgs_locally","description":"/home/jr/blog/content/posts/working_with_nixpkgs_locally.md: line 1: q: command not found\nWorking with Nixpkgs Locally: Benefits and Best Practices Nixpkgs, the package repository for NixOS, is a powerful resource for building and customizing software. Working with a local copy enhances development, debugging, and contribution workflows. This post covers setting up a local Nixpkgs repository, searching for dependencies, and leveraging its advantages, incorporating tips from the Nix community. I. Why Work with Nixpkgs Locally? A local Nixpkgs repository offers significant advantages for Nix developers:\n","keywords":[],"articleBody":"/home/jr/blog/content/posts/working_with_nixpkgs_locally.md: line 1: q: command not found\nWorking with Nixpkgs Locally: Benefits and Best Practices Nixpkgs, the package repository for NixOS, is a powerful resource for building and customizing software. Working with a local copy enhances development, debugging, and contribution workflows. This post covers setting up a local Nixpkgs repository, searching for dependencies, and leveraging its advantages, incorporating tips from the Nix community. I. Why Work with Nixpkgs Locally? A local Nixpkgs repository offers significant advantages for Nix developers:\nA. Faster Development Cycle Local searches for packages and dependencies are significantly quicker than querying remote repositories or channels. This speedup is crucial for efficient debugging and rapid prototyping of Nix expressions. B. Enhanced Version Control By pinning your local repository to specific commits or branches (e.g., nixos-unstable), you ensure build reproducibility. This prevents unexpected issues arising from upstream changes in Nixpkgs. C. Flexible Debugging Capabilities You can directly test and modify package derivations within your local copy. This allows for quick fixes to issues like missing dependencies without waiting for upstream updates or releases. D. Streamlined Contribution Workflow Developing and testing new packages or patches locally is essential before submitting them as pull requests to Nixpkgs. A local setup provides an isolated environment for experimentation. E. Up-to-Date Documentation Source The source code and comments within the Nixpkgs repository often contain the most current information about packages. This can sometimes be more up-to-date than official, external documentation. F. Optimized Storage and Performance Employing efficient cloning strategies (e.g., shallow clones) and avoiding unnecessary practices (like directly using Nixpkgs as a flake for local development) minimizes disk usage and build times. II. Flake vs. Non-Flake Syntax for Local Nixpkgs When working with Nixpkgs locally, the choice between Flake and non-Flake syntax has implications for performance and storage:\nA. Flake Syntax (nix build .#) Treats the current directory as a flake, requiring evaluation of flake.nix. For local Nixpkgs, this evaluates the flake definition in the repository root. Performance and Storage Overhead: Flakes copy the entire working directory (including Git history if present) to /nix/store for evaluation. This can be slow and storage-intensive for large repositories like Nixpkgs. B. Non-Flake Syntax (nix-build -f . or nix build -f . ) -f . specifies the Nix expression (e.g., default.nix or a specific file) in the current directory. Efficiency: Evaluates the Nix expression directly without copying the entire worktree to /nix/store. This is significantly faster and more storage-efficient for local development on large repositories. III. Setting Up a Local Nixpkgs Repository Efficiently Cloning Nixpkgs requires careful consideration due to its size.\nA. Initial Clone: Shallow Cloning To avoid downloading the entire history, perform a shallow clone: git clone [https://github.com/NixOS/nixpkgs](https://github.com/NixOS/nixpkgs) --depth 1 cd nixpkgs B. Managing Branches with Worktrees Use Git worktrees to manage different branches efficiently:\ngit fetch --all --prune --depth=1 git worktree add -b nixos-unstable nixos-unstable # For just unstable Explanation of git worktree: Allows multiple working directories attached to the same .git directory, sharing history and objects but with separate checked-out files.\ngit worktree add: Creates a new working directory for the specified branch (nixos-unstable in this case).\nIV. Debugging Missing Dependencies: A Practical Example Let’s say you’re trying to build icat locally and encounter a missing dependency error:\nnix-build -A icat # ... (Error log showing \"fatal error: X11/Xlib.h: No such file or directory\") The error fatal error: X11/Xlib.h: No such file or directory indicates a missing X11 dependency. A. Online Search with search.nixos.org The Nixpkgs package search website (https://search.nixos.org/packages) is a valuable first step. However, broad terms like “x11” can yield many irrelevant results. Tip: Utilize the left sidebar to filter by package sets (e.g., “xorg”). B. Local Source Code Search with rg (ripgrep) Familiarity with searching the Nixpkgs source code is crucial for finding dependencies.\nNavigate to your local nixpkgs/ directory and use rg:\nrg \"x11 =\" pkgs # Case-sensitive search Output:\npkgs/tools/X11/primus/default.nix 21: primus = if useNvidia then primusLib_ else primusLib_.override { nvidia_x11 = null; }; 22: primus_i686 = if useNvidia then primusLib_i686_ else primusLib_i686_.override { nvidia_x11 = null; }; pkgs/applications/graphics/imv/default.nix 38: x11 = [ libGLU xorg.libxcb xorg.libX11 ]; Refining the search (case-insensitive):\nrg -i \"libx11 =\" pkgs Output:\n# ... (Output showing \"xorg.libX11\") The key result is xorg.libX11, which is likely the missing dependency.\nV. Local Derivation Search with nix-locate nix-locate (from the nix-index package) allows searching for derivations on the command line.\nNote: Install nix-index and run nix-index to create the initial index.\nnix-locate libx11 # ... (Output showing paths related to libx11) Combining online and local search tools (search.nixos.org, rg, nix-locate) provides a comprehensive approach to finding dependencies.\nVI. Key Benefits of Working with Nixpkgs Locally (Recap) Speed: Faster searches and builds compared to remote operations. Control: Full control over the Nixpkgs version. Up-to-Date Information: Repository source often has the latest details. VII. Best Practices and Tips from the Community Rebasing over Merging: Never merge upstream changes into your local branch. Always rebase your branch onto the upstream (e.g., master or nixos-unstable) to avoid accidental large-scale pings in pull requests (Tip from soulsssx3 on Reddit).\nTip from ElvishJErrico: Avoid using Nixpkgs directly as a flake for local development due to slow copying to /nix/store and performance issues with garbage collection on large numbers of small files. Use nix build -f . instead of nix build .#.\nEdge Cases for Flake Syntax: Flake syntax might be necessary in specific scenarios, such as NixOS installer tests where copying the Git history should be avoided.\nBase Changes on nixos-unstable: For better binary cache hits, base your changes on the nixos-unstable branch instead of master. Consider the merge-base for staging branches as well.\nConsider jujutsu: Explore jj-vcs, a Git-compatible alternative that can offer a more intuitive workflow, especially for large monorepos like Nixpkgs. While it has a learning curve, it can significantly improve parallel work and branch management.\n","wordCount":"968","inLanguage":"en","datePublished":"2025-05-14T19:23:32-04:00","dateModified":"2025-05-14T19:23:32-04:00","author":{"@type":"Person","name":"T Sawyer"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://tsawyer87.github.io/posts/working_with_nixpkgs_locally/"},"publisher":{"@type":"Organization","name":"NixOS Blog","logo":{"@type":"ImageObject","url":"https://tsawyer87.github.io/favicon.ico"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://tsawyer87.github.io/ accesskey=h title="NixOS Blog (Alt + H)">NixOS Blog</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class="post-title entry-hint-parent">Working_with_nixpkgs_locally</h1><div class=post-meta><span title='2025-05-14 19:23:32 -0400 EDT'>May 14, 2025</span>&nbsp;·&nbsp;T Sawyer</div></header><div class=post-content><p>/home/jr/blog/content/posts/working_with_nixpkgs_locally.md: line 1: q: command not found</p><h1 id=working-with-nixpkgs-locally-benefits-and-best-practices>Working with Nixpkgs Locally: Benefits and Best Practices<a hidden class=anchor aria-hidden=true href=#working-with-nixpkgs-locally-benefits-and-best-practices>#</a></h1><figure><img loading=lazy src=/images/gruv18.png alt=gruv18 width=1000></figure><ul><li>Nixpkgs, the package repository for NixOS, is a powerful resource for building and customizing software.</li><li>Working with a local copy enhances development, debugging, and contribution workflows.</li><li>This post covers setting up a local Nixpkgs repository, searching for dependencies, and leveraging its advantages, incorporating tips from the Nix community.</li></ul><h1 id=i-why-work-with-nixpkgs-locally>I. Why Work with Nixpkgs Locally?<a hidden class=anchor aria-hidden=true href=#i-why-work-with-nixpkgs-locally>#</a></h1><ul><li><p>A local Nixpkgs repository offers significant advantages for Nix developers:</p><h2 id=a-faster-development-cycle>A. Faster Development Cycle<a hidden class=anchor aria-hidden=true href=#a-faster-development-cycle>#</a></h2><ul><li>Local searches for packages and dependencies are significantly quicker than querying remote repositories or channels.</li><li>This speedup is crucial for efficient debugging and rapid prototyping of Nix expressions.</li></ul><h2 id=b-enhanced-version-control>B. Enhanced Version Control<a hidden class=anchor aria-hidden=true href=#b-enhanced-version-control>#</a></h2><ul><li>By pinning your local repository to specific commits or branches (e.g., <code>nixos-unstable</code>), you ensure build reproducibility.</li><li>This prevents unexpected issues arising from upstream changes in Nixpkgs.</li></ul><h2 id=c-flexible-debugging-capabilities>C. Flexible Debugging Capabilities<a hidden class=anchor aria-hidden=true href=#c-flexible-debugging-capabilities>#</a></h2><ul><li>You can directly test and modify package derivations within your local copy.</li><li>This allows for quick fixes to issues like missing dependencies without waiting for upstream updates or releases.</li></ul><h2 id=d-streamlined-contribution-workflow>D. Streamlined Contribution Workflow<a hidden class=anchor aria-hidden=true href=#d-streamlined-contribution-workflow>#</a></h2><ul><li>Developing and testing new packages or patches locally is essential before submitting them as pull requests to Nixpkgs.</li><li>A local setup provides an isolated environment for experimentation.</li></ul><h2 id=e-up-to-date-documentation-source>E. Up-to-Date Documentation Source<a hidden class=anchor aria-hidden=true href=#e-up-to-date-documentation-source>#</a></h2><ul><li>The source code and comments within the Nixpkgs repository often contain the most current information about packages.</li><li>This can sometimes be more up-to-date than official, external documentation.</li></ul><h2 id=f-optimized-storage-and-performance>F. Optimized Storage and Performance<a hidden class=anchor aria-hidden=true href=#f-optimized-storage-and-performance>#</a></h2><ul><li>Employing efficient cloning strategies (e.g., shallow clones) and avoiding unnecessary practices (like directly using Nixpkgs as a flake for local development) minimizes disk usage and build times.</li></ul></li></ul><h1 id=ii-flake-vs-non-flake-syntax-for-local-nixpkgs>II. Flake vs. Non-Flake Syntax for Local Nixpkgs<a hidden class=anchor aria-hidden=true href=#ii-flake-vs-non-flake-syntax-for-local-nixpkgs>#</a></h1><ul><li><p>When working with Nixpkgs locally, the choice between Flake and non-Flake syntax has implications for performance and storage:</p><h2 id=a-flake-syntax-nix-build-package>A. Flake Syntax (<code>nix build .#&lt;package></code>)<a hidden class=anchor aria-hidden=true href=#a-flake-syntax-nix-build-package>#</a></h2><ul><li>Treats the current directory as a flake, requiring evaluation of <code>flake.nix</code>.</li><li>For local Nixpkgs, this evaluates the flake definition in the repository root.</li><li><strong>Performance and Storage Overhead:</strong> Flakes copy the entire working directory (including Git history if present) to <code>/nix/store</code> for evaluation. This can be slow and storage-intensive for large repositories like Nixpkgs.</li></ul><h2 id=b-non-flake-syntax-nix-build--f--package-or-nix-build--f--package>B. Non-Flake Syntax (<code>nix-build -f . &lt;package></code> or <code>nix build -f . &lt;package></code>)<a hidden class=anchor aria-hidden=true href=#b-non-flake-syntax-nix-build--f--package-or-nix-build--f--package>#</a></h2><ul><li><code>-f .</code> specifies the Nix expression (e.g., <code>default.nix</code> or a specific file) in the current directory.</li><li><strong>Efficiency:</strong> Evaluates the Nix expression directly <em>without</em> copying the entire worktree to <code>/nix/store</code>. This is significantly faster and more storage-efficient for local development on large repositories.</li></ul></li></ul><h2 id=iii-setting-up-a-local-nixpkgs-repository-efficiently>III. Setting Up a Local Nixpkgs Repository Efficiently<a hidden class=anchor aria-hidden=true href=#iii-setting-up-a-local-nixpkgs-repository-efficiently>#</a></h2><ul><li><p>Cloning Nixpkgs requires careful consideration due to its size.</p><h2 id=a-initial-clone-shallow-cloning>A. Initial Clone: Shallow Cloning<a hidden class=anchor aria-hidden=true href=#a-initial-clone-shallow-cloning>#</a></h2><ul><li>To avoid downloading the entire history, perform a shallow clone:<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>git clone <span style=color:#f92672>[</span>https://github.com/NixOS/nixpkgs<span style=color:#f92672>](</span>https://github.com/NixOS/nixpkgs<span style=color:#f92672>)</span> --depth <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>cd nixpkgs
+</span></span></code></pre></div></li></ul><h2 id=b-managing-branches-with-worktrees>B. Managing Branches with Worktrees<a hidden class=anchor aria-hidden=true href=#b-managing-branches-with-worktrees>#</a></h2><ul><li><p>Use Git worktrees to manage different branches efficiently:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>git fetch --all --prune --depth<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>git worktree add -b nixos-unstable nixos-unstable <span style=color:#75715e># For just unstable</span>
+</span></span></code></pre></div></li><li><p><strong>Explanation of <code>git worktree</code>:</strong> Allows multiple working directories attached to the same <code>.git</code> directory, sharing history and objects but with separate checked-out files.</p></li><li><p><code>git worktree add</code>: Creates a new working directory for the specified branch (<code>nixos-unstable</code> in this case).</p></li></ul></li></ul><h1 id=iv-debugging-missing-dependencies-a-practical-example>IV. Debugging Missing Dependencies: A Practical Example<a hidden class=anchor aria-hidden=true href=#iv-debugging-missing-dependencies-a-practical-example>#</a></h1><ul><li><p>Let&rsquo;s say you&rsquo;re trying to build <code>icat</code> locally and encounter a missing dependency error:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span>nix-build <span style=color:#960050;background-color:#1e0010>-</span>A icat
+</span></span><span style=display:flex><span><span style=color:#75715e># ... (Error log showing &#34;fatal error: X11/Xlib.h: No such file or directory&#34;)</span>
+</span></span></code></pre></div><ul><li>The error <code>fatal error: X11/Xlib.h: No such file or directory</code> indicates a missing X11 dependency.</li></ul><h2 id=a-online-search-with-searchnixosorg>A. Online Search with <code>search.nixos.org</code><a hidden class=anchor aria-hidden=true href=#a-online-search-with-searchnixosorg>#</a></h2><ul><li>The Nixpkgs package search website (<a href=https://search.nixos.org/packages>https://search.nixos.org/packages</a>) is a valuable first step.</li><li>However, broad terms like &ldquo;x11&rdquo; can yield many irrelevant results.</li><li><strong>Tip:</strong> Utilize the left sidebar to filter by package sets (e.g., &ldquo;xorg&rdquo;).</li></ul><h2 id=b-local-source-code-search-with-rg-ripgrep>B. Local Source Code Search with <code>rg</code> (ripgrep)<a hidden class=anchor aria-hidden=true href=#b-local-source-code-search-with-rg-ripgrep>#</a></h2><ul><li><p>Familiarity with searching the Nixpkgs source code is crucial for finding dependencies.</p></li><li><p>Navigate to your local <code>nixpkgs/</code> directory and use <code>rg</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>rg <span style=color:#e6db74>&#34;x11 =&#34;</span> pkgs <span style=color:#75715e># Case-sensitive search</span>
+</span></span></code></pre></div><p><strong>Output:</strong></p><pre tabindex=0><code>pkgs/tools/X11/primus/default.nix
 21:  primus = if useNvidia then primusLib_ else primusLib_.override { nvidia_x11 = null; };
 22:  primus_i686 = if useNvidia then primusLib_i686_ else primusLib_i686_.override { nvidia_x11 = null; };
 
 pkgs/applications/graphics/imv/default.nix
 38:    x11 = [ libGLU xorg.libxcb xorg.libX11 ];
-</code></pre></li>
-<li>
-<p>Refining the search (case-insensitive):</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>rg -i <span style="color:#e6db74">&#34;libx11 =&#34;</span> pkgs
-</span></span></code></pre></div><p><strong>Output:</strong></p>
-<pre tabindex="0"><code># ... (Output showing &#34;xorg.libX11&#34;)
-</code></pre></li>
-<li>
-<p>The key result is <code>xorg.libX11</code>, which is likely the missing dependency.</p>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="v-local-derivation-search-with-nix-locate">V. Local Derivation Search with <code>nix-locate</code><a hidden class="anchor" aria-hidden="true" href="#v-local-derivation-search-with-nix-locate">#</a></h1>
-<ul>
-<li>
-<p><code>nix-locate</code> (from the <code>nix-index</code> package) allows searching for derivations
-on the command line.</p>
-<blockquote>
-<p><strong>Note:</strong> Install <code>nix-index</code> and run <code>nix-index</code> to create the initial index.</p></blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nix-locate libx11
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># ... (Output showing paths related to libx11)</span>
-</span></span></code></pre></div></li>
-<li>
-<p>Combining online and local search tools (<code>search.nixos.org</code>, <code>rg</code>, <code>nix-locate</code>)
-provides a comprehensive approach to finding dependencies.</p>
-</li>
-</ul>
-<h1 id="vi-key-benefits-of-working-with-nixpkgs-locally-recap">VI. Key Benefits of Working with Nixpkgs Locally (Recap)<a hidden class="anchor" aria-hidden="true" href="#vi-key-benefits-of-working-with-nixpkgs-locally-recap">#</a></h1>
-<ul>
-<li><strong>Speed:</strong> Faster searches and builds compared to remote operations.</li>
-<li><strong>Control:</strong> Full control over the Nixpkgs version.</li>
-<li><strong>Up-to-Date Information:</strong> Repository source often has the latest details.</li>
-</ul>
-<h1 id="vii-best-practices-and-tips-from-the-community">VII. Best Practices and Tips from the Community<a hidden class="anchor" aria-hidden="true" href="#vii-best-practices-and-tips-from-the-community">#</a></h1>
-<ul>
-<li>
-<p><strong>Rebasing over Merging:</strong> Never merge upstream changes into your local branch.
+</code></pre></li><li><p>Refining the search (case-insensitive):</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>rg -i <span style=color:#e6db74>&#34;libx11 =&#34;</span> pkgs
+</span></span></code></pre></div><p><strong>Output:</strong></p><pre tabindex=0><code># ... (Output showing &#34;xorg.libX11&#34;)
+</code></pre></li><li><p>The key result is <code>xorg.libX11</code>, which is likely the missing dependency.</p></li></ul></li></ul><h1 id=v-local-derivation-search-with-nix-locate>V. Local Derivation Search with <code>nix-locate</code><a hidden class=anchor aria-hidden=true href=#v-local-derivation-search-with-nix-locate>#</a></h1><ul><li><p><code>nix-locate</code> (from the <code>nix-index</code> package) allows searching for derivations
+on the command line.</p><blockquote><p><strong>Note:</strong> Install <code>nix-index</code> and run <code>nix-index</code> to create the initial index.</p></blockquote><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>nix-locate libx11
+</span></span><span style=display:flex><span><span style=color:#75715e># ... (Output showing paths related to libx11)</span>
+</span></span></code></pre></div></li><li><p>Combining online and local search tools (<code>search.nixos.org</code>, <code>rg</code>, <code>nix-locate</code>)
+provides a comprehensive approach to finding dependencies.</p></li></ul><h1 id=vi-key-benefits-of-working-with-nixpkgs-locally-recap>VI. Key Benefits of Working with Nixpkgs Locally (Recap)<a hidden class=anchor aria-hidden=true href=#vi-key-benefits-of-working-with-nixpkgs-locally-recap>#</a></h1><ul><li><strong>Speed:</strong> Faster searches and builds compared to remote operations.</li><li><strong>Control:</strong> Full control over the Nixpkgs version.</li><li><strong>Up-to-Date Information:</strong> Repository source often has the latest details.</li></ul><h1 id=vii-best-practices-and-tips-from-the-community>VII. Best Practices and Tips from the Community<a hidden class=anchor aria-hidden=true href=#vii-best-practices-and-tips-from-the-community>#</a></h1><ul><li><p><strong>Rebasing over Merging:</strong> Never merge upstream changes into your local branch.
 Always rebase your branch onto the upstream (e.g., <code>master</code> or <code>nixos-unstable</code>)
 to avoid accidental large-scale pings in pull requests (Tip from <code>soulsssx3</code> on
-Reddit).</p>
-</li>
-<li>
-<p><strong>Tip from <code>ElvishJErrico</code>:</strong> Avoid using Nixpkgs directly as a flake for local
+Reddit).</p></li><li><p><strong>Tip from <code>ElvishJErrico</code>:</strong> Avoid using Nixpkgs directly as a flake for local
 development due to slow copying to <code>/nix/store</code> and performance issues with
-garbage collection on large numbers of small files. Use <code>nix build -f . &lt;package&gt;</code> instead of <code>nix build .#&lt;package&gt;</code>.</p>
-</li>
-<li>
-<p><strong>Edge Cases for Flake Syntax:</strong> Flake syntax might be necessary in specific
+garbage collection on large numbers of small files. Use <code>nix build -f . &lt;package></code> instead of <code>nix build .#&lt;package></code>.</p></li><li><p><strong>Edge Cases for Flake Syntax:</strong> Flake syntax might be necessary in specific
 scenarios, such as NixOS installer tests where copying the Git history should
-be avoided.</p>
-</li>
-<li>
-<p><strong>Base Changes on <code>nixos-unstable</code>:</strong> For better binary cache hits, base your
+be avoided.</p></li><li><p><strong>Base Changes on <code>nixos-unstable</code>:</strong> For better binary cache hits, base your
 changes on the <code>nixos-unstable</code> branch instead of <code>master</code>. Consider the
-merge-base for staging branches as well.</p>
-</li>
-<li>
-<p><strong>Consider <code>jujutsu</code>:</strong> Explore <a href="https://github.com/jj-vcs/jj">jj-vcs</a>,
+merge-base for staging branches as well.</p></li><li><p><strong>Consider <code>jujutsu</code>:</strong> Explore <a href=https://github.com/jj-vcs/jj>jj-vcs</a>,
 a Git-compatible alternative that can offer a more intuitive workflow,
 especially for large monorepos like Nixpkgs. While it has a learning curve,
-it can significantly improve parallel work and branch management.</p>
-</li>
-</ul>
-
-
-  </div>
-
-  <footer class="post-footer">
-    <ul class="post-tags">
-    </ul>
-  </footer>
-</article>
-    </main>
-    
-<footer class="footer">
-        <span>&copy; 2025 <a href="http://localhost:1313/">NixOS Blog</a></span> · 
-
-    <span>
-        Powered by
-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
-</footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-        <path d="M12 6H0l6-6z" />
-    </svg>
-</a>
-
-<script>
-    let menu = document.getElementById('menu')
-    if (menu) {
-        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-
-</script>
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        if (document.body.className.includes("dark")) {
-            document.body.classList.remove('dark');
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            document.body.classList.add('dark');
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-</script>
-</body>
-
-</html>
+it can significantly improve parallel work and branch management.</p></li></ul></div><footer class=post-footer><ul class=post-tags></ul></footer></article></main><footer class=footer><span>&copy; 2025 <a href=https://tsawyer87.github.io/>NixOS Blog</a></span> ·
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
+</a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script></body></html>
