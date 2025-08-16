@@ -161,10 +161,6 @@ your filesystem than I personally want to at this point.&lt;/p></description></i
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
-&lt;figure>
-&lt;img loading="lazy" src="https://tsawyer87.github.io/images/helix.png"
-alt="helix logo" width="1000"/>
-&lt;/figure>
 &lt;!-- raw HTML omitted -->
 &lt;h1 id="understanding-the-helix-flake-and-modifying-its-behavior">Understanding the Helix Flake and Modifying its Behavior&lt;/h1>
 &lt;p>As we&amp;rsquo;ve seen from previous examples, the helix editor repository includes a few
