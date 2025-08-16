@@ -1,8 +1,4 @@
 <!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Using_overlays_to_add_packages | NixOS Blog</title><meta name=keywords content><meta name=description content="Using Overlays to add Packages that aren&rsquo;t in Nixpkgs
-
-     
-
-
 It is very common to use overlays in Nix to install packages that aren&rsquo;t
 available in the standard Nixpkgs repository.
 
@@ -15,10 +11,6 @@ is crucial for maintaining reproducibility and avoiding conflicts. Overlays
 are essentially functions that take the previous package set and allow you to
 add, modify, or remove packages."><meta name=author content="T Sawyer"><link rel=canonical href=https://tsawyer87.github.io/posts/using_overlays_to_add_packages/><link crossorigin=anonymous href=/assets/css/stylesheet.8fe10233a706bc87f2e08b3cf97b8bd4c0a80f10675a143675d59212121037c0.css integrity="sha256-j+ECM6cGvIfy4Is8+XuL1MCoDxBnWhQ2ddWSEhIQN8A=" rel="preload stylesheet" as=style><link rel=icon href=https://tsawyer87.github.io/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://tsawyer87.github.io/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://tsawyer87.github.io/favicon-32x32.png><link rel=apple-touch-icon href=https://tsawyer87.github.io/apple-touch-icon.png><link rel=mask-icon href=https://tsawyer87.github.io/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://tsawyer87.github.io/posts/using_overlays_to_add_packages/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta property="og:url" content="https://tsawyer87.github.io/posts/using_overlays_to_add_packages/"><meta property="og:site_name" content="NixOS Blog"><meta property="og:title" content="Using_overlays_to_add_packages"><meta property="og:description" content="Using Overlays to add Packages that aren’t in Nixpkgs It is very common to use overlays in Nix to install packages that aren’t available in the standard Nixpkgs repository.
 Overlays are one of the primary and recommended ways to extend and customize your Nix environment. It’s important to remember that Nix overlays are made to allow you to modify or extend the package set provided by Nixpkgs (or other Nix sources) without directly altering the original package definitions. This is crucial for maintaining reproducibility and avoiding conflicts. Overlays are essentially functions that take the previous package set and allow you to add, modify, or remove packages."><meta property="og:locale" content="en-us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2025-05-14T19:28:57-04:00"><meta property="article:modified_time" content="2025-05-14T19:28:57-04:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Using_overlays_to_add_packages"><meta name=twitter:description content="Using Overlays to add Packages that aren&rsquo;t in Nixpkgs
-
-     
-
-
 It is very common to use overlays in Nix to install packages that aren&rsquo;t
 available in the standard Nixpkgs repository.
 
@@ -33,7 +25,7 @@ add, modify, or remove packages."><script type=application/ld+json>{"@context":"
 <svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
 <svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
 </button>
-<a href=/index.xml title="RSS Feed"><img src=/images/rss.png alt="RSS Feed" style=width:24px;height:24px></a></div></div><ul id=menu></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class="post-title entry-hint-parent">Using_overlays_to_add_packages</h1><div class=post-meta><span title='2025-05-14 19:28:57 -0400 EDT'>May 14, 2025</span>&nbsp;·&nbsp;T Sawyer</div></header><div class=post-content><h1 id=using-overlays-to-add-packages-that-arent-in-nixpkgs>Using Overlays to add Packages that aren&rsquo;t in Nixpkgs<a hidden class=anchor aria-hidden=true href=#using-overlays-to-add-packages-that-arent-in-nixpkgs>#</a></h1><figure><img loading=lazy src=images/pokego.png alt=window_view width=1000></figure><p>It is very common to use overlays in Nix to install packages that aren&rsquo;t
+<a href=/index.xml title="RSS Feed"><img src=/images/rss.png alt="RSS Feed" style=width:24px;height:24px></a></div></div><ul id=menu></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class="post-title entry-hint-parent">Using_overlays_to_add_packages</h1><div class=post-meta><span title='2025-05-14 19:28:57 -0400 EDT'>May 14, 2025</span>&nbsp;·&nbsp;T Sawyer</div></header><div class=post-content><h1 id=using-overlays-to-add-packages-that-arent-in-nixpkgs>Using Overlays to add Packages that aren&rsquo;t in Nixpkgs<a hidden class=anchor aria-hidden=true href=#using-overlays-to-add-packages-that-arent-in-nixpkgs>#</a></h1><p>It is very common to use overlays in Nix to install packages that aren&rsquo;t
 available in the standard Nixpkgs repository.</p><ul><li><p>Overlays are one of the primary and recommended ways to extend and customize
 your Nix environment. It&rsquo;s important to remember that Nix overlays are made to
 allow you to modify or extend the package set provided by Nixpkgs (or other
@@ -41,8 +33,9 @@ Nix sources) without directly altering the original package definitions. This
 is crucial for maintaining reproducibility and avoiding conflicts. Overlays
 are essentially functions that take the previous package set and allow you to
 add, modify, or remove packages.</p></li><li><p>It may be helpful to first read my
-<a href=https://saylesss88.github.io/posts/nix_flakes_tips/>NixFlakesTips</a>
-post first to understand the outputs in my flake.</p></li></ul><h2 id=adding-the-overlays-output-to-your-flake>Adding the overlays output to your Flake<a hidden class=anchor aria-hidden=true href=#adding-the-overlays-output-to-your-flake>#</a></h2><p>I&rsquo;ll show the process of adding the <code>pokego</code> package that is not in Nixpkgs:</p><ol><li>In my <code>flake.nix</code> I have a custom inputs variable within my let block of my flake like so just showing the necessary parts for berevity:</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span><span style=color:#75715e># flake.nix</span>
+<a href=https://saylesss88.github.io/posts/nix_flakes_tips/>NixFlakesTips</a> post
+first to understand the outputs in my flake.</p></li></ul><h2 id=adding-the-overlays-output-to-your-flake>Adding the overlays output to your Flake<a hidden class=anchor aria-hidden=true href=#adding-the-overlays-output-to-your-flake>#</a></h2><p>I&rsquo;ll show the process of adding the <code>pokego</code> package that is not in Nixpkgs:</p><ol><li>In my <code>flake.nix</code> I have a custom inputs variable within my let block of my
+flake like so just showing the necessary parts for berevity:</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span><span style=color:#75715e># flake.nix</span>
 </span></span><span style=display:flex><span>  outputs <span style=color:#f92672>=</span> my-inputs <span style=color:#f92672>@</span> {
 </span></span><span style=display:flex><span>    self<span style=color:#f92672>,</span>
 </span></span><span style=display:flex><span>    nixpkgs<span style=color:#f92672>,</span>
@@ -96,8 +89,8 @@ local variables within the scope of this overlay function. The <code>in packages
 part means that the overlay function will ultimately return the <code>packages</code>
 attribute set defined within the <code>let</code> block.</p></li><li><p><code>callPackage = prev.lib.callPackageWith (prev // packages)</code>: This line
 defines a helper function called <code>callPackage</code>.</p></li></ol><ul><li><p><code>prev.lib.callPackageWith</code> Is a function provided by Nixpkgs&rsquo; <code>lib</code>.
-<code>callPackageWith</code> is like <code>prev.lib.callPackage</code>, but allows the passing
-of additional arguments that will then be passed to the package definition.</p></li><li><p><code>(prev // packages)</code>: This is an attribute set merge operation. It takes the
+<code>callPackageWith</code> is like <code>prev.lib.callPackage</code>, but allows the passing of
+additional arguments that will then be passed to the package definition.</p></li><li><p><code>(prev // packages)</code>: This is an attribute set merge operation. It takes the
 <code>prev</code> package set (Nixpkgs before this overlay) and merges it with the
 <code>packages</code> attribute set defined later in this overlay.</p></li><li><p>By using <code>callPackageWith</code> with this merged attribute set, the <code>callPackage</code>
 function defined here is set up to correctly import package definitions,
@@ -107,12 +100,12 @@ set will contain all the new or modified packages introduced by this overlay.</p
 the <code>pokego</code> package is added.</p></li></ol><ul><li><p><code>pokego =</code>: This defines a new attribute named <code>pokego</code> within the packages
 attribute set. This name will be used to refer to the pokego package later.</p></li><li><p><code>callPackage ./pac_defs/pokego.nix {}</code>: This calls the callPackage helper
 function defined earlier.</p></li><li><p><code>./pac_defs/pokego.nix</code>: This is the path to another Nix file(<code>pokego.nix</code>)
-that contains the actual package definition for pokego. This file would
-define how to fetch, build, and install the pokego software</p></li><li><p><code>{}</code>: This is an empty attribute set passed as additional arguments to the
+that contains the actual package definition for pokego. This file would define
+how to fetch, build, and install the pokego software</p></li><li><p><code>{}</code>: This is an empty attribute set passed as additional arguments to the
 <code>pokego.nix</code> package definition. If <code>pokego.nix</code> expected any specific
-parameters (like versions or dependencies), you would provide them here.
-Since it&rsquo;s empty, it implies pokego.nix either has no required arguments or
-uses default values.</p></li></ul><ol start=6><li><code>in packages</code>: As mentioned earlier, the overlay function returns the
+parameters (like versions or dependencies), you would provide them here. Since
+it&rsquo;s empty, it implies pokego.nix either has no required arguments or uses
+default values.</p></li></ul><ol start=6><li><code>in packages</code>: As mentioned earlier, the overlay function returns the
 packages attribute set. When this overlay is applied, the packages defined
 within this packages set (including pokego) will be added to the overall Nix
 package set.</li></ol><h2 id=the-pokego-package-definition>The pokego Package definition<a hidden class=anchor aria-hidden=true href=#the-pokego-package-definition>#</a></h2><p>The following is the <code>./pac_defs/pokego.nix</code>, it may be helpful to first read my
@@ -156,8 +149,8 @@ post to better understand the following:</p><div class=highlight><pre tabindex=0
 </span></span><span style=display:flex><span>    platforms <span style=color:#f92672>=</span> platforms<span style=color:#f92672>.</span>all;
 </span></span><span style=display:flex><span>  };
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h2 id=adding-the-overlay-to-your-configuration>Adding the overlay to your configuration<a hidden class=anchor aria-hidden=true href=#adding-the-overlay-to-your-configuration>#</a></h2><p>There are a few places you could choose to put the following, I choose to use
-my <code>configuration.nix</code> because of my setup:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span><span style=color:#75715e># configuration.nix</span>
+</span></span></code></pre></div><h2 id=adding-the-overlay-to-your-configuration>Adding the overlay to your configuration<a hidden class=anchor aria-hidden=true href=#adding-the-overlay-to-your-configuration>#</a></h2><p>There are a few places you could choose to put the following, I choose to use my
+<code>configuration.nix</code> because of my setup:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span><span style=color:#75715e># configuration.nix</span>
 </span></span><span style=display:flex><span>nixpkgs<span style=color:#f92672>.</span>overlays <span style=color:#f92672>=</span> [inputs<span style=color:#f92672>.</span>lib<span style=color:#f92672>.</span>overlays]
 </span></span></code></pre></div><h2 id=installing-pokego>Installing Pokego<a hidden class=anchor aria-hidden=true href=#installing-pokego>#</a></h2><ul><li>If you are managing your entire system configuration with NixOS, you would
 typically add <code>pokego</code> to your <code>environment.systemPackages</code>.</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span><span style=color:#75715e># configuration.nix</span>
@@ -190,7 +183,11 @@ typically add <code>pokego</code> to your <code>environment.systemPackages</code
 </span></span><span style=display:flex><span>     <span style=color:#75715e># `pkgs` is nixpkgs for the system, with nix&#39;s overlay applied</span>
 </span></span><span style=display:flex><span>    };
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li><p>Normally, <code>pkgs = import nixpkgs { }`` imports Nixpkgs with default settings. However, the example above customizes this import by passing arguments: </code>pkgs = import nixpkgs { inherit system; overlays = [ nix.overlays.default];}<code>. This makes the pkgs variable represent nixpkgs specifically for the </code>aarch64-darwin` system, with the overlay from the nix flake applied.</p></li><li><p>Consequently, any packages built using this customized <code>pkgs</code> will now depend
+</span></span></code></pre></div><ul><li><p>Normally,
+<code>pkgs = import nixpkgs { }`` imports Nixpkgs with default settings. However, the example above customizes this import by passing arguments: </code>pkgs
+= import nixpkgs { inherit system; overlays = [
+nix.overlays.default];}<code>. This makes the pkgs variable represent nixpkgs specifically for the </code>aarch64-darwin`
+system, with the overlay from the nix flake applied.</p></li><li><p>Consequently, any packages built using this customized <code>pkgs</code> will now depend
 on or use the specific nix version (2.17.0) provided by the nix flake, instead
 of the version that comes with the fetched nixpkgs. This technique can be
 useful for ensuring a consistent environment or testing specific package

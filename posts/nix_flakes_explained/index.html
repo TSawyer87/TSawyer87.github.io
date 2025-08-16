@@ -1,15 +1,11 @@
 <!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Nix_flakes_explained | NixOS Blog</title><meta name=keywords content><meta name=description content="Nix Flakes Explained
-
-     
-
-
 This explanation highlights common areas of confusion for those new to Nix
 Flakes, aiming to clarify concepts rather than serve as a comprehensive guide.
 What is a Nix Flake?
 
 
-At its core, a flake is a source tree (like a Git repository) that contains
-a flake.nix file. This file provides a standardized way to access Nix
+At its core, a flake is a source tree (like a Git repository) that contains a
+flake.nix file. This file provides a standardized way to access Nix
 artifacts such as packages and modules.
 
 
@@ -17,17 +13,13 @@ Think of flake.nix as the central entry point of a flake. It not only
 defines what the flake produces but also declares its dependencies."><meta name=author content="T Sawyer"><link rel=canonical href=https://tsawyer87.github.io/posts/nix_flakes_explained/><link crossorigin=anonymous href=/assets/css/stylesheet.8fe10233a706bc87f2e08b3cf97b8bd4c0a80f10675a143675d59212121037c0.css integrity="sha256-j+ECM6cGvIfy4Is8+XuL1MCoDxBnWhQ2ddWSEhIQN8A=" rel="preload stylesheet" as=style><link rel=icon href=https://tsawyer87.github.io/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://tsawyer87.github.io/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://tsawyer87.github.io/favicon-32x32.png><link rel=apple-touch-icon href=https://tsawyer87.github.io/apple-touch-icon.png><link rel=mask-icon href=https://tsawyer87.github.io/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://tsawyer87.github.io/posts/nix_flakes_explained/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta property="og:url" content="https://tsawyer87.github.io/posts/nix_flakes_explained/"><meta property="og:site_name" content="NixOS Blog"><meta property="og:title" content="Nix_flakes_explained"><meta property="og:description" content="Nix Flakes Explained This explanation highlights common areas of confusion for those new to Nix Flakes, aiming to clarify concepts rather than serve as a comprehensive guide.
 What is a Nix Flake? At its core, a flake is a source tree (like a Git repository) that contains a flake.nix file. This file provides a standardized way to access Nix artifacts such as packages and modules.
 Think of flake.nix as the central entry point of a flake. It not only defines what the flake produces but also declares its dependencies."><meta property="og:locale" content="en-us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2025-05-14T19:19:51-04:00"><meta property="article:modified_time" content="2025-05-14T19:19:51-04:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Nix_flakes_explained"><meta name=twitter:description content="Nix Flakes Explained
-
-     
-
-
 This explanation highlights common areas of confusion for those new to Nix
 Flakes, aiming to clarify concepts rather than serve as a comprehensive guide.
 What is a Nix Flake?
 
 
-At its core, a flake is a source tree (like a Git repository) that contains
-a flake.nix file. This file provides a standardized way to access Nix
+At its core, a flake is a source tree (like a Git repository) that contains a
+flake.nix file. This file provides a standardized way to access Nix
 artifacts such as packages and modules.
 
 
@@ -36,9 +28,9 @@ defines what the flake produces but also declares its dependencies."><script typ
 <svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
 <svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
 </button>
-<a href=/index.xml title="RSS Feed"><img src=/images/rss.png alt="RSS Feed" style=width:24px;height:24px></a></div></div><ul id=menu></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class="post-title entry-hint-parent">Nix_flakes_explained</h1><div class=post-meta><span title='2025-05-14 19:19:51 -0400 EDT'>May 14, 2025</span>&nbsp;·&nbsp;T Sawyer</div></header><div class=post-content><h1 id=nix-flakes-explained>Nix Flakes Explained<a hidden class=anchor aria-hidden=true href=#nix-flakes-explained>#</a></h1><figure><img loading=lazy src=/images/gruv23.png alt=gruv3 width=1000></figure><p>This explanation highlights common areas of confusion for those new to Nix
-Flakes, aiming to clarify concepts rather than serve as a comprehensive guide.</p><h2 id=what-is-a-nix-flake>What is a Nix Flake?<a hidden class=anchor aria-hidden=true href=#what-is-a-nix-flake>#</a></h2><ul><li><p>At its core, a flake is a source tree (like a Git repository) that contains
-a <code>flake.nix</code> file. This file provides a standardized way to access Nix
+<a href=/index.xml title="RSS Feed"><img src=/images/rss.png alt="RSS Feed" style=width:24px;height:24px></a></div></div><ul id=menu></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class="post-title entry-hint-parent">Nix_flakes_explained</h1><div class=post-meta><span title='2025-05-14 19:19:51 -0400 EDT'>May 14, 2025</span>&nbsp;·&nbsp;T Sawyer</div></header><div class=post-content><h1 id=nix-flakes-explained>Nix Flakes Explained<a hidden class=anchor aria-hidden=true href=#nix-flakes-explained>#</a></h1><p>This explanation highlights common areas of confusion for those new to Nix
+Flakes, aiming to clarify concepts rather than serve as a comprehensive guide.</p><h2 id=what-is-a-nix-flake>What is a Nix Flake?<a hidden class=anchor aria-hidden=true href=#what-is-a-nix-flake>#</a></h2><ul><li><p>At its core, a flake is a source tree (like a Git repository) that contains a
+<code>flake.nix</code> file. This file provides a standardized way to access Nix
 artifacts such as packages and modules.</p></li><li><p>Think of <code>flake.nix</code> as the central entry point of a flake. It not only
 defines what the flake produces but also declares its dependencies.</p></li></ul><h2 id=key-concepts>Key Concepts<a hidden class=anchor aria-hidden=true href=#key-concepts>#</a></h2><p>** <code>flake.nix</code>: The Heart of a Flake**</p><ul><li>The <code>flake.nix</code> file is mandatory for any flake. It must contain an attribute
 set with at least one required attribute: <code>outputs</code>. It can also optionally
@@ -55,8 +47,8 @@ name-value pairs wrapped in curly braces <code>{}</code>.</p><ul><li>Example:</l
 </span></span><span style=display:flex><span>my_attrset<span style=color:#f92672>.</span>foo
 </span></span></code></pre></div><ul><li>Output:</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span><span style=color:#e6db74>&#34;bar&#34;</span>
 </span></span></code></pre></div></li><li><p><strong>Top-Level Attributes of a Flake</strong>:</p><ul><li>Flakes have specific top-level attributes that can be accessed directly
-(without dot notation). The most common ones are inputs, outputs,
-and nixConfig.</li></ul></li></ul><h3 id=anatomy-of-flakenix>Anatomy of <code>flake.nix</code><a hidden class=anchor aria-hidden=true href=#anatomy-of-flakenix>#</a></h3><figure><img loading=lazy src=/images/Flakes.png alt=Flakes width=80%></figure><p><strong><code>inputs</code>: Declaring Dependencies</strong></p><ul><li><p>The <strong><code>inputs</code></strong> attribute set specifies the other flakes that your current
+(without dot notation). The most common ones are inputs, outputs, and
+nixConfig.</li></ul></li></ul><h3 id=anatomy-of-flakenix>Anatomy of <code>flake.nix</code><a hidden class=anchor aria-hidden=true href=#anatomy-of-flakenix>#</a></h3><p><strong><code>inputs</code>: Declaring Dependencies</strong></p><ul><li><p>The <strong><code>inputs</code></strong> attribute set specifies the other flakes that your current
 flake depends on.</p></li><li><p>Each key in the <strong><code>inputs</code></strong> set is a name you choose for the dependency, and
 the value is a reference to that flake (usually a URL or a Git Repo).</p></li><li><p>To access something from a dependency, you generally go through the <code>inputs</code>
 attribute (e.g., <code>inputs.helix.packages</code>).</p><ul><li><strong>Example:</strong> This declares dependencies on the <code>nixpkgs</code> and <code>import-cargo</code>
@@ -65,22 +57,22 @@ flakes:</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;backgr
 </span></span><span style=display:flex><span>  nixpkgs<span style=color:#f92672>.</span>url <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;nixpkgs&#34;</span>;
 </span></span><span style=display:flex><span>};
 </span></span></code></pre></div><ul><li><p>When Nix evaluates your flake, it fetches and evaluates each input. These
-evaluated inputs are then passed as an attribute set to the outputs function,
-with the keys matching the names you gave them in the inputs set.</p></li><li><p>The special input self is a reference to the outputs and the source tree of
+evaluated inputs are then passed as an attribute set to the outputs
+function, with the keys matching the names you gave them in the inputs set.</p></li><li><p>The special input self is a reference to the outputs and the source tree of
 the current flake itself.</p></li></ul></li></ul><p><strong><code>outputs</code>: Defining What Your Flake Provides</strong></p><ul><li><p>The <strong><code>outputs</code></strong> attribute defines what your flake makes available. This can
 include packages, NixOS modules, development environments (<code>devShells</code>) and
-other Nix derivations.</p></li><li><p>Flakes can output arbitrary Nix values. However, certain outputs have
-specific meanings for Nix commands and must adhere to particular types
-(often derivations, as described in the
+other Nix derivations.</p></li><li><p>Flakes can output arbitrary Nix values. However, certain outputs have specific
+meanings for Nix commands and must adhere to particular types (often
+derivations, as described in the
 <a href=https://nixos.wiki/wiki/Flakes>output schema</a>).</p></li><li><p>You can inspect the outputs of a flake using the command:</p></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span>nix flake show
 </span></span></code></pre></div><blockquote><p>This command takes a flake URI and displays its outputs in a tree structure,
 showing the attribute paths and their corresponding types.</p></blockquote><p><strong>Understanding the <code>outputs</code> Function</strong></p><ul><li><p>Beginners often mistakenly think that self and nixpkgs within
 <code>outputs = { self, nixpkgs, ... }: { ... }</code> are the outputs themselves.
-Instead, they are the <em>input arguments</em> (often called <em>output arguments</em>)
-to the outputs function.</p></li><li><p>The outputs function in <code>flake.nix</code> always takes a single argument,
-which is an attribute set. The syntax <code>{ self, nixpkgs, ... }</code> is Nix&rsquo;s
-way of destructuring this single input attribute set to extract the values
-associated with the keys self and nixpkgs.</p></li></ul><p><strong>Referencing the Current Flake</strong> (<code>self</code>)</p><ul><li><p><code>self</code> provides a way to refer back to the current flake from within the
+Instead, they are the <em>input arguments</em> (often called <em>output arguments</em>) to
+the outputs function.</p></li><li><p>The outputs function in <code>flake.nix</code> always takes a single argument, which is
+an attribute set. The syntax <code>{ self, nixpkgs, ... }</code> is Nix&rsquo;s way of
+destructuring this single input attribute set to extract the values associated
+with the keys self and nixpkgs.</p></li></ul><p><strong>Referencing the Current Flake</strong> (<code>self</code>)</p><ul><li><p><code>self</code> provides a way to refer back to the current flake from within the
 outputs function. You can use it to access other top-level attributes like
 inputs (e.g., <code>self.inputs</code>).</p></li><li><p>The outputs function always receives an argument conventionally named self,
 which represents the entire flake, including all its top-level attributes.
@@ -89,16 +81,16 @@ You&rsquo;ll typically use self to reference things defined within your own flak
 variadic attributes, meaning the input attribute set can contain more
 attributes than just those explicitly listed (like <code>self</code> and <code>nixpkgs</code>).</p><p><strong>Example:</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span>mul <span style=color:#f92672>=</span> { a<span style=color:#f92672>,</span> b<span style=color:#f92672>,</span> <span style=color:#f92672>...</span> }: a <span style=color:#960050;background-color:#1e0010>\</span><span style=color:#f92672>*</span> b;
 </span></span><span style=display:flex><span>mul { a <span style=color:#f92672>=</span> <span style=color:#ae81ff>3</span>; b <span style=color:#f92672>=</span> <span style=color:#ae81ff>4</span>; c <span style=color:#f92672>=</span> <span style=color:#ae81ff>2</span>; } <span style=color:#75715e># &#39;c&#39; is an extra attribute</span>
-</span></span></code></pre></div><p>However, you cannot directly access these extra attributes within the
-function body unless you use the @-pattern:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span>mul <span style=color:#f92672>=</span> s<span style=color:#f92672>@</span>{ a<span style=color:#f92672>,</span> b<span style=color:#f92672>,</span> <span style=color:#f92672>...</span> }: a _ b _ s<span style=color:#f92672>.</span>c; <span style=color:#75715e># &#39;s&#39; now refers to the entire input set</span>
+</span></span></code></pre></div><p>However, you cannot directly access these extra attributes within the function
+body unless you use the @-pattern:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span>mul <span style=color:#f92672>=</span> s<span style=color:#f92672>@</span>{ a<span style=color:#f92672>,</span> b<span style=color:#f92672>,</span> <span style=color:#f92672>...</span> }: a _ b _ s<span style=color:#f92672>.</span>c; <span style=color:#75715e># &#39;s&#39; now refers to the entire input set</span>
 </span></span><span style=display:flex><span>mul { a <span style=color:#f92672>=</span> <span style=color:#ae81ff>3</span>; b <span style=color:#f92672>=</span> <span style=color:#ae81ff>4</span>; c <span style=color:#f92672>=</span> <span style=color:#ae81ff>2</span>; } <span style=color:#75715e># Output: 24</span>
 </span></span></code></pre></div><ul><li><p>When used in the outputs function argument list (e.g.,
 <code>outputs = { pkgs, ... } @ inputs)</code>, the @-pattern binds the entire input
 attribute set to a name (in this case, <code>inputs</code>) while also allowing you to
 destructure specific attributes like pkgs.</p></li><li><p><strong>What <code>outputs = { pkgs, ... } @ inputs: { ... };</code> does:</strong></p></li></ul></li></ul><ol><li><p><strong>Destructuring:</strong> It tries to extract the value associated with the key
-<code>pkgs</code> from the input attribute set and binds it to the variable <code>pkgs</code>.
-The <code>...</code> allows for other keys in the input attribute set to be ignored
-during this direct destructuring.</p></li><li><p><strong>Binding the Entire Set:</strong> It binds the entire input attribute set to the
+<code>pkgs</code> from the input attribute set and binds it to the variable <code>pkgs</code>. The
+<code>...</code> allows for other keys in the input attribute set to be ignored during
+this direct destructuring.</p></li><li><p><strong>Binding the Entire Set:</strong> It binds the entire input attribute set to the
 variable inputs.</p><ul><li>Example <code>flake.nix</code>:</li></ul></li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span>{
 </span></span><span style=display:flex><span>inputs<span style=color:#f92672>.</span>nixpkgs<span style=color:#f92672>.</span>url <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;github:NixOS/nixpkgs/nixos-unstable&#34;</span>;
 </span></span><span style=display:flex><span>inputs<span style=color:#f92672>.</span>home-manager<span style=color:#f92672>.</span>url <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;github:nix-community/home-manager&#34;</span>;
@@ -117,9 +109,9 @@ variable inputs.</p><ul><li>Example <code>flake.nix</code>:</li></ul></li></ol><
 </span></span><span style=display:flex><span>}
 </span></span></code></pre></div><p><strong>Platform Specificity in Outputs</strong></p><ul><li>Flakes ensure that their outputs are consistent across different evaluation
 environments. Therefore, any package-related output must explicitly specify
-the target platform (a combination of architecture and OS, <code>x86_64-linux</code>).</li></ul><p><strong>legacyPackages Explained</strong></p><ul><li><code>legacyPackages</code> is a way for flakes to interact with the traditional,
-less structured package organization of nixpkgs. Instead of packages being
-directly at the top level (e.g., <code>pkgs.hello</code>), <code>legacyPackages</code> provides a
+the target platform (a combination of architecture and OS, <code>x86_64-linux</code>).</li></ul><p><strong>legacyPackages Explained</strong></p><ul><li><code>legacyPackages</code> is a way for flakes to interact with the traditional, less
+structured package organization of nixpkgs. Instead of packages being directly
+at the top level (e.g., <code>pkgs.hello</code>), <code>legacyPackages</code> provides a
 platform-aware way to access them within the flake&rsquo;s structured output format
 (e.g., <code>nixpkgs.legacyPackages.x86_64-linux.hello</code>). It acts as a bridge
 between the flake&rsquo;s expected output structure and nixpkgs&rsquo;s historical
@@ -127,8 +119,8 @@ organization.</li></ul><p><strong>The Sole Argument of outputs</strong></p><ul><
 which is an attribute set. The <code>{ self, nixpkgs, ... }</code> syntax is simply
 destructuring that single input attribute set.</li></ul><p><strong>Outputs of the Flake (Return Value)</strong></p><ul><li>The outputs of the flake refer to the attribute set that is returned by the
 <code>outputs</code> function. This attribute set can contain various named outputs like
-<code>packages</code>, <code>nixosConfigurations</code>, <code>devShells</code>, etc.</li></ul><p><strong>Imports: Including Other Nix Expressions</strong></p><ul><li><p>The <code>import</code> function in Nix is used to evaluate the Nix expression found at
-a specified path (usually a file or directory) and return its value.</p></li><li><p>Basic Usage: import <code>./path/to/file.nix</code></p></li></ul><p><strong>Passing Arguments During Import</strong></p><ul><li>You can also pass an attribute set as an argument to the Nix expression being
+<code>packages</code>, <code>nixosConfigurations</code>, <code>devShells</code>, etc.</li></ul><p><strong>Imports: Including Other Nix Expressions</strong></p><ul><li><p>The <code>import</code> function in Nix is used to evaluate the Nix expression found at a
+specified path (usually a file or directory) and return its value.</p></li><li><p>Basic Usage: import <code>./path/to/file.nix</code></p></li></ul><p><strong>Passing Arguments During Import</strong></p><ul><li>You can also pass an attribute set as an argument to the Nix expression being
 imported:</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span><span style=color:#66d9ef>let</span>
 </span></span><span style=display:flex><span>myHelpers <span style=color:#f92672>=</span> <span style=color:#f92672>import</span> <span style=color:#e6db74>./lib/my-helpers.nix</span> { pkgs <span style=color:#f92672>=</span> nixpkgs; };
 </span></span><span style=display:flex><span><span style=color:#66d9ef>in</span>
@@ -148,7 +140,7 @@ nixpkgs value from your current <code>flake.nix</code> scope to the pkgs paramet
 expected by the code in <code>./lib/my-helpers.nix</code>.</li></ul><p><strong>Importing Directories (<code>default.nix</code>)</strong></p><ul><li>When you use import with a path that points to a directory, Nix automatically
 looks for a file named <code>default.nix</code> within that directory. If found, Nix
 evaluates the expressions within <code>default.nix</code> as if you had specified its
-path directly in the import statement.</li></ul><h4 id=further-resources>Further Resources<a hidden class=anchor aria-hidden=true href=#further-resources>#</a></h4><ul><li><p><a href=https://serokell.io/blog/practical-nix-flakes>practical-nix-flakes</a></p></li><li><p><a href=https://www.tweag.io/blog/2020-07-31-nixos-flakes/>tweag nix-flakes</a></p></li><li><p><a href=https://nixos.wiki/wiki/Flakes>NixOS-wiki Flakes</a></p></li><li><p><a href=https://nix.dev/concepts/flakes.html>nix.dev flakes</a></p></li><li><p><a href=https://jade.fyi/blog/flakes-arent-real/>flakes-arent-real</a></p></li><li><p><a href=https://mhwombat.codeberg.page/nix-book/#_attribute_set_operations>wombats-book-of-nix</a></p></li><li><p><a href=https://zero-to-nix.com/concepts/flakes/>zero-to-nix flakes</a></p></li><li><p><a href=https://nixos-and-flakes.thiscute.world/>nixos-and-flakes-book</a></p></li><li><p><a href=https://flakehub.com/>FlakeHub</a></p></li></ul><figure><img loading=lazy src=/images/nixosnix.png alt=FlakeHub width=80%></figure></div><footer class=post-footer><ul class=post-tags></ul></footer></article></main><footer class=footer><span>&copy; 2025 <a href=https://tsawyer87.github.io/>NixOS Blog</a></span> ·
+path directly in the import statement.</li></ul><h4 id=further-resources>Further Resources<a hidden class=anchor aria-hidden=true href=#further-resources>#</a></h4><ul><li><p><a href=https://serokell.io/blog/practical-nix-flakes>practical-nix-flakes</a></p></li><li><p><a href=https://www.tweag.io/blog/2020-07-31-nixos-flakes/>tweag nix-flakes</a></p></li><li><p><a href=https://nixos.wiki/wiki/Flakes>NixOS-wiki Flakes</a></p></li><li><p><a href=https://nix.dev/concepts/flakes.html>nix.dev flakes</a></p></li><li><p><a href=https://jade.fyi/blog/flakes-arent-real/>flakes-arent-real</a></p></li><li><p><a href=https://mhwombat.codeberg.page/nix-book/#_attribute_set_operations>wombats-book-of-nix</a></p></li><li><p><a href=https://zero-to-nix.com/concepts/flakes/>zero-to-nix flakes</a></p></li><li><p><a href=https://nixos-and-flakes.thiscute.world/>nixos-and-flakes-book</a></p></li><li><p><a href=https://flakehub.com/>FlakeHub</a></p></li></ul></div><footer class=post-footer><ul class=post-tags></ul></footer></article></main><footer class=footer><span>&copy; 2025 <a href=https://tsawyer87.github.io/>NixOS Blog</a></span> ·
 <span>Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
 <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>

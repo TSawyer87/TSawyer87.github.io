@@ -1,10 +1,6 @@
 <!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Declarative_depinject | NixOS Blog</title><meta name=keywords content><meta name=description content="Declarative Dependency Injection in Nix Flakes
-
-     
-
-
-This post explores a method for injecting dependencies into NixOS modules from
-a flake in a more declarative way, offering an alternative to specialArgs.
+This post explores a method for injecting dependencies into NixOS modules from a
+flake in a more declarative way, offering an alternative to specialArgs.
 The Problem with specialArgs
 
 
@@ -23,12 +19,8 @@ variables that aren&rsquo;t part of the standard module options."><meta name=aut
 The Problem with specialArgs As mentioned in post, specialArgs and extraSpecialArgs can be used to pass dependencies and variables from flakes to modules.
 However, specialArgs injects values directly into every module’s argument list.
 This approach deviates from NixOS’s typical declarative data flow model. Instead of explicit dependency passing, modules receive extra, unstructured variables that aren’t part of the standard module options."><meta property="og:locale" content="en-us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2025-05-14T19:26:36-04:00"><meta property="article:modified_time" content="2025-05-14T19:26:36-04:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Declarative_depinject"><meta name=twitter:description content="Declarative Dependency Injection in Nix Flakes
-
-     
-
-
-This post explores a method for injecting dependencies into NixOS modules from
-a flake in a more declarative way, offering an alternative to specialArgs.
+This post explores a method for injecting dependencies into NixOS modules from a
+flake in a more declarative way, offering an alternative to specialArgs.
 The Problem with specialArgs
 
 
@@ -47,8 +39,8 @@ variables that aren&rsquo;t part of the standard module options."><script type=a
 <svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
 <svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
 </button>
-<a href=/index.xml title="RSS Feed"><img src=/images/rss.png alt="RSS Feed" style=width:24px;height:24px></a></div></div><ul id=menu></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class="post-title entry-hint-parent">Declarative_depinject</h1><div class=post-meta><span title='2025-05-14 19:26:36 -0400 EDT'>May 14, 2025</span>&nbsp;·&nbsp;T Sawyer</div></header><div class=post-content><h1 id=declarative-dependency-injection-in-nix-flakes>Declarative Dependency Injection in Nix Flakes<a hidden class=anchor aria-hidden=true href=#declarative-dependency-injection-in-nix-flakes>#</a></h1><figure><img loading=lazy src=/images/gruv6.png alt=cyber width=1000></figure><p>This post explores a method for injecting dependencies into NixOS modules from
-a flake in a more declarative way, offering an alternative to <code>specialArgs</code>.</p><h2 id=the-problem-with-specialargs>The Problem with specialArgs<a hidden class=anchor aria-hidden=true href=#the-problem-with-specialargs>#</a></h2><ul><li><p>As mentioned in <a href=https://saylesss88.github.io/posts/nix_flakes_tips/>post</a>,
+<a href=/index.xml title="RSS Feed"><img src=/images/rss.png alt="RSS Feed" style=width:24px;height:24px></a></div></div><ul id=menu></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class="post-title entry-hint-parent">Declarative_depinject</h1><div class=post-meta><span title='2025-05-14 19:26:36 -0400 EDT'>May 14, 2025</span>&nbsp;·&nbsp;T Sawyer</div></header><div class=post-content><h1 id=declarative-dependency-injection-in-nix-flakes>Declarative Dependency Injection in Nix Flakes<a hidden class=anchor aria-hidden=true href=#declarative-dependency-injection-in-nix-flakes>#</a></h1><p>This post explores a method for injecting dependencies into NixOS modules from a
+flake in a more declarative way, offering an alternative to <code>specialArgs</code>.</p><h2 id=the-problem-with-specialargs>The Problem with specialArgs<a hidden class=anchor aria-hidden=true href=#the-problem-with-specialargs>#</a></h2><ul><li><p>As mentioned in <a href=https://saylesss88.github.io/posts/nix_flakes_tips/>post</a>,
 <code>specialArgs</code> and <code>extraSpecialArgs</code> can be used to pass dependencies and
 variables from flakes to modules.</p></li><li><p>However, <code>specialArgs</code> injects values directly into every module&rsquo;s argument
 list.</p></li><li><p>This approach deviates from NixOS&rsquo;s typical declarative data flow model.
@@ -232,12 +224,12 @@ associated with <code>specialArgs</code>, as highlighted in resources like
 dependencies, this declarative approach using a custom <code>dep-inject</code> option
 promotes a cleaner, more structured, and potentially more robust method for
 managing dependencies across your NixOS modules. It aligns better with NixOS&rsquo;s
-declarative principles and can enhance the maintainability and
-understandability of your configuration.</p><p><strong>Disclaimer</strong></p><ul><li>I don&rsquo;t currently personally use this technique in my configuration, it adds
+declarative principles and can enhance the maintainability and understandability
+of your configuration.</p><p><strong>Disclaimer</strong></p><ul><li>I don&rsquo;t currently personally use this technique in my configuration, it adds
 complexity that <code>specialArgs</code> aimed to solve. However, presenting this
 alternative enhances understanding of different dependency injection methods
-in Nix Flakes. This example is inspired by and builds upon concepts discussed in
-<a href=https://jade.fyi/blog/flakes-arent-real/>flakes-arent-real</a></li></ul></div><footer class=post-footer><ul class=post-tags></ul></footer></article></main><footer class=footer><span>&copy; 2025 <a href=https://tsawyer87.github.io/>NixOS Blog</a></span> ·
+in Nix Flakes. This example is inspired by and builds upon concepts discussed
+in <a href=https://jade.fyi/blog/flakes-arent-real/>flakes-arent-real</a></li></ul></div><footer class=post-footer><ul class=post-tags></ul></footer></article></main><footer class=footer><span>&copy; 2025 <a href=https://tsawyer87.github.io/>NixOS Blog</a></span> ·
 <span>Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
 <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
