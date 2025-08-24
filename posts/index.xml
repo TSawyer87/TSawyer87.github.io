@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on NixOS Blog</title><link>https://TSawyer87.github.io/posts/</link><description>Recent content in Posts on NixOS Blog</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Sun, 24 Aug 2025 10:24:06 -0400</lastBuildDate><atom:link href="https://TSawyer87.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Gpg Agent_on_nixos</title><link>https://TSawyer87.github.io/posts/gpg-agent_on_nixos/</link><pubDate>Sun, 24 Aug 2025 10:24:06 -0400</pubDate><guid>https://TSawyer87.github.io/posts/gpg-agent_on_nixos/</guid><description>&lt;h2 id="gnupg-openpgp-and-gpg-agent-on-nixos">GnuPG, OpenPGP, and &lt;code>gpg-agent&lt;/code> on NixOS&lt;/h2>
+&lt;blockquote>
+&lt;p>⚠️ &lt;strong>SECURITY WARNING&lt;/strong>: This guide involves sensitive cryptographic material.
+&lt;strong>Never share your private key or passphrase&lt;/strong>. Backup your keys and handle
+them with extreme care.&lt;/p>&lt;/blockquote>
 &lt;p>GnuPG is a complete and free implementation of the OpenPGP standard. It allows
 you to encrypt and sign your data and communications, has a versatile key
 management system, and access modules for many kinds of public key directories.
-GnuPG (GPG), is a command line tool&lt;/p>
-&lt;p>&lt;strong>PGP (Pretty Good Privacy)&lt;/strong> and &lt;strong>GPG (GNU Privacy Guard)&lt;/strong>. While distinct,
-they are deeply interconnected and, for the rest of this section, I&amp;rsquo;ll use the
-terms interchangeably.&lt;/p></description></item><item><title>Fork_clone_contribute</title><link>https://TSawyer87.github.io/posts/fork_clone_contribute/</link><pubDate>Sun, 15 Jun 2025 18:24:27 -0400</pubDate><guid>https://TSawyer87.github.io/posts/fork_clone_contribute/</guid><description>&lt;h1 id="fork-clone-contribute">Fork, Clone, Contribute&lt;/h1>
+GnuPG (GPG), is a command line tool&lt;/p></description></item><item><title>Fork_clone_contribute</title><link>https://TSawyer87.github.io/posts/fork_clone_contribute/</link><pubDate>Sun, 15 Jun 2025 18:24:27 -0400</pubDate><guid>https://TSawyer87.github.io/posts/fork_clone_contribute/</guid><description>&lt;h1 id="fork-clone-contribute">Fork, Clone, Contribute&lt;/h1>
 &lt;ul>
 &lt;li>
 &lt;p>In the &lt;a href="https://github.com/NixOS/nixpkgs">Nixpkgs&lt;/a> Repository.&lt;/p>
