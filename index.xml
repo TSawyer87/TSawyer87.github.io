@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NixOS Blog</title><link>https://TSawyer87.github.io/</link><description>Recent content on NixOS Blog</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Sun, 24 Aug 2025 10:24:06 -0400</lastBuildDate><atom:link href="https://TSawyer87.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Gpg Agent_on_nixos</title><link>https://TSawyer87.github.io/posts/gpg-agent_on_nixos/</link><pubDate>Sun, 24 Aug 2025 10:24:06 -0400</pubDate><guid>https://TSawyer87.github.io/posts/gpg-agent_on_nixos/</guid><description>&lt;h2 id="gnupg-openpgp-and-gpg-agent-on-nixos">GnuPG, OpenPGP, and &lt;code>gpg-agent&lt;/code> on NixOS&lt;/h2>
+&lt;ul>
+&lt;li>&lt;a href="#gnupg-openpgp-and-gpg-agent-on-nixos">GnuPG, OpenPGP, and gpg-agent on NixOS&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#asymmetric-encryption-public-key-cryptography">Asymmetric Encryption (Public-Key cryptography)&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="#remove-and-store-your-primary-key-offline">Remove and Store your Primary Key offline&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="#add-your-pgp-key-to-github">Add your PGP Key to GitHub&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="#sign-your-commits-for-git">Sign your Commits for Git&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#backing-up-your-private-keys">Backing up Your Private Keys&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="#encrypt-a-file-with-pgp">Encrypt a File with PGP&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="#list-your-keys-and-get-the-key-id">List your keys and get the key ID&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#encrypt-a-file-for-yourself">Encrypt a file for yourself&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="#email-encryption">Email Encryption&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#make-your-public-key-highly-available">Make your Public Key Highly Available&lt;/a>&lt;/li>
+&lt;/ul>
 &lt;blockquote>
 &lt;p>⚠️ &lt;strong>SECURITY WARNING&lt;/strong>: This guide involves sensitive cryptographic material.
 &lt;strong>Never share your private key or passphrase&lt;/strong>. Backup your keys and handle
-them with extreme care.&lt;/p>&lt;/blockquote>
-&lt;p>GnuPG is a complete and free implementation of the OpenPGP standard. It allows
-you to encrypt and sign your data and communications, has a versatile key
-management system, and access modules for many kinds of public key directories.
-GnuPG (GPG), is a command line tool&lt;/p></description></item><item><title>Fork_clone_contribute</title><link>https://TSawyer87.github.io/posts/fork_clone_contribute/</link><pubDate>Sun, 15 Jun 2025 18:24:27 -0400</pubDate><guid>https://TSawyer87.github.io/posts/fork_clone_contribute/</guid><description>&lt;h1 id="fork-clone-contribute">Fork, Clone, Contribute&lt;/h1>
+them with extreme care.&lt;/p></description></item><item><title>Fork_clone_contribute</title><link>https://TSawyer87.github.io/posts/fork_clone_contribute/</link><pubDate>Sun, 15 Jun 2025 18:24:27 -0400</pubDate><guid>https://TSawyer87.github.io/posts/fork_clone_contribute/</guid><description>&lt;h1 id="fork-clone-contribute">Fork, Clone, Contribute&lt;/h1>
 &lt;ul>
 &lt;li>
 &lt;p>In the &lt;a href="https://github.com/NixOS/nixpkgs">Nixpkgs&lt;/a> Repository.&lt;/p>
