@@ -19,7 +19,8 @@
 &lt;/ul>
 &lt;/li>
 &lt;li>&lt;a href="#email-encryption">Email Encryption&lt;/a>&lt;/li>
-&lt;li>&lt;a href="#make-your-public-key-highly-available">Make your Public Key Highly Available&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#make-your-public-key-highly-available">Make your Public Key Highly Available&lt;/a>
+&lt;/li>
 &lt;/ul>
 &lt;blockquote>
 &lt;p>⚠️ &lt;strong>SECURITY WARNING&lt;/strong>: This guide involves sensitive cryptographic material.
