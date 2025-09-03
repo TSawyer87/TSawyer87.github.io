@@ -1,4 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on NixOS Blog</title><link>https://TSawyer87.github.io/posts/</link><description>Recent content in Posts on NixOS Blog</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Sun, 24 Aug 2025 10:24:06 -0400</lastBuildDate><atom:link href="https://TSawyer87.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Gpg Agent_on_nixos</title><link>https://TSawyer87.github.io/posts/gpg-agent_on_nixos/</link><pubDate>Sun, 24 Aug 2025 10:24:06 -0400</pubDate><guid>https://TSawyer87.github.io/posts/gpg-agent_on_nixos/</guid><description>&lt;h2 id="gnupg-openpgp-and-gpg-agent-on-nixos">GnuPG, OpenPGP, and &lt;code>gpg-agent&lt;/code> on NixOS&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on NixOS Blog</title><link>https://TSawyer87.github.io/posts/</link><description>Recent content in Posts on NixOS Blog</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Wed, 03 Sep 2025 08:51:33 -0400</lastBuildDate><atom:link href="https://TSawyer87.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Whonix_kvm</title><link>https://TSawyer87.github.io/posts/whonix_kvm/</link><pubDate>Wed, 03 Sep 2025 08:51:33 -0400</pubDate><guid>https://TSawyer87.github.io/posts/whonix_kvm/</guid><description>&lt;h1 id="whonix-kvm-on-nixos">Whonix KVM on NixOS&lt;/h1>
+&lt;p>&lt;img src="../images/swappy-20250901-101339.cleaned.png" alt="Whonix Logo">&lt;/p>
+&lt;blockquote>
+&lt;p>⚠️ WARNING: There is no general software that can guarantee absolute anonymity
+or security; perfect security is a myth. Security is a continuous process, not
+a one-time product. It also depends on time and resources: if an adversary has
+enough of either, eventual compromise is possible. However, by layering
+defenses and following best practices, we can make attacks costly and
+time-consuming, deterring all but highly targeted adversaries.&lt;/p></description></item><item><title>Gpg Agent_on_nixos</title><link>https://TSawyer87.github.io/posts/gpg-agent_on_nixos/</link><pubDate>Sun, 24 Aug 2025 10:24:06 -0400</pubDate><guid>https://TSawyer87.github.io/posts/gpg-agent_on_nixos/</guid><description>&lt;h2 id="gnupg-openpgp-and-gpg-agent-on-nixos">GnuPG, OpenPGP, and &lt;code>gpg-agent&lt;/code> on NixOS&lt;/h2>
 &lt;ul>
 &lt;li>&lt;a href="#gnupg-openpgp-and-gpg-agent-on-nixos">GnuPG, OpenPGP, and gpg-agent on NixOS&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#asymmetric-encryption-public-key-cryptography">Asymmetric Encryption (Public-Key cryptography)&lt;/a>
