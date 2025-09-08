@@ -1,0 +1,226 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Whonix_kvm_on_NixOS | NixOS Blog</title><link rel=icon href=favicon.svg sizes=any type=image/svg+xml><meta property="og:url" content="https://TSawyer87.github.io/posts/whonix_kvm_on_nixos/"><meta property="og:site_name" content="NixOS Blog"><meta property="og:title" content="Whonix_kvm_on_NixOS"><meta property="og:description" content="Whonix KVM on NixOS Whonix KVM on NixOS Harden NixOS and set up GnuPG A Few Things to Consider when using Whonix 🔑 Key Terms Whonix-Gateway Whonix-Workstation Whonix KVM (Kernel Virtual Machine) on NixOS Network Start Download Whonix (KVM) (stable) Import the Whonix VM Templates Cleanup Launch virt-manager and start the VMs Start Whonix-Gateway Whonix-Workstation Launching Tor Browser Live Mode Resources ⚠️ WARNING: There is no general software that can guarantee absolute anonymity or security; perfect security is a myth. Security is a continuous process, not a one-time product. It also depends on time and resources: if an adversary has enough of either, eventual compromise is probable. However, by layering defenses and following best practices, we can make attacks costly and time-consuming, deterring all but highly targeted adversaries."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2025-09-08T08:40:45-04:00"><meta property="article:modified_time" content="2025-09-08T08:40:45-04:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Whonix_kvm_on_NixOS"><meta name=twitter:description content="Whonix KVM on NixOS Whonix KVM on NixOS Harden NixOS and set up GnuPG A Few Things to Consider when using Whonix 🔑 Key Terms Whonix-Gateway Whonix-Workstation Whonix KVM (Kernel Virtual Machine) on NixOS Network Start Download Whonix (KVM) (stable) Import the Whonix VM Templates Cleanup Launch virt-manager and start the VMs Start Whonix-Gateway Whonix-Workstation Launching Tor Browser Live Mode Resources ⚠️ WARNING: There is no general software that can guarantee absolute anonymity or security; perfect security is a myth. Security is a continuous process, not a one-time product. It also depends on time and resources: if an adversary has enough of either, eventual compromise is probable. However, by layering defenses and following best practices, we can make attacks costly and time-consuming, deterring all but highly targeted adversaries."><link rel=stylesheet href=/css/root.min.0e732b812b9751962e01a7c4798a1211cd5f8ac8abec7f99793fe306989e459f.css integrity="sha256-DnMrgSuXUZYuAafEeYoSEc1fisir7H+ZeT/jBpieRZ8=" crossorigin=anonymous><link rel=stylesheet href=/css/bundle.min.f27a56e991be000b70f16c1055f85c5c8a52543dd12df8dc254055463a69e878.css integrity="sha256-8npW6ZG+AAtw8WwQVfhcXIpSVD3RLfjcJUBVRjpp6Hg=" crossorigin=anonymous><script src=/js/bundle.995e4ec99401021e081ec256bee66154ef7f4e5136809432513b2e6d014b4b1d.js integrity="sha256-mV5OyZQBAh4IHsJWvuZhVO9/TlE2gJQyUTsubQFLSx0=" crossorigin=anonymous></script><script defer src=/js/search/flexsearch.compact.64594b125f7b78bdf4fa8316955922bbebb1cd6baef3f16654bfca20309f18f8.js integrity="sha256-ZFlLEl97eL30+oMWlVkiu+uxzWuu8/FmVL/KIDCfGPg="></script><script defer src=/js/search/search.1d980f84df11f3eb7c8c5f17f541d49a0611608df179dd74fa7f06225eb56ace.js integrity="sha256-HZgPhN8R8+t8jF8X9UHUmgYRYI3xed10+n8GIl61as4="></script><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel=stylesheet><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel=stylesheet></head><body class=notransition><div id=container><header id=main-header><div role=navigation aria-label=Main><div class=nav-left><a href=https://TSawyer87.github.io/ style=color:inherit>NixOS Blog</a></div><div class=nav-right><div style=position:absolute;width:0;height:0><div id=nav-dropdown-menu class=hidden href=#><div class=nav-item><a aria-current=true class=ancestor href=/posts/>Posts</a></div></div></div><a id=nav-dropdown-button href=#><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a><div id=nav-menu><div class=nav-item><a aria-current=true class=ancestor href=/posts/>Posts</a></div></div><a id=theme-switcher href=#><svg class="light-icon" viewBox="0 0 24 24" fill="none"><path d="M12 3V4m0 16v1M4 12H3M6.31412 6.31412 5.5 5.5m12.1859.81412L18.5 5.5M6.31412 17.69 5.5 18.5001M17.6859 17.69 18.5 18.5001M21 12H20m-4 0c0 2.2091-1.7909 4-4 4-2.20914.0-4-1.7909-4-4 0-2.20914 1.79086-4 4-4 2.2091.0 4 1.79086 4 4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<svg class="dark-icon" viewBox="0 0 24 24" fill="none"><path d="M3.32031 11.6835c0 4.9706 4.02944 9 8.99999 9 3.7872.0 7.028-2.3392 8.3565-5.6515C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834c-4.9706.0-8.99999-4.0294-8.99999-8.99998C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996 5.65605 4.66028 3.32031 7.89912 3.32031 11.6835z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div></div></header><div class="flex grow"><div id=main-pane><main id=main-content><div class=single-header><ol class=breadcrumbs itemscope itemtype=https://schema.org/BreadcrumbList><li itemprop=itemListElement itemscope itemtype=https://schema.org/ListItem><a itemprop=item href=https://TSawyer87.github.io/><span itemprop=name>Home</span>
+</a><meta itemprop=position content='1'></li><span>&nbsp»&nbsp</span><li itemprop=itemListElement itemscope itemtype=https://schema.org/ListItem><a itemprop=item href=https://TSawyer87.github.io/posts/><span itemprop=name>Posts</span>
+</a><meta itemprop=position content='2'></li><span>&nbsp»&nbsp</span></ol><h1>Whonix_kvm_on_NixOS</h1><time class=dim datetime=2025-09-08T08:40:45-04:00>September 8, 2025</time></div><section class=page-section><h1 id=whonix-kvm-on-nixos>Whonix KVM on NixOS</h1><ul><li><a href=#whonix-kvm-on-nixos>Whonix KVM on NixOS</a><ul><li><a href=#harden-nixos-and-set-up-gnupg>Harden NixOS and set up GnuPG</a></li><li><a href=#a-few-things-to-consider-when-using-whonix>A Few Things to Consider when using Whonix</a></li><li><a href=#-key-terms>🔑 Key Terms</a></li><li><a href=#whonix-gateway>Whonix-Gateway</a><ul><li><a href=#whonix-workstation>Whonix-Workstation</a></li></ul></li><li><a href=#whonix-kvm-kernel-virtual-machine-on-nixos>Whonix KVM (Kernel Virtual Machine) on NixOS</a></li><li><a href=#network-start>Network Start</a><ul><li><a href=#download-whonix-kvm-stable>Download Whonix (KVM) (stable)</a></li><li><a href=#import-the-whonix-vm-templates>Import the Whonix VM Templates</a></li><li><a href=#cleanup>Cleanup</a></li><li><a href=#launch-virt-manager-and-start-the-vms>Launch virt-manager and start the VMs</a></li></ul></li><li><a href=#start-whonix-gateway>Start Whonix-Gateway</a></li><li><a href=#whonix-workstation-1>Whonix-Workstation</a><ul><li><a href=#launching-tor-browser>Launching Tor Browser</a></li></ul></li><li><a href=#live-mode>Live Mode</a><ul><li><a href=#resources>Resources</a></li></ul></li></ul></li></ul><figure><img src=/images/swappy-20250901-101339.cleaned.png alt="Whonix new logo" width=1000></figure><blockquote><p>⚠️ WARNING: There is no general software that can guarantee absolute anonymity
+or security; perfect security is a myth. Security is a continuous process, not
+a one-time product. It also depends on time and resources: if an adversary has
+enough of either, eventual compromise is probable. However, by layering
+defenses and following best practices, we can make attacks costly and
+time-consuming, deterring all but highly targeted adversaries.</p></blockquote><p>It is highly recommended to harden your Host Machine to strengthen your opsec.</p><p>Whonix offers many benefits, including the convenience of running within your
+current operating system without needing to reboot or use a separate Tails USB.
+It provides similar strong anonymity protections by routing all traffic through
+Tor in isolated virtual machines. The Whonix documentation is transparent about
+its limitations, which helps build trust and confidence in its security model.</p><ul><li><p><a href=https://www.whonix.org/wiki/Comparison_with_Others>Whonix Compared to Tails</a></p></li><li><p>Tails is great but they add an add blocker to Tor that makes every Tails user
+unique from the rest of Tor Browser users reducing anonymity.</p></li></ul><blockquote><p>⚠️ Never rely solely on the Virtual Machine to protect you, if your host OS
+isn&rsquo;t secure a Virtual Machine won&rsquo;t protect you.</p></blockquote><h3 id=harden-nixos-and-set-up-gnupg>Harden NixOS and set up GnuPG</h3><ul><li><p><a href=https://saylesss88.github.io/nix/hardening_NixOS.html>Hardening NixOS</a></p></li><li><p><a href=https://saylesss88.github.io/nix/hardening_networking.html>Hardening Networking</a></p></li><li><p><a href=https://saylesss88.github.io/nix/gpg-agent.html>GnuPG and gpg-agent on NixOS</a></p></li></ul><h3 id=a-few-things-to-consider-when-using-whonix>A Few Things to Consider when using Whonix</h3><ul><li><p>You can anonymously use Java / Javascript</p></li><li><p>No activity conducted inside <code>Whonix-Workstation</code> can cause IP/DNS leaks so
+long as <code>Whonix-Gateway</code> is left unchanged or only documented changes are made
+like configuring bridges, establishing onion services and running updates.</p></li><li><p>Whonix does not and does not claim to protect users against advanced
+adversaries such as nation state actors, if they target you, you will be
+infected! If used correctly, Whonix can provide partial protection against
+passive surveillance programs, it all depends on whether Tor can provide
+adequate protection or not, which is not clear at this time.</p></li><li><p>You shouldn&rsquo;t use a VPN with Whonix and it is obvious that you&rsquo;re using Tor
+because connections are made to known Tor Relays, which are publicly listed
+and identifiable.</p></li></ul><blockquote><p>⚠️It is impossible to Hide Tor use from the internet service provider (ISP).
+It has been concluded this goal is difficult beyond practicality.
+&ndash;<a href=https://www.whonix.org/wiki/Hide_Tor_from_your_Internet_Service_Provider>Whonix Hide Tor from your ISP</a></p></blockquote><ul><li>Millions of people use Tor daily for wholly legitimate reasons, particularly
+to assert their privacy rights when faced with countless corporate /
+government network observers and censors.</li></ul><h2 id=-key-terms>🔑 Key Terms</h2><p>Whonix is an operating system based on Debian base (Kicksecure Hardened) and the
+Tor network, which is designed for maximum anonymity and security. Whonix
+consists of two Debian based VMs, the <code>Whonix-Gateway</code> and <code>Whonix-Workstation</code>.</p><p>In this case NixOS is the <strong>Host Operating System</strong>, NixOS runs the KVM kernel
+module, libvirtd service, and QEMU virtualization service which together enable
+hosting VMs. It is recommended to harden the host before moving on.</p><p><strong>Guests</strong> are the virtualized operating systems running inside the host&rsquo;s
+virtual machines. In this case the Whonix VMs are the <strong>Guest Machines</strong>.</p><p><code>Whonix-Gateway</code> the first of 2 VMs runs Tor processes and forces all traffic
+through the Tor network using iptables.</p><p><code>Whonix-Workstation</code> the second VM, is responsible for running user applications
+such as the Tor Browser. The Whonix-Workstation is isolated from both the
+Whonix-Gateway and the Host OS, if an app misbehaves, it is contained within the
+isolated Whonix-Workstation. It is largely unaware of sensitive info and won&rsquo;t
+leak unless an advanced adversary is able to break out of the VM.</p><p>The primary goal of Whonix is to be safer than Tor alone and that no one can
+find out the user&rsquo;s IP, location, or de-anonymize the user. It offers full
+spectrum anti-tracking protection that is much safer than VPNs. Whonix provides
+this through security by isolation, no app is trusted.</p><p><code>Whonix Concept</code>: Whonix is an Isolating Proxy with an additional Transparent
+Proxy, which can be optionally disabled. &ndash;Whonix Docs</p><p>Since Whonix is based on Kicksecure which is based on Debian stable, you can
+typically look up solutions in a Kicksecure, Debian, or Ubuntu forum.</p><ul><li>The Whonix Team recommends KVM over VirtualBox for a number of
+reasons:<a href=https://www.whonix.org/wiki/KVM#Why_Use_KVM_Over_VirtualBox?>Why choose KVM over VirtualBox</a></li></ul><p>If you really want to use VirtualBox, I got it working off of this config:</p><p>Change <code>your-user</code> to your username</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span><span style=color:#75715e># vbox.nix</span>
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  config<span style=color:#f92672>,</span>
+</span></span><span style=display:flex><span>  lib<span style=color:#f92672>,</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>...</span>
+</span></span><span style=display:flex><span>}: <span style=color:#66d9ef>let</span>
+</span></span><span style=display:flex><span>  cfg <span style=color:#f92672>=</span> config<span style=color:#f92672>.</span>custom<span style=color:#f92672>.</span>virtualbox;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>in</span> {
+</span></span><span style=display:flex><span>  options<span style=color:#f92672>.</span>custom<span style=color:#f92672>.</span>virtualbox <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>    enable <span style=color:#f92672>=</span> lib<span style=color:#f92672>.</span>mkEnableOption <span style=color:#e6db74>&#34;Enable VirtualBox&#34;</span>;
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  config <span style=color:#f92672>=</span> lib<span style=color:#f92672>.</span>mkIf cfg<span style=color:#f92672>.</span>enable {
+</span></span><span style=display:flex><span>    virtualisation<span style=color:#f92672>.</span>virtualbox<span style=color:#f92672>.</span>host <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>      enable <span style=color:#f92672>=</span> <span style=color:#66d9ef>false</span>;
+</span></span><span style=display:flex><span>      <span style=color:#75715e># enableExtensionPack = true;</span>
+</span></span><span style=display:flex><span>    };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    user<span style=color:#f92672>.</span>user<span style=color:#f92672>.</span>your-user<span style=color:#f92672>.</span>extraGroups <span style=color:#f92672>=</span> [<span style=color:#e6db74>&#34;vboxusers&#34;</span>];
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    boot<span style=color:#f92672>.</span>kernelModules <span style=color:#f92672>=</span>
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>if</span> config<span style=color:#f92672>.</span>hardware<span style=color:#f92672>.</span>cpu<span style=color:#f92672>.</span>amd<span style=color:#f92672>.</span>updateMicrocode
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>then</span> [<span style=color:#e6db74>&#34;kvm-amd&#34;</span>]
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>else</span> [<span style=color:#e6db74>&#34;kvm-intel&#34;</span>];
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>Enable it with <code>custom.virtualbox.enable = true;</code>.</p><ul><li><a href=https://www.whonix.org/wiki/VirtualBox>Whonix VBox Download</a></li></ul><p>After rebuilding with virtualbox enabled and downloading the virtualbox whonix,
+open VirtualBox and import the Whonix file.</p><p>Fix the error:: VirtualBox can&rsquo;t enable the AMD-V extension. Please disable the
+KVM kernel extension:</p><p>If both of these are active, they compete with each other:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo lsmod | grep -E <span style=color:#e6db74>&#39;kvm|vbox&#39;</span>
+</span></span></code></pre></div><p>Check the currently in use modules:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>modprobe -r kvm
+</span></span></code></pre></div><p>Disable kvm and kvm_amd:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo rmmod kvm_amd
+</span></span><span style=display:flex><span>sudo rmmod kvm
+</span></span><span style=display:flex><span><span style=color:#75715e># To re-enable them when necessary</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># sudo modprobe kvm</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># sudo modprobe kvm_amd</span>
+</span></span></code></pre></div><ul><li><a href=https://atetux.com/quick-fix-virtualbox-cant-enable-the-amd-v-extension>Quick fix</a></li></ul><p>There is an opposite viewpoint,
+<a href=https://www.whonix.org/wiki/Dev/VirtualBox#Why_use_VirtualBox_over_KVM?>Why choose VirtualBox over KVM</a></p><h2 id=whonix-gateway>Whonix-Gateway</h2><p>The whonix-gateway is software designed to run Tor.</p><p>The Gateway acts as a firewall and is what is routing all your traffic through
+Tor.</p><p>You will spend minimal time in the Gateway, it&rsquo;s mainly used for Tor
+configuration which is reserved for advanced users.</p><h3 id=whonix-workstation>Whonix-Workstation</h3><p>All user applications should only be launched from Whonix-Workstation to ensure
+they utilize the Tor network. (Never launch the Tor browser or any other user
+app from Whonix-Gateway.)</p><p>Leaky applications can&rsquo;t breakout of the Workstation, all network connections
+are forced to go through the Whonix-Gateway where they are torrified and routed
+to the internet.</p><h2 id=whonix-kvm-kernel-virtual-machine-on-nixos>Whonix KVM (Kernel Virtual Machine) on NixOS</h2><p><strong>KVM</strong> (Kernel-based Virtual Machine) is a Linux kernel module that provides
+hardware-assisted virtualization.</p><p>It allows the Linux kernel to act as a hypervisor, enabling virtual machines
+(VMs) to run with near-native speeds by using CPU virtualization extensions
+(Intel VT-x or AMD-V).</p><p>KVM itself doesn’t handle the entire VM lifecycle; it provides the core
+virtualization infrastructure.</p><p><strong>QEMU</strong> (Quick Emulator) is an open-source user-space program that emulates
+hardware for virtual machines.</p><p>When combined with KVM, QEMU uses hardware acceleration to run VMs much faster
+by offloading CPU virtualization to KVM.</p><p>So, QEMU provides the device emulation and VM management interface, while KVM
+provides the fast virtualization engine within the kernel.</p><p><strong>Install Qemu-KVM</strong>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  config<span style=color:#f92672>,</span>
+</span></span><span style=display:flex><span>  pkgs<span style=color:#f92672>,</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>...</span>
+</span></span><span style=display:flex><span>}: {
+</span></span><span style=display:flex><span>  <span style=color:#75715e>##  QEMU-KVM</span>
+</span></span><span style=display:flex><span>  environment<span style=color:#f92672>.</span>systemPackages <span style=color:#f92672>=</span> <span style=color:#66d9ef>with</span> pkgs; [
+</span></span><span style=display:flex><span>    qemu
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Optional</span>
+</span></span><span style=display:flex><span>    virt-viewer
+</span></span><span style=display:flex><span>  ];
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e># Virt-Manager GUI</span>
+</span></span><span style=display:flex><span>  programs<span style=color:#f92672>.</span>virt-manager<span style=color:#f92672>.</span>enable <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>;
+</span></span><span style=display:flex><span>  virtualisation <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>    <span style=color:#75715e># libvirtd daemon</span>
+</span></span><span style=display:flex><span>    libvirtd <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>      enable <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>;
+</span></span><span style=display:flex><span>      qemu <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e># enables a TPM emulator</span>
+</span></span><span style=display:flex><span>        swtpm<span style=color:#f92672>.</span>enable <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>;
+</span></span><span style=display:flex><span>      };
+</span></span><span style=display:flex><span>    };
+</span></span><span style=display:flex><span>    <span style=color:#75715e># allow USB device to be forwarded</span>
+</span></span><span style=display:flex><span>    spiceUSBRedirection<span style=color:#f92672>.</span>enable <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>;
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>  <span style=color:#75715e># Spice protocol improves VM display and input responsiveness</span>
+</span></span><span style=display:flex><span>  services<span style=color:#f92672>.</span>spice-vdagentd<span style=color:#f92672>.</span>enable <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><hr><p>The <strong>libvirtd</strong> is the primary daemon (service) in the libvirt virtualization
+management system. It runs on your host machine and acts as the core management
+component for virtual machines (VMs).</p><p>Add <code>libvirtd</code> & <code>kvm</code> to your users <code>extraGroups</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span>users<span style=color:#f92672>.</span>users <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>    your-user <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        extraGroups <span style=color:#f92672>=</span> [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;libvirtd&#34;</span>
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;kvm&#34;</span>
+</span></span><span style=display:flex><span>        ];
+</span></span><span style=display:flex><span>    };
+</span></span><span style=display:flex><span>};
+</span></span></code></pre></div><p>Restart <code>libvirtd</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo systemctl restart libvirtd
+</span></span></code></pre></div><hr><h2 id=network-start>Network Start</h2><p>Ensure KVM&rsquo;s / QEMU&rsquo;s default network is enabled and has started:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo virsh -c qemu:///system net-autostart default
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo virsh -c qemu:///system net-start default
+</span></span></code></pre></div><hr><h3 id=download-whonix-kvm-stable>Download Whonix (KVM) (stable)</h3><ol><li><p><a href=https://www.whonix.org/download/libvirt/17.4.4.6/Whonix-Xfce-17.4.4.6.Intel_AMD64.qcow2.libvirt.xz>Whonix (KVM) (stable) Download</a></p></li><li><p>Go to <a href=https://www.whonix.org/wiki/KVM>whoniix.org</a> to verify the signature.
+Download the <code>OpenPGP Signature</code>, and the <code>Download Whonix OpenPGP Key</code>. Your
+Downloads directory will look like this:</p></li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>~/Downloads󰏫 ls
+</span></span><span style=display:flex><span>╭───┬───────────────────────────────────────────────────────┬──────┬─────────┬───────────────╮
+</span></span><span style=display:flex><span>│ <span style=color:#75715e># │                         name                          │ type │  size   │   modified    │</span>
+</span></span><span style=display:flex><span>├───┼───────────────────────────────────────────────────────┼──────┼─────────┼───────────────┤
+</span></span><span style=display:flex><span>│ <span style=color:#ae81ff>0</span> │ Whonix-Xfce-17.4.4.6.Intel_AMD64.qcow2.libvirt.xz     │ file │  3.3 GB │ <span style=color:#ae81ff>2</span> minutes ago │
+</span></span><span style=display:flex><span>│ <span style=color:#ae81ff>1</span> │ Whonix-Xfce-17.4.4.6.Intel_AMD64.qcow2.libvirt.xz.asc │ file │  1.0 kB │ a minute ago  │
+</span></span><span style=display:flex><span>│ <span style=color:#ae81ff>2</span> │ derivative.asc                                        │ file │ 77.3 kB │ <span style=color:#ae81ff>3</span> minutes ago │
+</span></span><span style=display:flex><span>╰───┴───────────────────────────────────────────────────────┴──────┴─────────┴───────────────╯
+</span></span></code></pre></div><p>Import <code>derivative.asc</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>gpg --import derivative.asc
+</span></span></code></pre></div><p>Verify the Public Key:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>gpg --verify Whonix-Xfce-17.4.4.6.Intel_AMD64.qcow2.libvirt.xz.asc Whonix-Xfce-17.4.4.6.Intel_AMD64.qcow2.libvirt.xz
+</span></span><span style=display:flex><span>gpg: Signature made Sun <span style=color:#ae81ff>10</span> Aug <span style=color:#ae81ff>2025</span> 09:04:13 AM EDT
+</span></span><span style=display:flex><span>gpg:                using RSA key 6E979B28A6F37C43BE30AFA1CB8D50BB77BB3C48
+</span></span><span style=display:flex><span>gpg: Good signature from <span style=color:#e6db74>&#34;Patrick Schleizer &lt;adrelanos@kicksecure.com&gt;&#34;</span> <span style=color:#f92672>[</span>unknown<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>gpg:                 aka <span style=color:#e6db74>&#34;Patrick Schleizer &lt;adrelanos@riseup.net&gt;&#34;</span> <span style=color:#f92672>[</span>unknown<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>gpg:                 aka <span style=color:#e6db74>&#34;Patrick Schleizer &lt;adrelanos@whonix.org&gt;&#34;</span> <span style=color:#f92672>[</span>unknown<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>gpg: WARNING: This key is not certified with a trusted signature!
+</span></span><span style=display:flex><span>gpg:          There is no indication that the signature belongs to the owner.
+</span></span><span style=display:flex><span>Primary key fingerprint: 916B 8D99 C38E AF5E 8ADC  7A2A 8D66 066A 2EEA CCDA
+</span></span><span style=display:flex><span>     Subkey fingerprint: 6E97 9B28 A6F3 7C43 BE30  AFA1 CB8D 50BB 77BB 3C48
+</span></span><span style=display:flex><span>~/Downloads󰏫                                                                                                 09/04/2025 11:53:10 AM
+</span></span></code></pre></div><p>Now <code>gpg --list-keys</code> will show Patrick Schleizer&rsquo;s Key.</p><p>It is good practice to sign your verified key and then push it to the public
+keyserver to contribute to the web of trust but optional.</p><ol start=3><li><a href=https://www.whonix.org/wiki/KVM#Decompress>Decompress the Image</a> and follow
+the rest of the Whonix KVM install instructions from there.</li></ol><p>Nixpkgs doesn&rsquo;t have the <code>xz-utils</code> package but it does have the <code>xz</code> package.</p><p>Nixpkgs also has <code>nixpkgs.safe-rm</code> if you wanted to follow the suggestions from
+Whonix.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>nix-shell -p xz safe-rm
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>tar -xvf Whonix*.libvirt.xz
+</span></span></code></pre></div><hr><h3 id=import-the-whonix-vm-templates>Import the Whonix VM Templates</h3><p>The following commands come directly from the
+<a href=https://www.whonix.org/wiki/KVM#Importing_Whonix_VM_Templates>Whonix KVM Docs Importing Whonix VM Templates</a></p><ol><li>Add the virtual networks. This step only needs to be done once and not with
+every upgrade.</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo virsh -c qemu:///system net-define Whonix_external*.xml
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo virsh -c qemu:///system net-define Whonix_internal*.xml
+</span></span></code></pre></div><ol start=2><li>Activate the virtual networks:</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo virsh -c qemu:///system net-autostart Whonix-External
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo virsh -c qemu:///system net-start Whonix-External
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo virsh -c qemu:///system net-autostart Whonix-Internal
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo virsh -c qemu:///system net-start Whonix-Internal
+</span></span></code></pre></div><ol start=3><li>Import the Whonix Gateway and Workstation images:</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo virsh -c qemu:///system define Whonix-Gateway*.xml
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo virsh -c qemu:///system define Whonix-Workstation*.xml
+</span></span></code></pre></div><p>After the above steps, either copy or move the <code>qcow2</code> images to
+<code>/var/lib/libvirt/images</code>:</p><blockquote><p>❗ It&rsquo;s recommended to move the files into place, if you want to copy them you
+need to use a special command FYI.</p></blockquote><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo mkdir -p /var/lib/libvirt/images
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo mv Whonix-Gateway*.qcow2 /var/lib/libvirt/images/Whonix-Gateway.qcow2
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo mv Whonix-Workstation*.qcow2 /var/lib/libvirt/images/Whonix-Workstation.qcow2
+</span></span></code></pre></div><h3 id=cleanup>Cleanup</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>safe-rm Whonix*
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>safe-rm -r WHONIX*
+</span></span></code></pre></div><h3 id=launch-virt-manager-and-start-the-vms>Launch virt-manager and start the VMs</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>virt-manager
+</span></span></code></pre></div><p>From here it will take a bit to load both VMs, you can click on one and go to
+<code>Edit</code>, <code>Virtual Machine Details</code> and from there you have some options to give
+the VM more CPUs and memory.</p><p>Considering that the Whonix-Workstation is where all of the user applications
+will be opened, it makes sense to give it more CPUs and memory.</p><h2 id=start-whonix-gateway>Start Whonix-Gateway</h2><figure><img src=/images/swappy-20250901-101351.cleaned.png alt="Whonix old logo" width=1000></figure><p>Always start the Whonix-Gateway first.</p><p>Click on Whonix-Gateway, press Play, and choose the default Persistent VM.</p><p>To view the gateway press <code>Open</code>.</p><p>You can use the &ldquo;System Maintenance Panel&rdquo; to <code>Check for Updates</code> and then
+<code>Install Updates</code>. This can also be used for user and password creation, the
+default user is <code>user</code> with a passwordless login.</p><p>Change the password manually:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo passwd
+</span></span><span style=display:flex><span>changeme
+</span></span></code></pre></div><p>Run a systemcheck if it wasn&rsquo;t run automatically. Click the Xfce Logo and go to
+<code>System</code>, <code>System Check</code>.</p><ul><li><a href=https://www.whonix.org/wiki/Common_CLI_Commands>Whonix Common CLI Commands</a></li></ul><h2 id=whonix-workstation-1>Whonix-Workstation</h2><p>Whonix-Workstation is another VM, designed to provide users with a secure and
+anonymous environment for running applications and performing online tasks.</p><p>When you first launch <code>Whonix-Workstation</code>, choose the second option down or
+reboot, and then choose &ldquo;Persistent Mode Sysmaint Session&rdquo;. From there, you can
+go through the same steps as you did for the Gateway.</p><p>With the workstation, a security feature disables <code>sudo</code> for the default user.
+Instead of the <code>user</code> account, a separate <code>sysmaint</code> (system maintenance)
+account is used for administrative tasks that require root privileges, such as
+updates and package installations.</p><p>After you get your system updated and upgraded, you&rsquo;ll want to reboot the
+Workstation and start it in the first Persistent mode available rather than the
+<code>sysmaint</code> mode.</p><p>Once Workstation is running and both VMs are updated and upgraded, check that
+your IP address is a Tor IP:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl ip.me
+</span></span><span style=display:flex><span><span style=color:#75715e>#</span>
+</span></span><span style=display:flex><span>curl ip.me
+</span></span></code></pre></div><p>Each consecutive time that you run <code>curl ip.me</code>, Tor establishes a new circuit
+and you will get a different IP returned each time for as many Tor nodes are
+available. Not that you would want to but it&rsquo;s cool functionality giving us a
+visual of the new circuit.</p><p>Start Tor and check what you are fingerprinted as by typing <code>deviceinfo.me</code> into
+the URL.</p><h4 id=launching-tor-browser>Launching Tor Browser</h4><p>Click the Xfce logo and choose Tor Browser. On the first launch, you will need
+to update Tor by clicking in the top right corner.</p><p>Or you can open the terminal and type:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>update-torbrowser
+</span></span></code></pre></div><ul><li>Every time you run the above command, the old browser will be killed, along
+with your old browser profile, including bookmarks and passwords. If the
+update suggests a downgrade from your current version don&rsquo;t do it, it is
+likely a downgrade attack.</li></ul><p>Make sure you don&rsquo;t forget to go to the Settings, Privacy and Security, and set
+the <code>Security Level</code> to <code>Safest</code> to disable JavaScript and more before exploring
+the dark web.</p><p>Visit <code>https://check.torproject.org</code>, you should see &ldquo;Congratulations. This
+browser is configured to use Tor.&rdquo;</p><p>If you need a place to start, check out <code>https://tor.taxi</code> by plugging that into
+the URL. Always include the <code>https</code> yourself!</p><blockquote><p>❗ NOTE: Use HTTPS and TLS wherever possible, since Tor only encrypts traffic
+as it travels through the network of three nodes. Traffic at Exit nodes is
+vulnerable if unencrypted, because when it reaches the Exit node it is plain
+text. Prefer the use of <code>.onion</code> services because they form a tunnel that is
+encrypted end-to-end, using a random rendezvous point within the Tor network;
+HTTPS isn&rsquo;t required within Onion services. Prefer the use of <code>.onion</code>
+services because they form a tunnel that is encrypted end-to-end, using a
+random rendezvous point within the Tor network; HTTPS isn&rsquo;t required within
+Onion services.
+&ndash;<a href=https://www.whonix.org/wiki/Tor_Myths_and_Misconceptions#All_my_traffic_is_encrypted_by_default>All my traffic is encrypted by default?</a></p></blockquote><h2 id=live-mode>Live Mode</h2><p>To get Whonix to perform more similarly to Tails you could run Whonix in Live
+Mode. Live Mode is a privacy-focused mode where nothing is saved at shutdown,
+making it great for handling sensitive data.</p><ul><li><a href=https://www.kicksecure.com/wiki/Live_Mode>Live Mode</a></li></ul><p>Same process, reboot the Workstation and Choose
+<code>LIVE Mode | USER Session | disposable use</code></p><ul><li><a href=https://www.kicksecure.com/wiki/Anti-Forensics_Precautions>Anti Forensics Precautions</a></li></ul><h3 id=resources>Resources</h3><ul><li><p><a href=https://www.whonix.org/wiki/Documentation>Whonix Docs</a></p></li><li><p><a href=https://www.whonix.org/wiki/About>Whonix Overview</a></p></li><li><p><a href=https://www.whonix.org/wiki/Dev/Technical_Introduction>Whonix Technical Intro</a></p></li><li><p><a href=https://www.kicksecure.com/wiki/Computer_Security_Introduction>Kicksecure Computer Security Intro</a></p></li><li><p><a href=https://www.kicksecure.com/wiki/Computer_Security_Introduction#Advanced_Security_Guide>Kicksecure Advanced Security Guide</a></p></li></ul><p>k
+<a href=https://www.kicksecure.com/wiki/System_Hardening_Checklist>System Hardening Checklist</a></p></section></main><footer id=main-footer><div class=footer><a href=#>Scroll to Top</a><div class=footer-copyright><div class=dim>© 2025</div><div>Made with ❤️ and powered by <a href=https://github.com/math-queiroz/rusty-typewriter target=_blank>Rusty Typewriter</a> theme for <a href=https://gohugo.io/ target=_blank>Hugo</a></div></div></div></footer></div><aside id=side-pane class=side-sticky><div class=side-details><span>2401 words</span>
+<span>18 - 23 minutes read</span></div><h3>Table Of Contents</h3><nav id=TableOfContents><ul><li><ul><li><a href=#harden-nixos-and-set-up-gnupg>Harden NixOS and set up GnuPG</a></li><li><a href=#a-few-things-to-consider-when-using-whonix>A Few Things to Consider when using Whonix</a></li></ul></li><li><a href=#-key-terms>🔑 Key Terms</a></li><li><a href=#whonix-gateway>Whonix-Gateway</a><ul><li><a href=#whonix-workstation>Whonix-Workstation</a></li></ul></li><li><a href=#whonix-kvm-kernel-virtual-machine-on-nixos>Whonix KVM (Kernel Virtual Machine) on NixOS</a></li><li><a href=#network-start>Network Start</a><ul><li><a href=#download-whonix-kvm-stable>Download Whonix (KVM) (stable)</a></li><li><a href=#import-the-whonix-vm-templates>Import the Whonix VM Templates</a></li><li><a href=#cleanup>Cleanup</a></li><li><a href=#launch-virt-manager-and-start-the-vms>Launch virt-manager and start the VMs</a></li></ul></li><li><a href=#start-whonix-gateway>Start Whonix-Gateway</a></li><li><a href=#whonix-workstation-1>Whonix-Workstation</a><ul><li></li></ul></li><li><a href=#live-mode>Live Mode</a><ul><li><a href=#resources>Resources</a></li></ul></li></ul></nav></aside></div></div></body></html>
