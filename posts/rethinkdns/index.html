@@ -25,22 +25,18 @@ private-beta.</p><ol><li><p>Go to: <a href=https://www.rethinkdns.com/configure>
 more fine grained control.</p></li><li><p>Once you have them all selected, decide if you want to use DoH or DoT by
 clicking the <code>DoH</code> button under the Rethink Logo.</p></li></ol><ul><li><p>DoH resolver addresses&rsquo; look like: <code>https://sky.rethinkdns.com/</code></p></li><li><p>DoT resolver addresses&rsquo; look like: <code>1-cbycee6juakjaaa</code></p></li></ul><p>For Firefox, open Settings, Privacy & Security, scroll down to Enable DNS over
 HTTPS using: Max Protection, Custom, and enter <code>https://sky.rethinkdns.com/</code></p><p>Firefox doesn&rsquo;t support DoT natively yet.</p><hr><h2 id=rethink-on-android>Rethink on Android</h2><p>The front-end Android app is open-source:
-<a href=https://github.com/celzero/rethink-app>rethink-app</a></p><p>RethinkDNS doesn&rsquo;t capture or send any user analytics from the app.</p><p><strong>RethinkDNS takes over</strong>:</p><ol><li><p>VPN Slot: RethinkDNS works by creating a local VPN on your device. It&rsquo;s not a
-traditional VPN that routes your traffic to a remote server. Instead, it
-creates a secure tunnel on your phone that all network traffic (including DNS
-queries) must pass through.</p></li><li><p>Centralized DNS Handling: Because it occupies the local VPN slot, it
-intercepts all DNS requests from every app on your device.</p></li><li><p>App-Level Control: Unlike Android&rsquo;s Private DNS, which is a system-wide
-setting, Rethink gives you more granular control over how each individual app
-handles its network traffic. This enables you to:</p></li></ol><ul><li><p>Force all apps to use the same DNS server you&rsquo;ve configured through Rethink.</p></li><li><p>Block apps that try to bypass your settings.</p></li><li><p>Apply different rules to different apps.</p></li><li><p>Analyze and log the DNS and network activity for every app, giving you a clear
+<a href=https://github.com/celzero/rethink-app>rethink-app</a></p><p>RethinkDNS doesn&rsquo;t capture or send any user analytics from the app.</p><p>RethinkDNS takes over your VPN Slot, it works by creating a local VPN on your
+device. It&rsquo;s not a traditional VPN that routes your traffic to a remote server.
+Instead, it creates a secure tunnel on your phone that all network traffic
+(including DNS queries) must pass through.</p><p>Unlike Android&rsquo;s Private DNS, which is a system-wide setting, Rethink gives you
+more granular control over how each individual app handles its network traffic.
+This enables you to:</p><ul><li><p>Force all apps to use the same DNS server you&rsquo;ve configured through Rethink.</p></li><li><p>Block apps that try to bypass your settings.</p></li><li><p>Apply different rules to different apps.</p></li><li><p>Analyze and log the DNS and network activity for every app, giving you a clear
 view of what your phone is doing in the background.</p><ul><li>I have never used the Microsoft Link to Windows and even went into settings
 and disabled it and force stopped it and Link to Windows is still the most
-blocked app on my device constantly trying to phone home.</li></ul></li></ul><h2 id=rethink-firewall>Rethink Firewall</h2><p>On-device firewall is free. The in-the-cloud Rethink DNS content-blocking
-resolver has both free (public beta) and paid tiers (private beta). Currently,
-pricing isn&rsquo;t implemented and so the private beta is essentially also free till
-then. &ndash;<a href=https://rethinkdns.com/faq>RethinkFAQ</a></p><p>It&rsquo;s not a traditional firewall, but blocks TCP and UDP connections. This is
+blocked app on my device constantly trying to phone home.</li></ul></li></ul><h2 id=rethink-firewall>Rethink Firewall</h2><p>It&rsquo;s not a traditional firewall, but blocks TCP and UDP connections. This is
 sufficient for most apps as they rarely use other forms of TCP/IP transport.</p><p>The Firewall app lets you view searchable network logs per connection; lets you
-know which apps were blocked and when, and which apps are connected where.</p><p>With the Firewall, you can set Universal Rules.</p><p>Go to <code>Configure</code>, <code>Firewall</code>, <code>Universal firewall rules</code> and set:</p><ul><li><p>Block all apps when device is locked</p></li><li><p>Block newly Installed Apps</p></li><li><p>Block port 80 (insecure HTTP) traffic</p></li><li><p>Block when DNS is bypassed (as a website a user loads in Firefox won&rsquo;t use
-resolvers set in Resolvers set in Rethink&rsquo;s <code>Configure -> DNS</code>)</p></li><li><p>From here you can get more restrictive if you so choose, I choose to block
+know which apps were blocked and when, and which apps are connected where.</p><p>With the Firewall, you can set Universal Rules.</p><p>Go to <code>Configure</code>, <code>Firewall</code>, <code>Universal firewall rules</code> and set:</p><ul><li><p><strong>Block all apps when device is locked</strong></p></li><li><p><strong>Block newly Installed Apps</strong></p></li><li><p><strong>Block port 80 (insecure HTTP) traffic</strong></p></li><li><p><strong>Block when DNS is bypassed</strong> (as a website a user loads in Firefox won&rsquo;t use
+resolvers set in Resolvers set in Rethink&rsquo;s <code>Configure -> DNS</code>)&ndash;Rethink dev</p></li><li><p>From here you can get more restrictive if you so choose, I choose to block
 apps not in use.</p></li></ul><p>By default after enabling the Universal firewall, all the apps on your device
 are set to allow. This will give you an idea of which apps will need more than
 to allow traffic. (i.e., Bypass)</p><h2 id=rethink-rules>Rethink Rules</h2><ul><li><p>Go to <code>Configure -> Apps</code>, and tap the 🛜📶 to block all apps.</p></li><li><p>Now, search for the apps you use. Think if they need network access and see if
@@ -57,21 +53,22 @@ together.</p><p>When you configure and enable Rethink to control DNS over HTTPS,
 is also enforcing strict DNS over HTTPS to a different DNS resolver, they will
 be blocked by Rethink as a <code>DNS bypass</code>.</p><p>For Android Firefox, switch the DNS over HTTPS setting to &ldquo;Default Protection
 Firefox will use your system&rsquo;s DNS resolver&rdquo;. This will allow Firefox to use
-Rethink&rsquo;s DNS resolver.</p><h2 id=using-a-custom-dns-in-the-app>Using a Custom DNS in the App</h2><p>Go to Configure, DNS, Other DNS. From there you have quite a few choices.</p><p>Let&rsquo;s say you chose DoT for DNS-over-TLS, from there you can choose between 5
+Rethink&rsquo;s DNS resolver.</p><h2 id=using-a-custom-dns-in-the-app>Using a Custom DNS in the App</h2><p>Go to <code>Configure -> DNS</code>, <code>Other DNS</code>. From there you have quite a few choices.</p><p>Let&rsquo;s say you chose DoT for DNS-over-TLS, from there you can choose between 5
 providers. Mullvad has a good reputation for keeping minimal data.</p><p>If Firefox is set to its default DNS-over-HTTPS (DoH) mode, it should now use
-DNS-over-TLS (DoT) through the RethinkDNS app. This is a powerful feature, as it
-allows all traffic on your device to be routed through any of the following
-protocols:</p><ul><li>DNS-over-HTTPS (DoH)</li><li>DNS-over-TLS (DoT)</li><li>DNSCrypt (DC)</li><li>DNS Proxy (DNS 53)</li><li>Oblivious DoH (ODoH)</li><li>RethinkDNS (RDNS)</li></ul><p>While Firefox natively supports only DoH, using the RethinkDNS app unlocks many
-more choices. DoT, in particular, is a newer and often preferable protocol
-compared to DoH for several reasons.</p><h2 id=logs>Logs</h2><p><strong>By default, no logs are sent or stored</strong>. Only if a paying customer enables
+DNS-over-TLS (DoT) through the RethinkDNS app.</p><p>While Firefox natively supports only DoH, using the RethinkDNS app unlocks many
+more choices.</p><blockquote><p>In Firefox, plug <code>about:config</code> into the URL bar and search for
+<code>network.ttr.mode</code>, the default value is <code>2</code>, it needs to be set to <code>3</code> to
+prevent DNS leaks.</p></blockquote><h3 id=configuring-dns>Configuring DNS</h3><p>In <code>Configure -> DNS</code> you can:</p><ul><li><p>Turn ON <code>Advanced DNS filtering</code> to make sure domain to IP address mapping
+isn&rsquo;t polluted.(experimental)</p></li><li><p>Turn ON <code>Prevent DNS leaks</code> to ensure all DNS queries go through the apps
+secure tunnel.</p></li></ul><h2 id=logs>Logs</h2><p><strong>By default, no logs are sent or stored</strong>. Only if a paying customer enables
 logs are they even captured; otherwise; there&rsquo;s zero information that&rsquo;s stored
 on their servers with respect to the DNS requests sent to the Rethink DNS'
 resolver.</p><p>Currently, you can
 <a href=https://rethinkdns.com/cdn-cgi/l/email-protection#b6ded3dadad9f6d5d3daccd3c4d998d5d9db>drop them a note</a>
-to purge the system of your logs.</p><p>Go to Configure, Logs, and try to access the app that&rsquo;s not working. You should
-see said app at the top of the Network Logs, click it. In the top right of the
-tab, you&rsquo;ll see the reason why it&rsquo;s not working such as: <code>App Blocked</code>, or
-<code>DNS Bypass</code>.</p><p>Once you click on the log of the app in question, you&rsquo;ll be given 3 drop down
+to purge the system of your logs.</p><p>Go to <code>Configure</code>, <code>Logs</code>, and try to access the app that&rsquo;s not working. You
+should see said app at the top of the Network Logs, click it. In the top right
+of the tab, you&rsquo;ll see the reason why it&rsquo;s not working such as: <code>App Blocked</code>,
+or <code>DNS Bypass</code>.</p><p>Once you click on the log of the app in question, you&rsquo;ll be given 3 drop down
 options. If you set an app to Bypass DNS and Firewall settings, you will see
 that in the first dropdown box.</p><p>The next drop down is &lsquo;Block,trust this IP for this app&rsquo; where you can set a
 rule to &lsquo;Block&rsquo; or &lsquo;Trust&rsquo;.</p><p>Apps like Reddit rely on many third-party services, backend APIs etc. to work.
@@ -83,5 +80,5 @@ device to use the internet more securely. Orbot uses Tor to encrypt your
 internet traffic and hide it by bouncing through a seris of computers around
 the world.
 &ndash;<a href=https://support.torproject.org/glossary/orbot/>TorProject Orbot</a></p></li><li><p>WireGuard is an extremely simple yet fast and modern VPN that utilizes
-state-of-the-art cryptography. &ndash;<a href=https://www.wireguard.com/>Wireguard.com</a></p></li><li><p><a href=https://ssd.eff.org/>EFF Surveillance Self Defense</a></p></li><li><p><a href=https://www.privacyguides.org/en/dns/>PrivacyGuides DNS Recommendations</a></p></li></ul></section></main><footer id=main-footer><div class=footer><a href=#>Scroll to Top</a><div class=footer-copyright><div class=dim>© 2025</div><div>Made with ❤️ and powered by <a href=https://github.com/math-queiroz/rusty-typewriter target=_blank>Rusty Typewriter</a> theme for <a href=https://gohugo.io/ target=_blank>Hugo</a></div></div></div></footer></div><aside id=side-pane class=side-sticky><div class=side-details><span>1447 words</span>
-<span>8 - 11 minutes read</span></div><h3>Table Of Contents</h3><nav id=TableOfContents><ul><li><a href=#rethinkdns-overview>RethinkDNS Overview</a></li><li><a href=#configure-a-custom-dns-resolver-with-custom-blocklists-through-rethink-website>Configure a Custom DNS resolver with Custom blocklists through Rethink website</a></li><li><a href=#rethink-on-android>Rethink on Android</a></li><li><a href=#rethink-firewall>Rethink Firewall</a></li><li><a href=#rethink-rules>Rethink Rules</a></li><li><a href=#choose-ip-version>Choose IP Version</a></li><li><a href=#understanding-dns-over-https-and-dns-over-tls-in-the-rethinkdns-app>Understanding DNS over HTTPS and DNS over TLS in the RethinkDNS App</a></li><li><a href=#using-a-custom-dns-in-the-app>Using a Custom DNS in the App</a></li><li><a href=#logs>Logs</a><ul><li><a href=#resources>Resources</a></li></ul></li></ul></nav></aside></div></div></body></html>
+state-of-the-art cryptography. &ndash;<a href=https://www.wireguard.com/>Wireguard.com</a></p></li><li><p><a href=https://ssd.eff.org/>EFF Surveillance Self Defense</a></p></li><li><p><a href=https://www.privacyguides.org/en/dns/>PrivacyGuides DNS Recommendations</a></p></li></ul></section></main><footer id=main-footer><div class=footer><a href=#>Scroll to Top</a><div class=footer-copyright><div class=dim>© 2025</div><div>Made with ❤️ and powered by <a href=https://github.com/math-queiroz/rusty-typewriter target=_blank>Rusty Typewriter</a> theme for <a href=https://gohugo.io/ target=_blank>Hugo</a></div></div></div></footer></div><aside id=side-pane class=side-sticky><div class=side-details><span>1405 words</span>
+<span>8 - 10 minutes read</span></div><h3>Table Of Contents</h3><nav id=TableOfContents><ul><li><a href=#rethinkdns-overview>RethinkDNS Overview</a></li><li><a href=#configure-a-custom-dns-resolver-with-custom-blocklists-through-rethink-website>Configure a Custom DNS resolver with Custom blocklists through Rethink website</a></li><li><a href=#rethink-on-android>Rethink on Android</a></li><li><a href=#rethink-firewall>Rethink Firewall</a></li><li><a href=#rethink-rules>Rethink Rules</a></li><li><a href=#choose-ip-version>Choose IP Version</a></li><li><a href=#understanding-dns-over-https-and-dns-over-tls-in-the-rethinkdns-app>Understanding DNS over HTTPS and DNS over TLS in the RethinkDNS App</a></li><li><a href=#using-a-custom-dns-in-the-app>Using a Custom DNS in the App</a><ul><li><a href=#configuring-dns>Configuring DNS</a></li></ul></li><li><a href=#logs>Logs</a><ul><li><a href=#resources>Resources</a></li></ul></li></ul></nav></aside></div></div></body></html>
