@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on NixOS Blog</title><link>https://TSawyer87.github.io/posts/</link><description>Recent content in Posts on NixOS Blog</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Tue, 09 Sep 2025 15:57:33 -0400</lastBuildDate><atom:link href="https://TSawyer87.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>RethinkDNS</title><link>https://TSawyer87.github.io/posts/rethinkdns/</link><pubDate>Tue, 09 Sep 2025 15:57:33 -0400</pubDate><guid>https://TSawyer87.github.io/posts/rethinkdns/</guid><description>&lt;h1 id="rethink-dns"&gt;Rethink DNS&lt;/h1&gt;
 &lt;p&gt;For the RethinkDNS android app configuration, you can jump to
-&lt;a href="#rethink-on-android"&gt;Rethink on Android&lt;/a&gt;.&lt;/p&gt;
+&lt;a href="#configuring-the-rethink-firewall"&gt;Configuring the Rethink Firewall&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If you&amp;rsquo;re in a hurry, jump to the headers that say &lt;code&gt;Configuring ...&lt;/code&gt; or, check
+out the Forum post by a Rethink Dev:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://discuss.grapheneos.org/d/12728-proton-apps-pinging-google-api-sending-reports-back-after-opting-out/54"&gt;GrapheneOS Discussion Forum on Rethink&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2 id="rethinkdns-overview"&gt;RethinkDNS Overview&lt;/h2&gt;
 &lt;p&gt;RethinkDNS is a DNS Resolver service with custom rules and blocklists as well as
 a firewall.&lt;/p&gt;
 &lt;p&gt;The DNS mode gives the end-user their own unique server-endpoint and routes all
 DNS traffic from the mobile device to their assigned endpoint encrypted over
-TLS.&amp;ndash;&lt;a href="https://blog.rethinkdns.com/the-2021-one-pager"&gt;the-one-pager&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;A &lt;strong&gt;DNS resolver&lt;/strong&gt; is an address book of the internet, it helps locate IP
-addresses of the servers given a domain name. For example, dns.google.com (a
-domain name) is located at 8.8.8.8 (IP address). This mapping is retrieved by a
-DNS resolver.&lt;/p&gt;</description></item><item><title>Whonix_kvm_on_NixOS</title><link>https://TSawyer87.github.io/posts/whonix_kvm_on_nixos/</link><pubDate>Mon, 08 Sep 2025 08:40:45 -0400</pubDate><guid>https://TSawyer87.github.io/posts/whonix_kvm_on_nixos/</guid><description>&lt;h1 id="whonix-kvm-on-nixos"&gt;Whonix KVM on NixOS&lt;/h1&gt;
+TLS.&amp;ndash;&lt;a href="https://blog.rethinkdns.com/the-2021-one-pager"&gt;the-one-pager&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Whonix_kvm_on_NixOS</title><link>https://TSawyer87.github.io/posts/whonix_kvm_on_nixos/</link><pubDate>Mon, 08 Sep 2025 08:40:45 -0400</pubDate><guid>https://TSawyer87.github.io/posts/whonix_kvm_on_nixos/</guid><description>&lt;h1 id="whonix-kvm-on-nixos"&gt;Whonix KVM on NixOS&lt;/h1&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="#whonix-kvm-on-nixos"&gt;Whonix KVM on NixOS&lt;/a&gt;
 &lt;ul&gt;
