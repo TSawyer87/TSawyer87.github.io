@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NixOS Blog</title><link>https://TSawyer87.github.io/</link><description>Recent content on NixOS Blog</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Thu, 11 Sep 2025 08:00:32 -0400</lastBuildDate><atom:link href="https://TSawyer87.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>RethinkDNS_User_Guide</title><link>https://TSawyer87.github.io/posts/rethinkdns_user_guide/</link><pubDate>Thu, 11 Sep 2025 08:00:32 -0400</pubDate><guid>https://TSawyer87.github.io/posts/rethinkdns_user_guide/</guid><description>&lt;h2 id="rethinkdns-users-guide"&gt;RethinkDNS Users Guide&lt;/h2&gt;
+&lt;figure&gt;&lt;img src="https://TSawyer87.github.io/images/rethinkdns.png"
+ alt="RethinkDNS logo" width="1000"&gt;
+&lt;/figure&gt;
+
 &lt;blockquote&gt;
 &lt;p&gt;I&amp;rsquo;m not affiliated with RethinkDNS in any way, I&amp;rsquo;m just a technologist with
 privacy concerns.&lt;/p&gt;&lt;/blockquote&gt;
