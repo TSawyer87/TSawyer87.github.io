@@ -6,12 +6,14 @@ out the Forum post by a Rethink Dev:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://discuss.grapheneos.org/d/12728-proton-apps-pinging-google-api-sending-reports-back-after-opting-out/54"&gt;GrapheneOS Discussion Forum on Rethink&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="rethinkdns-overview"&gt;RethinkDNS Overview&lt;/h2&gt;
-&lt;p&gt;RethinkDNS is a DNS Resolver service with custom rules and blocklists as well as
-a firewall.&lt;/p&gt;
-&lt;p&gt;The DNS mode gives the end-user their own unique server-endpoint and routes all
-DNS traffic from the mobile device to their assigned endpoint encrypted over
-TLS.&amp;ndash;&lt;a href="https://blog.rethinkdns.com/the-2021-one-pager"&gt;the-one-pager&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Whonix_kvm_on_NixOS</title><link>https://TSawyer87.github.io/posts/whonix_kvm_on_nixos/</link><pubDate>Mon, 08 Sep 2025 08:40:45 -0400</pubDate><guid>https://TSawyer87.github.io/posts/whonix_kvm_on_nixos/</guid><description>&lt;h1 id="whonix-kvm-on-nixos"&gt;Whonix KVM on NixOS&lt;/h1&gt;
+&lt;h3 id="-key-terms"&gt;🔑 Key Terms&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;IP&lt;/strong&gt; (Internet Protocol) is the address system of the internet, responsible
+for delivering packets of data from a source device to a target device. IP is
+the main way in which connections are made, and is the backbone of the
+internet. It doesn&amp;rsquo;t check for errors or ensure the packets are in the correct
+order, that&amp;rsquo;s where TCP comes in.&lt;/p&gt;</description></item><item><title>Whonix_kvm_on_NixOS</title><link>https://TSawyer87.github.io/posts/whonix_kvm_on_nixos/</link><pubDate>Mon, 08 Sep 2025 08:40:45 -0400</pubDate><guid>https://TSawyer87.github.io/posts/whonix_kvm_on_nixos/</guid><description>&lt;h1 id="whonix-kvm-on-nixos"&gt;Whonix KVM on NixOS&lt;/h1&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="#whonix-kvm-on-nixos"&gt;Whonix KVM on NixOS&lt;/a&gt;
 &lt;ul&gt;
