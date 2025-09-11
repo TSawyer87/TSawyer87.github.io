@@ -3,22 +3,46 @@
  alt="RethinkDNS logo" width="500"&gt;
 &lt;/figure&gt;
 
-&lt;blockquote&gt;
-&lt;p&gt;I&amp;rsquo;m not affiliated with RethinkDNS in any way, I&amp;rsquo;m just a technologist with
-privacy concerns.&lt;/p&gt;&lt;/blockquote&gt;
-&lt;h3 id="-key-terms"&gt;🔑 Key Terms&lt;/h3&gt;
 &lt;details&gt;
  &lt;summary&gt;
- ✔️ Click to Expand Key Terms
+ ✔️ Click to Expand Table of Contents
  &lt;/summary&gt;
  &lt;div&gt;&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;IP&lt;/strong&gt; (Internet Protocol) is the address system of the internet, responsible
-for delivering packets of data from a source device to a target device. IP is
-the main way in which connections are made, and is the backbone of the
-internet. It doesn&amp;rsquo;t check for errors or ensure the packets are in the correct
-order, that&amp;rsquo;s where TCP comes in. When you set an &lt;code&gt;IP rule&lt;/code&gt; this is what
-you&amp;rsquo;re setting, a trusted IP address.&lt;/p&gt;</description></item><item><title>RethinkDNS</title><link>https://TSawyer87.github.io/posts/rethinkdns/</link><pubDate>Tue, 09 Sep 2025 15:57:33 -0400</pubDate><guid>https://TSawyer87.github.io/posts/rethinkdns/</guid><description>&lt;h1 id="rethink-dns"&gt;Rethink DNS&lt;/h1&gt;
+&lt;li&gt;&lt;a href="#rethinkdns-users-guide"&gt;RethinkDNS Users Guide&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="#-key-terms"&gt;🔑 Key Terms&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#rethinkdns-overview"&gt;RethinkDNS Overview&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#getting-started"&gt;Getting Started&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="#dns"&gt;DNS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#network"&gt;Network&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#firewall"&gt;Firewall&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#turn-on-dns-and-firewall"&gt;Turn ON DNS and Firewall&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="#apps-that-dont-work"&gt;Apps that Don&amp;rsquo;t work&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#firefox-encrypted-dns-through-rethink"&gt;Firefox Encrypted DNS through Rethink&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="#small-issues-and-their-solutions-with-encrypted-dns-for-firefox"&gt;Small Issues and their Solutions with Encrypted DNS for Firefox&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#more-fine-grained-control"&gt;More Fine Grained Control&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#setting-up-orbot"&gt;Setting up Orbot&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#logs"&gt;Logs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#resources"&gt;Resources&lt;/a&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/details&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;I&amp;rsquo;m not affiliated with RethinkDNS in any way, I&amp;rsquo;m just a technologist with
+privacy concerns.&lt;/p&gt;</description></item><item><title>RethinkDNS</title><link>https://TSawyer87.github.io/posts/rethinkdns/</link><pubDate>Tue, 09 Sep 2025 15:57:33 -0400</pubDate><guid>https://TSawyer87.github.io/posts/rethinkdns/</guid><description>&lt;h1 id="rethink-dns"&gt;Rethink DNS&lt;/h1&gt;
 &lt;p&gt;For the RethinkDNS android app configuration, you can jump to
 &lt;a href="#configuring-the-rethink-firewall"&gt;Configuring the Rethink Firewall&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;If you&amp;rsquo;re in a hurry, jump to the headers that say &lt;code&gt;Configuring ...&lt;/code&gt; or, check
