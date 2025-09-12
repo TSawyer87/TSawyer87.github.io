@@ -55,7 +55,8 @@ fallback DNS will be used.</p></li><li><p>You may want to experiment with shutti
 keep in mind that some apps may break. Shutting this off prevents apps from
 accessing all available networks, stopping them from bypassing Rethinks
 tunnel. This caused issues with the browser when turned off.</p></li></ul><hr><h3 id=firewall>Firewall</h3><p>Go to <code>Configure -> Firewall -> Universal firewall rules</code> and set the following
-to ON:</p><ul><li><p><code>Block all apps when device is locked</code></p></li><li><p><code>Block when DNS is bypassed</code></p></li><li><p><code>Block newly installed apps by default</code></p></li><li><p><code>Block port 80 (insecure HTTP) traffic</code></p></li></ul><hr><h2 id=turn-on-dns-and-firewall>Turn ON DNS and Firewall</h2><p>Go to <code>Home</code> 🏠:</p><ul><li>Click the big <code>Start</code> button on the bottom of the screen and leave it set to
+to ON:</p><ul><li><p><code>Block all apps when device is locked</code></p></li><li><p><code>Block when DNS is bypassed</code></p></li><li><p><code>Block newly installed apps by default</code> (Optional: If you use this, remember
+that you did)</p></li><li><p><code>Block port 80 (insecure HTTP) traffic</code></p></li></ul><hr><h2 id=turn-on-dns-and-firewall>Turn ON DNS and Firewall</h2><p>Go to <code>Home</code> 🏠:</p><ul><li>Click the big <code>Start</code> button on the bottom of the screen and leave it set to
 the default <code>DNS and Firewall (default)</code></li></ul><p>Now that we&rsquo;ve started the DNS and Firewall, we can go back to
 <code>Configure -> DNS</code> and ensure the provider we chose started successfully. You
 can also experiment with different types of resolvers, make sure to wait for
@@ -82,7 +83,8 @@ for domains or IPs over a period of time which can take a while. You can go to
 the screen you&rsquo;ll see <code>IP Logs</code>, and <code>Domain Logs</code> to help with this.</p></li></ul><hr><h3 id=firefox-encrypted-dns-through-rethink>Firefox Encrypted DNS through Rethink</h3><p>First, make sure you can visit a few sites in Firefox. If you can, then your
 browser traffic should be routed through the Rethink tunnel, we will check here.
 If you can&rsquo;t, go to <code>Home -> Apps</code> and search for Firefox, is networking
-enabled?</p><p><strong>RethinkDNS Settings</strong></p><p>For the best experience routing your browser traffic through your custom
+enabled?</p><p>Sometimes rebooting your phone can help with this, I noticed that I couldn&rsquo;t
+reach any site until a reboot.</p><p><strong>RethinkDNS Settings</strong></p><p>For the best experience routing your browser traffic through your custom
 endpoint (e.g., DNSCrypt) ensure the following are set:</p><ul><li><p>Do not turn on <code>Block any app not in use</code> in the Universal firewall. After
 some Log digging, I found that this causes the browser to fail more often than
 not.</p></li><li><p><code>Configure -> Network -> Enable network visibility</code> set to the default ON. I
@@ -96,10 +98,13 @@ to the System resolver. I say scroll because when I did it, the search didn&rsqu
 find <code>network.ttr.mode</code>.</p></blockquote><p>In Firefox <code>Settings -> Privacy & Security</code>, set <code>DNS over HTTPS</code> to
 <code>Default Protection</code>, this enables Firefox to use RethinkDNS&rsquo;s DNSCrypt resolver
 or whatever you chose.</p><p><strong>Checking for DNS Leaks</strong></p><p>Go to:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>https://dnsleaktest.com
-</span></span></code></pre></div><p>For DNSCrypt with Quad9 Security, <code>dnsleaktest</code> found 5 servers all with the ISP
+</span></span></code></pre></div><p>Also crosscheck with:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>https://ipleak.net
+</span></span></code></pre></div><p><code>ipleak.net</code> may show many more servers but as long as they are all related to
+your resolver (i.e., WoodyNet for Quad9) you are not leaking to your ISP or
+other third-parties.</p><p>For DNSCrypt with Quad9 Security, <code>dnsleaktest</code> found 5 servers all with the ISP
 <code>WoodyNet</code> indicating success through Quad9. Quad9 relies on Packet Clearing
-House, that&rsquo;s where the <code>WoodyNet</code> name comes from.</p><p>When on mobile data, when going to <code>https://dnsleaktest.com</code> the results showed
-6 <code>WoodyNet</code> servers instead of 5.</p><p>A different solution could be to experiment with more strict RethinkDNS settings
+House, that&rsquo;s where the <code>WoodyNet</code> name comes from.</p><p>When on mobile data, when going to <code>https://dnsleaktest.com</code> the results may
+show more servers. As long as they are all the same ISP you&rsquo;re good.</p><p>A different solution could be to experiment with more strict RethinkDNS settings
 and just use the browsers built-in DNS over HTTPS on max protection. Having more
 strict defaults for Rethink with all of your apps and configuring your browser
 separate may be a better option, the choice is yours.</p><p>When hunting down a solution you can go to <code>Configure -> Logs</code>, then try to
@@ -107,9 +112,7 @@ visit the site that wouldn&rsquo;t work while watching the logs. You should see
 <code>Firefox</code> pop up, click it, in the top right of the pop up should be the reason
 it was blocked.</p><hr><h3 id=duckduckgo>DuckDuckGo</h3><p>I also tested DuckDuckGo with its stock configuration and <code>dnsleaktest.com</code>
 showed that DDGs traffic was successfully tunneled through Rethink to Quad9s'
-servers.</p><p>With DDG <code>dnsleaktest</code> only showed 4 <code>WoodyNet</code> servers, the lowest number yet.
-I&rsquo;m not sure that less is necessarily always better in this case just something
-to note.</p><hr><h4 id=chromium-based-browsers-brave>Chromium Based Browsers (Brave)</h4><p>Brave would not work when routed through Rethink and Chrome completely ignored
+servers.</p><p><code>dnsleaktest.com</code> showed all <code>WoodyNet</code> ISPs indicating success.</p><hr><h4 id=chromium-based-browsers-brave>Chromium Based Browsers (Brave)</h4><p>Brave would not work when routed through Rethink and Chrome completely ignored
 it. Brave is definitely better if you must use a Chrome derivative.</p><ul><li><p>I tried disabling the Brave Shield <code>Use Secure DNS</code> to see if that helped, it
 didn&rsquo;t. There may be more you could do here to get it working&mldr;</p></li><li><p>I do have Chrome and google apps disabled on my main device and only active in
 the Secure Folder which is like a sandboxed environment. This could very well
@@ -148,36 +151,33 @@ staying private easier for activists, journalists, and anyone facing online
 surveillance or censorship. The writer of the PrivacyGuides article mentions
 using Tor when he needs to access Google Maps to protect his privacy</p><p>So, consider embracing Tor not only for sensitive browsing but also for daily
 routine tasks. Every user adds valuable noise to the network, helping protect
-privacy and freedom for all.</p></div></details><hr><h3 id=setting-up-orbot-with-an-http-proxy>Setting up Orbot with an HTTP Proxy</h3><p>(Edited 09-12-25) My understanding here has changed, I apologize for any
-confusion this caused.</p><figure><img src=/images/orbot.png alt="Orbot logo" width=300></figure><p>First install Orbot, and I actually had to first start Orbot, stop Orbot, and
-Start Rethink again for it to accept</p><p>Go to <code>Configure -> Proxy -> Setup Orbot</code>:</p><ul><li>Click <code>Add / Remove 0 apps</code>, search for an app that you want to run through
-orbot. For simple testing I chose DuckDuckGo with an HTTP Proxy.</li></ul><p>Open DuckDuckGo and go to:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>https://dnsleaktest.com
+privacy and freedom for all.</p></div></details><hr><h3 id=setting-up-orbot-with-a-tcp-only-proxy>Setting up Orbot with a TCP-only Proxy</h3><p>(Edited 09-12-25) My understanding here has changed, I apologize for any
+confusion this caused.</p><figure><img src=/images/orbot.png alt="Orbot logo" width=300></figure><p>TCP-Only Proxies forward all TCP-level connections from selected apps to Orbot.</p><p>They are best for Apps that use multiple TCP protocols beyone just basic web
+browsing (HTTP/HTTPS) like messaging apps (Signal), search apps (DDG), etc.
+Because it proxies all TCP traffic, it can cause some apps to slow down or break
+if they expect direct DNS or UDP.</p><p>First install Orbot, Open <code>Orbot -> More -> Orbot Settings</code> and turn on
+<code>Power User Mode</code>. This is important, if you forget this Rethinks auto Orbot
+will not let you choose between SOCKS and HTTP proxies.</p><p>You should also check <code>Allow Background Starts</code> [x].</p><p>Go to <code>Configure -> Proxy -> Setup Orbot</code>:</p><ul><li><p>Click <code>Add / Remove 0 apps</code>, search for an app that you want to run through
+Orbot. For simple testing I chose DuckDuckGo with a TCP-only Proxy.</p></li><li><p>Set Orbot to <code>Bypass Universal</code></p></li><li><p>On the first time starting Orbot through Rethink, you&rsquo;ll have to click the
+<code>Orbot></code> to Connect as well as grant permissions. After you start Orbot
+successfully, check out Rethinks Home and below the STOP button should say
+<code>Protected With Tor</code>.</p></li></ul><p>Open DuckDuckGo and go to:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>https://dnsleaktest.com
+</span></span><span style=display:flex><span># Cross-Check
+</span></span><span style=display:flex><span>https://ipcheck.net
 </span></span></code></pre></div><p>My results showed only 2 servers found, both in the Netherlands, indicating
-Orbot and Tor integration was successful.</p><p>You might want to run DuckDuckGo through an Orbot HTTP proxy to access blocked
-or censored content. While &lsquo;HTTP&rsquo; may sound insecure, it is only unencrypted on
-the short hop from your device to Orbot. After leaving Orbot, your requests are
-routed through Tor, which encrypts the data up to the exit node. If you visit an
-HTTPS site, your traffic remains encrypted end-to-end, protecting data from
-snooping both locally and within the Tor network. For best security, always use
-HTTPS sites when proxying through Tor.</p><p>This can also be useful on public Wi-Fi or other insecure networks.</p><ul><li><p>You can also open Orbot and <code>Choose How to Connect</code>, if you want to hide Tor
-use.</p></li><li><p>Go to <code>Home</code> And below the <code>Stop</code> button you should see <code>Protected with TOR</code></p></li><li><p>When you&rsquo;re done, you can switch <code>Setup Orbot</code> back to <code>None (default)</code>. If
+Orbot and Tor integration was successful.</p><blockquote><p>❗ Upon further testing, <code>ipleaktest.com</code> sometimes would initially show a Tor
+location such as Hamburg, Germany but the test would still return WoodyNet
+ISPs.</p></blockquote><p>Now you can add more apps that would benefit from anonymity, privacy, or
+censorship circumvention such as Signal, FairMail (I personally use this, it
+strips unsafe elements from your emails), RSS, Crypto Wallets, and Cloud Storage
+apps to name a few.</p><p>Look into an RSS Feed, they give you complete control of the content you
+consume, no algorithm involved! This blog is also in RSS format at
+&lt;tsawyer87.github.io/index.xml></p><p>This can also be useful on public Wi-Fi or other insecure networks.</p><ul><li><p>You can also open Orbot and <code>Choose How to Connect</code>, if you want to hide Tor
+use.</p></li><li><p>When you&rsquo;re done, you can switch <code>Setup Orbot</code> back to <code>None (default)</code>. If
 you&rsquo;re completely done with it you can click <code>Add / Remove (1 app)</code>, search
-for and de-select DuckDuckGo.</p></li><li><p>Go to <code>Home</code> and now below <code>Stop</code> it should just say <code>Protected</code>.</p></li></ul><h3 id=troubleshooting>Troubleshooting</h3><p>I found that it&rsquo;s a bit more straightforward strictly using Orbot for this. It
-could be a skill issue on my part but opening Orbot, <code>Choose apps</code>, search
-<code>DuckDuckGo</code>. Select DDG.</p><p>Open DDG and search:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>https://dnsleaktest.com
-</span></span></code></pre></div><p>Brandenburg, Germany</p><h3 id=manual-configuration>Manual Configuration</h3><details><summary>✔️ Click to Expand Manual Proxy Section</summary><div><p>On the first opening of Orbot, don&rsquo;t start it. First go to <code>More</code>,
-<code>Orbot Settings</code>, and check <code>Power User Mode</code>. This enables Orbot to start
-without VPN mode preventing conflicts, you&rsquo;ll notice the Orbot Home Screen shows
-<code>Connect</code> rather than <code>Connect to VPN</code>.</p><p>Still in Orbots settings, scroll down to the bottom <code>Debug</code> section. There you
-can click the <code>Tor SOCKS</code> and <code>Tor HTTP</code> options to get their PORT values. The
-autofill from Rethink was correct but this is still good to check.</p><p>Go to <code>Configure -> Proxy</code> and either enable <code>OTHER -> Setup SOCKS5 Proxy</code> or
-<code>OTHER -> Setup HTTP(S) CONNECT Proxy</code>.</p><p>You choose <code>Orbot</code> from the App dropdown and leave the rest of the defaults.</p><p>Ensure that Orbot shows <code>Connected</code> and go to Rethinks Home Screen. It should
-show, <code>Protected with SOCKS PROXY</code>.</p><p>I have had the most success when I follow these steps:</p><ul><li><p>Have the <code>OTHER -> Setup SOCKS5 Proxy</code> configured and ready to go but off
-right now.</p></li><li><p>Start Orbot in <code>Connected</code> mode through the <code>Power User Mode</code>.</p></li><li><p>If Rethink isn&rsquo;t running, start Rethink without the SOCKS proxy enabled. When
-below the STOP button shows protected, then go to <code>OTHER -> Setup SOCKS5</code> and
-enable it.</p></li><li><p>Go back to Rethinks HOME and below the STOP button should show
-<code>PROTECTED WITH SOCKS PROXY</code></p></li><li><p>Beyond this I have had connectivity issues and have failed to reach
-<code>dnsleaktest.com</code> with DDG so far.</p></li></ul><h2></h2></div></details><h3 id=logs>Logs</h3><p>On-device logging is on by default. You can find it in <code>Configure -> Settings</code>.
+for the Apps you&rsquo;ve added and de-select them.</p></li><li><p>Go to <code>Home</code> and now below <code>Stop</code> it should just say <code>Protected</code>.</p></li><li><p>If you live in an area where Tor use isn&rsquo;t discriminated against, consider
+Activating your Orbot <code>Kindness</code> tab so others that are in oppressive regimes
+can use your device as a bridge. This is a great way to give back!</p></li></ul><h3 id=logs>Logs</h3><p>On-device logging is on by default. You can find it in <code>Configure -> Settings</code>.
 From there, you can set the log level and choose a notification action.</p><p>If anyone else uses your phone, it&rsquo;s probably a good idea to enable app lock.</p><p>Go to <code>Configure -> Logs</code>, and try to access the app that&rsquo;s not working. You
 should see said app at the top of the Network Logs, click it. In the top right
 of the tab, you&rsquo;ll see the reason why it&rsquo;s not working such as: <code>App Blocked</code>,
@@ -192,5 +192,5 @@ device to use the internet more securely. Orbot uses Tor to encrypt your
 internet traffic and hide it by bouncing through a seris of computers around
 the world.
 &ndash;<a href=https://support.torproject.org/glossary/orbot/>TorProject Orbot</a></p></li><li><p><a href=https://guardianproject.info/apps/org.torproject.android/>Guardian Project Orbot</a></p></li><li><p>WireGuard is an extremely simple yet fast and modern VPN that utilizes
-state-of-the-art cryptography. &ndash;<a href=https://www.wireguard.com/>Wireguard.com</a></p></li><li><p><a href=https://ssd.eff.org/>EFF Surveillance Self Defense</a></p></li><li><p><a href=https://coveryourtracks.eff.org/>EFF Cover Your Tracks</a></p></li><li><p><a href=https://amiunique.org/>AmIUnique?</a></p></li><li><p><a href=https://noscript.net/>What is NoScript?</a></p></li><li><p><a href=https://www.privacyguides.org/en/dns/>PrivacyGuides DNS Recommendations</a></p></li><li><p><a href=https://www.cloudflare.com/learning/dns/what-is-a-dns-server/>What is a DNS Server?</a></p></li><li><p><a href=https://www.cloudflare.com/learning/ddos/glossary/user-datagram-protocol-udp/>What is UDP?</a></p></li><li><p><a href=https://network-guides.com/tcp-ip-basics/>Networking-Guides TCP/IP Basics</a></p></li><li><p><a href=https://www.cloudflare.com/learning/dns/what-is-recursive-dns/>Cloudflare What is recursive DNS?</a></p></li></ul></div></details></section></main><footer id=main-footer><div class=footer><a href=#>Scroll to Top</a><div class=footer-copyright><div class=dim>© 2025</div><div>Made with ❤️ and powered by <a href=https://github.com/math-queiroz/rusty-typewriter target=_blank>Rusty Typewriter</a> theme for <a href=https://gohugo.io/ target=_blank>Hugo</a></div></div></div></footer></div><aside id=side-pane class=side-sticky><div class=side-details><span>3376 words</span>
-<span>20 - 26 minutes read</span></div><h3>Table Of Contents</h3><nav id=TableOfContents><ul><li><a href=#rethinkdns-users-guide>RethinkDNS Users Guide</a><ul><li><a href=#-key-terms>🔑 Key Terms</a></li></ul></li><li><a href=#rethinkdns-overview>RethinkDNS Overview</a></li><li><a href=#getting-started>Getting Started</a><ul><li><a href=#dns>DNS</a></li><li><a href=#network>Network</a></li><li><a href=#firewall>Firewall</a></li></ul></li><li><a href=#turn-on-dns-and-firewall>Turn ON DNS and Firewall</a><ul><li><a href=#apps-that-dont-work>Apps that Don&rsquo;t work</a></li><li><a href=#firefox-encrypted-dns-through-rethink>Firefox Encrypted DNS through Rethink</a></li><li><a href=#duckduckgo>DuckDuckGo</a></li><li><a href=#more-fine-grained-control--enhanced-privacy>More Fine Grained Control & Enhanced Privacy</a></li><li><a href=#tor>Tor</a></li><li><a href=#setting-up-orbot-with-an-http-proxy>Setting up Orbot with an HTTP Proxy</a></li><li><a href=#troubleshooting>Troubleshooting</a></li><li><a href=#manual-configuration>Manual Configuration</a></li><li><a href=#logs>Logs</a></li><li><a href=#resources>Resources</a></li></ul></li></ul></nav></aside></div></div></body></html>
+state-of-the-art cryptography. &ndash;<a href=https://www.wireguard.com/>Wireguard.com</a></p></li><li><p><a href=https://ssd.eff.org/>EFF Surveillance Self Defense</a></p></li><li><p><a href=https://coveryourtracks.eff.org/>EFF Cover Your Tracks</a></p></li><li><p><a href=https://amiunique.org/>AmIUnique?</a></p></li><li><p><a href=https://noscript.net/>What is NoScript?</a></p></li><li><p><a href=https://www.privacyguides.org/en/dns/>PrivacyGuides DNS Recommendations</a></p></li><li><p><a href=https://www.cloudflare.com/learning/dns/what-is-a-dns-server/>What is a DNS Server?</a></p></li><li><p><a href=https://www.cloudflare.com/learning/ddos/glossary/user-datagram-protocol-udp/>What is UDP?</a></p></li><li><p><a href=https://network-guides.com/tcp-ip-basics/>Networking-Guides TCP/IP Basics</a></p></li><li><p><a href=https://www.cloudflare.com/learning/dns/what-is-recursive-dns/>Cloudflare What is recursive DNS?</a></p></li></ul></div></details></section></main><footer id=main-footer><div class=footer><a href=#>Scroll to Top</a><div class=footer-copyright><div class=dim>© 2025</div><div>Made with ❤️ and powered by <a href=https://github.com/math-queiroz/rusty-typewriter target=_blank>Rusty Typewriter</a> theme for <a href=https://gohugo.io/ target=_blank>Hugo</a></div></div></div></footer></div><aside id=side-pane class=side-sticky><div class=side-details><span>3310 words</span>
+<span>20 - 26 minutes read</span></div><h3>Table Of Contents</h3><nav id=TableOfContents><ul><li><a href=#rethinkdns-users-guide>RethinkDNS Users Guide</a><ul><li><a href=#-key-terms>🔑 Key Terms</a></li></ul></li><li><a href=#rethinkdns-overview>RethinkDNS Overview</a></li><li><a href=#getting-started>Getting Started</a><ul><li><a href=#dns>DNS</a></li><li><a href=#network>Network</a></li><li><a href=#firewall>Firewall</a></li></ul></li><li><a href=#turn-on-dns-and-firewall>Turn ON DNS and Firewall</a><ul><li><a href=#apps-that-dont-work>Apps that Don&rsquo;t work</a></li><li><a href=#firefox-encrypted-dns-through-rethink>Firefox Encrypted DNS through Rethink</a></li><li><a href=#duckduckgo>DuckDuckGo</a></li><li><a href=#more-fine-grained-control--enhanced-privacy>More Fine Grained Control & Enhanced Privacy</a></li><li><a href=#tor>Tor</a></li><li><a href=#setting-up-orbot-with-a-tcp-only-proxy>Setting up Orbot with a TCP-only Proxy</a></li><li><a href=#logs>Logs</a></li><li><a href=#resources>Resources</a></li></ul></li></ul></nav></aside></div></div></body></html>
