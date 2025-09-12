@@ -166,12 +166,12 @@ successfully, check out Rethinks Home and below the STOP button should say
 </span></span><span style=display:flex><span>https://ipcheck.net
 </span></span></code></pre></div><blockquote><p>❗ You may see that ipleaktest initially shows a Tor exit relay location such
 as the Netherlands, once you complete a Standard Test, it still shows WoodyNet
-ISPs. It is my understanding that this does not indicate a leak, it means DNS
-queries are resolved through these Quad9 servers which is expected. The main
-point is that the public IP is a Tor exit node&rsquo;s IP address and not yours.</p></blockquote><p>Now you can add more apps that would benefit from anonymity, privacy, or
-censorship circumvention such as Signal, FairMail (I personally use this, it
-strips unsafe elements from your emails and supports encryption with GPG), RSS,
-Crypto Wallets, and Cloud Storage apps to name a few.</p><p>Look into an RSS Feed, they give you complete control of the content you
+ISPs. Since I configured Rethink to use DNSCrypt with Quad9 this is completely
+expected. This confirms that my DNS traffic is not leaking to my ISP and is
+properly anonymized through Tor and Quad9. As long as you don&rsquo;t see your
+actual ISP&rsquo;s servers in the results, your setup is working as intended.</p></blockquote><p>Now you can add more apps that would benefit from anonymity such as FairMail,
+RSS feeds, and crypto wallets. I believe for Signal, it requires that you to set
+up the SOCKS5 proxy to work correctly.</p><p>Look into an RSS Feed, they give you complete control of the content you
 consume, no algorithm involved! This blog is also in RSS format at
 &lt;tsawyer87.github.io/index.xml></p><p>This can also be useful on public Wi-Fi or other insecure networks.</p><ul><li><p>You can also open Orbot and <code>Choose How to Connect</code>, if you want to hide Tor
 use.</p></li><li><p>When you&rsquo;re done, you can switch <code>Setup Orbot</code> back to <code>None (default)</code>. If
