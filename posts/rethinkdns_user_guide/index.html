@@ -42,7 +42,7 @@ networking and communication. Almost every app communicates over TCP or UDP, so
 blocking these protocols effectively restricts most network traffic from and to
 apps, preventing them from connecting without permission.</p><p>I will share how I use RethinkDNS, obviously feel free to make changes based on
 your threat model and needs.</p><h2 id=getting-started>Getting Started</h2><h3 id=dns>DNS</h3><p>Go to <code>Configure -> DNS -> Other DNS</code>:</p><ul><li><p>Choose the type of resolver you want, I use DNSCrypt. Once you click you can
-choose the specific resolver you want such as Adguard. You may notice that it
+choose the specific resolver you want such as Quad9. You may notice that it
 says <code>Failed: using fallback DNS</code>. This is only because we haven&rsquo;t turned it
 on yet, we will recheck this once we turn it on.</p></li><li><p>If you want a relay in a specific country, you can click the <code>Relays</code> tab. For
 DNSCrypt you are given the choice between the Netherlands, France, Sweden, Los
@@ -65,8 +65,9 @@ most used Apps to see if they function correctly.</p><p>RethinkDNS’s firewall 
 explicitly allowed. Although by default all apps are allowed, some apps require
 special permissions or bypasses due to their network behavior. Many apps rely on
 multiple external services, backend APIs, etc. that may be blocked by the
-firewall.</p><hr><h3 id=apps-that-dont-work>Apps that Don&rsquo;t work</h3><p>Reddit’s app and website rely on multiple third-party services and external
-domains beyond just <code>reddit.com</code> itself.</p><p>For apps that don&rsquo;t work it&rsquo;s important to ensure that your systems
+firewall.</p><hr><h3 id=apps-that-dont-work>Apps that Don&rsquo;t work</h3><p>I will use Reddit as an example, the process is the same for any app. Reddit’s
+app and website rely on multiple third-party services and external domains
+beyond just <code>reddit.com</code> itself.</p><p>For apps that don&rsquo;t work it&rsquo;s important to ensure that your systems
 <code>Private DNS</code> is set to <code>Automatic</code>.</p><p>Go to <code>Home -> Apps</code>:</p><p>Search for <code>Reddit</code>, click on it and the Firewall Rules For Reddit will pop up.
 Since it is already allowed <code>Unmetered</code> and <code>Metered</code> connections and still
 doesn&rsquo;t work, we can try one setting at a time until it does work and this is
@@ -79,45 +80,58 @@ up.</p></li><li><p>You can also <code>Isolate</code> an App, you then have to se
 for domains or IPs over a period of time which can take a while. You can go to
 <code>Apps</code> and search for the app in question, click on it and at the bottom of
 the screen you&rsquo;ll see <code>IP Logs</code>, and <code>Domain Logs</code> to help with this.</p></li></ul><hr><h3 id=firefox-encrypted-dns-through-rethink>Firefox Encrypted DNS through Rethink</h3><p>First, make sure you can visit a few sites in Firefox. If you can, then your
-browser traffic should be routed through the Rethink tunnel, we will check here.</p><blockquote><p>In Firefox, plug <code>about:config</code> into the URL bar and scroll down to
-<code>network.ttr.mode</code> and change its value to <code>3</code>. To prevent leaking DNS queries
-to the System resolver. I say scroll because when I did it, the search didn&rsquo;t
-find <code>network.ttr.mode</code>.</p></blockquote><p>In <code>Configure -> DNS</code>, ensure the default, <code>Prevent DNS leaks</code> is set as well as
-the Universal Firewalls <code>Block when DNS is bypassed</code>.</p><p>I use IronFox as my Android browser it&rsquo;s a Firefox fork. It&rsquo;s settings for DNS
-over HTTPS are &ldquo;Default Protection&rdquo;, this enables IronFox to use RethinkDNS&rsquo;s
-DNSCrypt resolver or whatever you chose. After starting Rethinks DNS and
-Firewall, I opened my browser and went to <code>https://ipleaktest.com</code> to ensure the
-traffic was being tunneled and it was.</p><p>For DNSCrypt with Quad9 Security, <code>dnsleaktest</code> found 5 servers all with the ISP
-<code>WoodyNet</code> indicating success through Quad9. Quad9 relies on Packet Clearing
-House, that&rsquo;s where the <code>WoodyNet</code> name comes from.</p><p>For the best experience routing your browser traffic through your custom
-endpoint ensure the following are set:</p><ul><li><p>Do not turn on <code>Block any app not in use</code> in the Universal firewall. After
+browser traffic should be routed through the Rethink tunnel, we will check here.
+If you can&rsquo;t, go to <code>Home -> Apps</code> and search for Firefox, is networking
+enabled?</p><p><strong>RethinkDNS Settings</strong></p><p>For the best experience routing your browser traffic through your custom
+endpoint (e.g., DNSCrypt) ensure the following are set:</p><ul><li><p>Do not turn on <code>Block any app not in use</code> in the Universal firewall. After
 some Log digging, I found that this causes the browser to fail more often than
 not.</p></li><li><p><code>Configure -> Network -> Enable network visibility</code> set to the default ON. I
 had experimented with turning this off and certain websites wouldn&rsquo;t load when
 on Wi-Fi and none would load on mobile data. Turning it back on seemed to fix
-both with no leaks detected.</p></li></ul><p>After making these changes Firefox was successfully routed through RethinkDNS
-for both Wi-Fi and mobile data connections.</p><p>When on mobile data, when going to <code>https://dnsleaktest.com</code> the results showed
+both with no leaks detected.</p></li></ul><p>Double check that in Rethink&rsquo;s <code>Configure -> DNS</code>, ensure the default,
+<code>Prevent DNS leaks</code> is set as well as the Universal Firewalls
+<code>Block when DNS is bypassed</code>.</p><p><strong>Firefox Settings</strong></p><blockquote><p>In Firefox, plug <code>about:config</code> into the URL bar and scroll down to
+<code>network.ttr.mode</code> and change its value to <code>3</code>. To prevent leaking DNS queries
+to the System resolver. I say scroll because when I did it, the search didn&rsquo;t
+find <code>network.ttr.mode</code>.</p></blockquote><p>In Firefox <code>Settings -> Privacy & Security</code>, set <code>DNS over HTTPS</code> to
+<code>Default Protection</code>, this enables Firefox to use RethinkDNS&rsquo;s DNSCrypt resolver
+or whatever you chose.</p><p><strong>Checking for DNS Leaks</strong></p><p>Go to:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>https://dnsleaktest.com
+</span></span></code></pre></div><p>For DNSCrypt with Quad9 Security, <code>dnsleaktest</code> found 5 servers all with the ISP
+<code>WoodyNet</code> indicating success through Quad9. Quad9 relies on Packet Clearing
+House, that&rsquo;s where the <code>WoodyNet</code> name comes from.</p><p>When on mobile data, when going to <code>https://dnsleaktest.com</code> the results showed
 6 <code>WoodyNet</code> servers instead of 5.</p><p>A different solution could be to experiment with more strict RethinkDNS settings
-(i.e., not turning off <code>Block any app in use</code> etc.) and just use the browsers
-built-in DNS over HTTPS on max protection.</p><p>When hunting down the solution I went to <code>Configure -> Logs</code>, I then tried to
-visit the site that wouldn&rsquo;t work while watching the logs. I saw <code>IronFox</code> pop
-up so I clicked it and it showed <code>Blocked App not in use</code> leading me to the
-solution.</p><hr><h3 id=duckduckgo>DuckDuckGo</h3><p>I also tested DuckDuckGo with its stock configuration and <code>dnsleaktest.com</code>
+and just use the browsers built-in DNS over HTTPS on max protection. Having more
+strict defaults for Rethink with all of your apps and configuring your browser
+separate may be a better option, the choice is yours.</p><p>When hunting down a solution you can go to <code>Configure -> Logs</code>, then try to
+visit the site that wouldn&rsquo;t work while watching the logs. You should see
+<code>Firefox</code> pop up, click it, in the top right of the pop up should be the reason
+it was blocked.</p><hr><h3 id=duckduckgo>DuckDuckGo</h3><p>I also tested DuckDuckGo with its stock configuration and <code>dnsleaktest.com</code>
 showed that DDGs traffic was successfully tunneled through Rethink to Quad9s'
-servers.</p><p>With DDG <code>dnsleaktest</code> only showed 4 <code>WoodyNet</code> servers, the lowest number yet.</p><hr><h4 id=chromium-based-browsers-brave>Chromium Based Browsers (Brave)</h4><p>Brave would not work when routed through Rethink and Chrome completely ignored
+servers.</p><p>With DDG <code>dnsleaktest</code> only showed 4 <code>WoodyNet</code> servers, the lowest number yet.
+I&rsquo;m not sure that less is necessarily always better in this case just something
+to note.</p><hr><h4 id=chromium-based-browsers-brave>Chromium Based Browsers (Brave)</h4><p>Brave would not work when routed through Rethink and Chrome completely ignored
 it. Brave is definitely better if you must use a Chrome derivative.</p><ul><li><p>I tried disabling the Brave Shield <code>Use Secure DNS</code> to see if that helped, it
 didn&rsquo;t. There may be more you could do here to get it working&mldr;</p></li><li><p>I do have Chrome and google apps disabled on my main device and only active in
 the Secure Folder which is like a sandboxed environment. This could very well
-be the reason it ignored Rethink, I don&rsquo;t care to test further&mldr;</p></li><li><p><a href=https://techstory.in/eu-hits-google-with-3-5-billion-antitrust-fine-over-adtech-practices/>EU Hits Google with 3.5 Billion Antitrust</a></p></li></ul><hr><h3 id=more-fine-grained-control>More Fine Grained Control</h3><blockquote><p>❗ NOTE: If you are happy with the functionality as is it is unnecessary to
+be the reason it ignored Rethink, I don&rsquo;t care to test further&mldr;</p></li><li><p><a href=https://techstory.in/eu-hits-google-with-3-5-billion-antitrust-fine-over-adtech-practices/>EU Hits Google with 3.5 Billion Antitrust</a></p></li></ul><hr><h3 id=more-fine-grained-control--enhanced-privacy>More Fine Grained Control & Enhanced Privacy</h3><blockquote><p>❗ NOTE: If you are happy with the functionality as is it is unnecessary to
 follow these steps. If you already only install the minimal apps needed on
 your phone (i.e. Only install what you use) you can probably just go to
 individual Apps and block their networking that you are worried about such as
 Facebook and Google. Routing all of your Apps through Rethink already gives
 you great privacy and security benefits.</p></blockquote><p>If you read the following GrapheneOS discussion Forum:</p><ul><li><a href=https://discuss.grapheneos.org/d/12728-proton-apps-pinging-google-api-sending-reports-back-after-opting-out/54>GrapheneOS Discussion Forum on Rethink</a></li></ul><p>It suggests you Go to <code>Home -> Apps</code> and right under <code>Showing all apps</code> click on
 the grayed out 🛜📶 to set a rule to <strong>block both Metered and Unmetered
-connections to all apps by default</strong>.</p><p>Now you will have to search for every app that you use and start by enabling
-networking and then following the <code>Apps that don't work</code> section for each app
-until they work as expected.</p><hr><h3 id=tor>Tor</h3><p>If you want to learn how Tor works, I suggest reading the following in this
+connections to all apps by default</strong>.</p><p>The point here is that not every App on your device needs network access all the
+time or at all in some cases. Watch your Logs and see which apps &ldquo;phone home&rdquo;
+the most. Think about which Apps would leave you the most vulnerable and either
+block network access completely or block and unblock as needed based on your
+threat model.</p><p>I would recommend removing network access from your password manager until you
+need it or better yet use something completely offline like
+<a href=https://www.keepassdx.com/>KeePassDX</a>.</p><p>I have never used <code>Link to Windows</code> and I <code>Disable</code> & <code>Force Stop</code> it and
+<code>Link to Windows</code> is still my most blocked App of all time by Rethink&mldr;</p><p>If you go for the default deny, you will have to search for every app that you
+use and start by enabling networking and then following the
+<code>Apps that don't work</code> section for each app until they work as expected. If you
+really think about it, the number of apps that require constant networking
+should be limited.</p><hr><h3 id=tor>Tor</h3><p>If you want to learn how Tor works, I suggest reading the following in this
 order:</p><ol><li><p><a href=https://www.privacyguides.org/articles/2025/04/30/in-praise-of-tor/>PrivacyGuides In Praise of Tor</a></p></li><li><p><a href=https://www.privacyguides.org/en/advanced/tor-overview/>PrivacyGuides Tor Overview</a></p></li></ol><p><strong>Tor is at risk, and needs our help</strong>. Despite its strength and history, Tor
 isn&rsquo;t safe from the same attacks oppressive regimes and misinformed legislators
 direct at encryption and many other privacy-enhancing
@@ -143,7 +157,9 @@ for and de-select Orbot.</p></li><li><p>Go to <code>Home</code> and now below <c
 From there, you can set the log level and choose a notification action.</p><p>If anyone else uses your phone, it&rsquo;s probably a good idea to enable app lock.</p><p>Go to <code>Configure -> Logs</code>, and try to access the app that&rsquo;s not working. You
 should see said app at the top of the Network Logs, click it. In the top right
 of the tab, you&rsquo;ll see the reason why it&rsquo;s not working such as: <code>App Blocked</code>,
-or <code>DNS Bypass</code>.</p><p>You can also go to <code>Home -> Apps</code> and search for the App you need, click on it
+or <code>DNS Bypass</code>.</p><p>This <code>DNS Bypass</code> means that the App in question is trying to bypass the Rethink
+Tunnel and being actively blocked. You can search for said app and try setting
+IP or Port Trust rules.</p><p>You can also go to <code>Home -> Apps</code> and search for the App you need, click on it
 and at the bottom of the screen you will see <code>IP Logs</code>, and <code>Domain Logs</code>.</p><p>Once you click on the log of the app in question, you&rsquo;ll be given 3 drop down
 options. If you set an app to Bypass DNS and Firewall settings, you will see
 that in the first dropdown box.</p><p>The next drop down is <code>Block,trust this IP for this app</code> where you can set a
@@ -152,5 +168,5 @@ device to use the internet more securely. Orbot uses Tor to encrypt your
 internet traffic and hide it by bouncing through a seris of computers around
 the world.
 &ndash;<a href=https://support.torproject.org/glossary/orbot/>TorProject Orbot</a></p></li><li><p><a href=https://guardianproject.info/apps/org.torproject.android/>Guardian Project Orbot</a></p></li><li><p>WireGuard is an extremely simple yet fast and modern VPN that utilizes
-state-of-the-art cryptography. &ndash;<a href=https://www.wireguard.com/>Wireguard.com</a></p></li><li><p><a href=https://ssd.eff.org/>EFF Surveillance Self Defense</a></p></li><li><p><a href=https://coveryourtracks.eff.org/>EFF Cover Your Tracks</a></p></li><li><p><a href=https://amiunique.org/>AmIUnique?</a></p></li><li><p><a href=https://noscript.net/>What is NoScript?</a></p></li><li><p><a href=https://www.privacyguides.org/en/dns/>PrivacyGuides DNS Recommendations</a></p></li><li><p><a href=https://www.cloudflare.com/learning/dns/what-is-a-dns-server/>What is a DNS Server?</a></p></li><li><p><a href=https://www.cloudflare.com/learning/ddos/glossary/user-datagram-protocol-udp/>What is UDP?</a></p></li><li><p><a href=https://network-guides.com/tcp-ip-basics/>Networking-Guides TCP/IP Basics</a></p></li><li><p><a href=https://www.cloudflare.com/learning/dns/what-is-recursive-dns/>Cloudflare What is recursive DNS?</a></p></li></ul></div></details></section></main><footer id=main-footer><div class=footer><a href=#>Scroll to Top</a><div class=footer-copyright><div class=dim>© 2025</div><div>Made with ❤️ and powered by <a href=https://github.com/math-queiroz/rusty-typewriter target=_blank>Rusty Typewriter</a> theme for <a href=https://gohugo.io/ target=_blank>Hugo</a></div></div></div></footer></div><aside id=side-pane class=side-sticky><div class=side-details><span>2760 words</span>
-<span>17 - 22 minutes read</span></div><h3>Table Of Contents</h3><nav id=TableOfContents><ul><li><a href=#rethinkdns-users-guide>RethinkDNS Users Guide</a><ul><li><a href=#-key-terms>🔑 Key Terms</a></li></ul></li><li><a href=#rethinkdns-overview>RethinkDNS Overview</a></li><li><a href=#getting-started>Getting Started</a><ul><li><a href=#dns>DNS</a></li><li><a href=#network>Network</a></li><li><a href=#firewall>Firewall</a></li></ul></li><li><a href=#turn-on-dns-and-firewall>Turn ON DNS and Firewall</a><ul><li><a href=#apps-that-dont-work>Apps that Don&rsquo;t work</a></li><li><a href=#firefox-encrypted-dns-through-rethink>Firefox Encrypted DNS through Rethink</a></li><li><a href=#duckduckgo>DuckDuckGo</a></li><li><a href=#more-fine-grained-control>More Fine Grained Control</a></li><li><a href=#tor>Tor</a></li><li><a href=#setting-up-orbot>Setting up Orbot</a></li><li><a href=#logs>Logs</a></li><li><a href=#resources>Resources</a></li></ul></li></ul></nav></aside></div></div></body></html>
+state-of-the-art cryptography. &ndash;<a href=https://www.wireguard.com/>Wireguard.com</a></p></li><li><p><a href=https://ssd.eff.org/>EFF Surveillance Self Defense</a></p></li><li><p><a href=https://coveryourtracks.eff.org/>EFF Cover Your Tracks</a></p></li><li><p><a href=https://amiunique.org/>AmIUnique?</a></p></li><li><p><a href=https://noscript.net/>What is NoScript?</a></p></li><li><p><a href=https://www.privacyguides.org/en/dns/>PrivacyGuides DNS Recommendations</a></p></li><li><p><a href=https://www.cloudflare.com/learning/dns/what-is-a-dns-server/>What is a DNS Server?</a></p></li><li><p><a href=https://www.cloudflare.com/learning/ddos/glossary/user-datagram-protocol-udp/>What is UDP?</a></p></li><li><p><a href=https://network-guides.com/tcp-ip-basics/>Networking-Guides TCP/IP Basics</a></p></li><li><p><a href=https://www.cloudflare.com/learning/dns/what-is-recursive-dns/>Cloudflare What is recursive DNS?</a></p></li></ul></div></details></section></main><footer id=main-footer><div class=footer><a href=#>Scroll to Top</a><div class=footer-copyright><div class=dim>© 2025</div><div>Made with ❤️ and powered by <a href=https://github.com/math-queiroz/rusty-typewriter target=_blank>Rusty Typewriter</a> theme for <a href=https://gohugo.io/ target=_blank>Hugo</a></div></div></div></footer></div><aside id=side-pane class=side-sticky><div class=side-details><span>2965 words</span>
+<span>18 - 23 minutes read</span></div><h3>Table Of Contents</h3><nav id=TableOfContents><ul><li><a href=#rethinkdns-users-guide>RethinkDNS Users Guide</a><ul><li><a href=#-key-terms>🔑 Key Terms</a></li></ul></li><li><a href=#rethinkdns-overview>RethinkDNS Overview</a></li><li><a href=#getting-started>Getting Started</a><ul><li><a href=#dns>DNS</a></li><li><a href=#network>Network</a></li><li><a href=#firewall>Firewall</a></li></ul></li><li><a href=#turn-on-dns-and-firewall>Turn ON DNS and Firewall</a><ul><li><a href=#apps-that-dont-work>Apps that Don&rsquo;t work</a></li><li><a href=#firefox-encrypted-dns-through-rethink>Firefox Encrypted DNS through Rethink</a></li><li><a href=#duckduckgo>DuckDuckGo</a></li><li><a href=#more-fine-grained-control--enhanced-privacy>More Fine Grained Control & Enhanced Privacy</a></li><li><a href=#tor>Tor</a></li><li><a href=#setting-up-orbot>Setting up Orbot</a></li><li><a href=#logs>Logs</a></li><li><a href=#resources>Resources</a></li></ul></li></ul></nav></aside></div></div></body></html>
