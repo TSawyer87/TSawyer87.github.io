@@ -1,4 +1,39 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NixOS Blog</title><link>https://TSawyer87.github.io/</link><description>Recent content on NixOS Blog</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Thu, 11 Sep 2025 08:00:32 -0400</lastBuildDate><atom:link href="https://TSawyer87.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>RethinkDNS_User_Guide</title><link>https://TSawyer87.github.io/posts/rethinkdns_user_guide/</link><pubDate>Thu, 11 Sep 2025 08:00:32 -0400</pubDate><guid>https://TSawyer87.github.io/posts/rethinkdns_user_guide/</guid><description>&lt;h2 id="rethinkdns-users-guide"&gt;RethinkDNS Users Guide&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NixOS Blog</title><link>https://TSawyer87.github.io/</link><description>Recent content on NixOS Blog</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Wed, 17 Sep 2025 14:51:41 -0400</lastBuildDate><atom:link href="https://TSawyer87.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Arch_encrypted_install</title><link>https://TSawyer87.github.io/posts/arch_encrypted_install/</link><pubDate>Wed, 17 Sep 2025 14:51:41 -0400</pubDate><guid>https://TSawyer87.github.io/posts/arch_encrypted_install/</guid><description>&lt;h1 id="encrypted-arch-linux-installation-w-encrypted-swap"&gt;Encrypted Arch Linux Installation w/ Encrypted Swap&lt;/h1&gt;
+&lt;p&gt;The ultimate installation resource is always going to be the:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://wiki.archlinux.org/title/Installation_guide"&gt;Arch Wiki Installation Guide&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Connect to Wi-Fi&lt;/strong&gt;:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;iwctl
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;iwd&lt;span style="color:#f92672"&gt;]&lt;/span&gt;&lt;span style="color:#75715e"&gt;# device list&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;iwd&lt;span style="color:#f92672"&gt;]&lt;/span&gt;&lt;span style="color:#75715e"&gt;# station wlan0 scan&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;iwd&lt;span style="color:#f92672"&gt;]&lt;/span&gt;&lt;span style="color:#75715e"&gt;# station wlan0 connect NETGEAR80&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Enter your Password&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Check Connection&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;iwd&lt;span style="color:#f92672"&gt;]&lt;/span&gt;&lt;span style="color:#75715e"&gt;# station wlan0 show&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;iwd&lt;span style="color:#f92672"&gt;]&lt;/span&gt;&lt;span style="color:#75715e"&gt;# exit&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ping -c &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt; archlinux.org
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start="2"&gt;
+&lt;li&gt;&lt;strong&gt;Update package databases&lt;/strong&gt;:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;pacman -Sy
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start="3"&gt;
+&lt;li&gt;&lt;strong&gt;Set system clock&lt;/strong&gt;:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;timedatectl set-ntp true
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start="4"&gt;
+&lt;li&gt;&lt;strong&gt;Partition your Disk&lt;/strong&gt;:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;Identify your target disk (eg. &lt;code&gt;/dev/mmcblk0&lt;/code&gt;):&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lsblk
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;❗ If you already have an EFI partition you do not have to create another one
+and doing so can cause issues. First check with &lt;code&gt;fdisk -l&lt;/code&gt;, before creating a
+new one.&lt;/p&gt;</description></item><item><title>RethinkDNS_User_Guide</title><link>https://TSawyer87.github.io/posts/rethinkdns_user_guide/</link><pubDate>Thu, 11 Sep 2025 08:00:32 -0400</pubDate><guid>https://TSawyer87.github.io/posts/rethinkdns_user_guide/</guid><description>&lt;h2 id="rethinkdns-users-guide"&gt;RethinkDNS Users Guide&lt;/h2&gt;
 &lt;figure&gt;&lt;img src="https://TSawyer87.github.io/images/rethinkdns.png"
  alt="RethinkDNS logo" width="500"&gt;
 &lt;/figure&gt;
